@@ -15,13 +15,13 @@ const categories = ["All", "Snap-on", "Blue Point", "Sioux", "ATI", "Bacho", "Bo
 
 const products: Product[] = [
   { id: 1, name: "Professional Socket Set", image: "/images/product_sample.jpg", category: "Snap-on", status: "sale" },
-  { id: 2, name: "Cordless Impact Wrench", image: "/images/product_sample.jpg", category: "Bosch" },
+  { id: 2, name: "Cordless Impact Wrench", image: "/images/product_sample.jpg", category: "Bosch", status: "out-of-stock" },
   { id: 3, name: "Digital Torque Wrench", image: "/images/product_sample.jpg", category: "Blue Point", status: "out-of-stock" },
-  { id: 4, name: "Precision Screwdriver Set", image: "/images/product_sample.jpg", category: "Bacho" },
+  { id: 4, name: "Precision Screwdriver Set", image: "/images/product_sample.jpg", category: "Bacho", status: "out-of-stock" },
   { id: 5, name: "Professional Socket Set", image: "/images/product_sample.jpg", category: "Williams", status: "sale" },
-  { id: 6, name: "Cordless Impact Wrench", image: "/images/product_sample.jpg", category: "ATI" },
+  { id: 6, name: "Cordless Impact Wrench", image: "/images/product_sample.jpg", category: "ATI", status: "out-of-stock" },
   { id: 7, name: "Digital Torque Wrench", image: "/images/product_sample.jpg", category: "Sioux", status: "out-of-stock" },
-  { id: 8, name: "Precision Screwdriver Set", image: "/images/product_sample.jpg", category: "Bosch" },
+  { id: 8, name: "Precision Screwdriver Set", image: "/images/product_sample.jpg", category: "Bosch", status: "out-of-stock" },
 ];
 
 const ProductSection: React.FC = () => {
@@ -82,7 +82,7 @@ const ProductSection: React.FC = () => {
         {filteredProducts.map((product) => (
           <div
             key={product.id}
-            className="relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden"
+            className="relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden group"
           >
             {/* Product Image */}
             <div className="relative w-full h-56 flex items-center justify-center">
@@ -100,7 +100,7 @@ const ProductSection: React.FC = () => {
               )}
 
               {product.status === "out-of-stock" && (
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <span className="bg-white text-black text-xs font-semibold px-4 py-1 rounded-full shadow-md">
                     OUT OF STOCK
                   </span>
