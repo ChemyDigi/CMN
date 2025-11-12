@@ -1,12 +1,14 @@
 import ProductSection from "@/components/ProductSection";
-import HeroCarousel from "@/components/HeroCarousel";
+import HeroCarousel from "@/components/GeneralHeroCarousel";
 import ToolsHeroSection from "@/components/ToolsHeroSection";
 
 export default function Home() {
   return (
     <main>
       <ToolsHeroSection />
-      <HeroCarousel />
+      <HeroCarousel 
+        page="products" 
+      />
       <ProductSection />
     </main>
   );

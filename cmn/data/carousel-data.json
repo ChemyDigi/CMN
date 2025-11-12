@@ -1,0 +1,62 @@
+{
+  "home": {
+    "heroText": {
+      "title": "Built for Those Who Build the World",
+      "description": "From precision hand tools to heavy duty equipment, our products are engineered for performance, durability, and results you can trust job after job."
+    },
+    "images": [
+      {
+        "src": "/images/home-carousel-1.jpg",
+        "alt": "Professional construction tools and equipment"
+      },
+      {
+        "src": "/images/home-carousel-2.jpg",
+        "alt": "Quality hand tools for precision work"
+      },
+      {
+        "src": "/images/home-carousel-3.jpg",
+        "alt": "Heavy duty equipment for job sites"
+      }
+    ]
+  },
+  "products": {
+    "heroText": {
+      "title": "Premium Tools for Professionals",
+      "description": "Discover our extensive range of high-quality tools designed to meet the demands of modern construction and craftsmanship."
+    },
+    "images": [
+      {
+        "src": "/images/product_sample.jpg",
+        "alt": "Power tools collection"
+      },
+      {
+        "src": "/images/product_sample.jpg",
+        "alt": "Hand tools selection"
+      },
+      {
+        "src": "/images/product_sample.jpg",
+        "alt": "Safety equipment"
+      }
+    ]
+  },
+  "about": {
+    "heroText": {
+      "title": "Our Story of Excellence",
+      "description": "For over 50 years, we've been providing professionals with the tools they need to build, create, and innovate."
+    },
+    "images": [
+      {
+        "src": "/images/about-carousel-1.jpg",
+        "alt": "Our manufacturing facility"
+      },
+      {
+        "src": "/images/about-carousel-2.jpg",
+        "alt": "Quality control process"
+      },
+      {
+        "src": "/images/about-carousel-3.jpg",
+        "alt": "Team of experts"
+      }
+    ]
+  }
+}
