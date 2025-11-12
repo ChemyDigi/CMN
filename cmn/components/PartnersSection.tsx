@@ -91,6 +91,7 @@ export default function PartnersSection() {
   // Duplicate clients for seamless infinite scroll
   const duplicatedClients = [...filteredClients, ...filteredClients];
 
+  
   return (
     <div className="bg-white py-20">
       <div className="container mx-auto px-10">
@@ -127,10 +128,10 @@ export default function PartnersSection() {
 
         {/* Scrolling Clients Carousel */}
         <div className="relative overflow-hidden lg:mx-[1in]">
-          <div className="flex animate-scroll hover:pause-scroll">
+          <div className="flex animate-scroll hover:pause-scroll" key={activeCategory}>
             {duplicatedClients.map((client, index) => (
               <div
-                key={`${client.id}-${index}`}
+                key={`${client.id}-${index}-${activeCategory}`}
                 className="flex-shrink-0 px-8 transition-all duration-300 hover:scale-110 cursor-default"
                 style={{ width: `${100 / 5}%` }} // Show 5 logos at a time
               >
@@ -149,7 +150,7 @@ export default function PartnersSection() {
           </div>
         </div>
       </div>
-
+      
       <style jsx>{`
         @keyframes scroll {
           0% {
