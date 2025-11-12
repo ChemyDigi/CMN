@@ -1,6 +1,7 @@
 // components/TestimonialsSection.tsx
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 interface Testimonial {
@@ -13,6 +14,12 @@ interface Testimonial {
 }
 
 export default function TestimonialsSection() {
+  const [isTopGridInView, setIsTopGridInView] = useState(false);
+  const [isCardsInView, setIsCardsInView] = useState(false);
+  
+  const topGridRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+
   const testimonials: Testimonial[] = [
     {
       id: 1,
@@ -40,13 +47,56 @@ export default function TestimonialsSection() {
     },
   ];
 
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (entry.target === topGridRef.current) {
+              setIsTopGridInView(true);
+            } else if (entry.target === cardsRef.current) {
+              setIsCardsInView(true);
+            }
+          } else {
+            // Reset animations when elements leave viewport
+            if (entry.target === topGridRef.current) {
+              setIsTopGridInView(false);
+            } else if (entry.target === cardsRef.current) {
+              setIsCardsInView(false);
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    if (topGridRef.current) observer.observe(topGridRef.current);
+    if (cardsRef.current) observer.observe(cardsRef.current);
+
+    return () => {
+      if (topGridRef.current) observer.unobserve(topGridRef.current);
+      if (cardsRef.current) observer.unobserve(cardsRef.current);
+    };
+  }, []);
+
   return (
     <div style={{ backgroundColor: '#f4f4f4' }} className="py-20">
       <div className="container mx-auto px-10">
         {/* Top Grid - Left: Heading, Right: Description */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 lg:mx-[1in]">
+        <div 
+          ref={topGridRef}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 lg:mx-[1in]"
+        >
           {/* Left Column - Heading */}
-          <div>
+          <div className={`transition-all duration-700 ${
+            isTopGridInView 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}>
             <p className="text-gray-500 text-sm font-medium mb-2 tracking-wider">
               Testimonials
             </p>
@@ -56,7 +106,11 @@ export default function TestimonialsSection() {
           </div>
 
           {/* Right Column - Description */}
-          <div className="flex items-center">
+          <div className={`flex items-center transition-all duration-700 delay-300 ${
+            isTopGridInView 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}>
             <p className="text-gray-600 leading-relaxed text-lg">
               Leading businesses and households trust CMN Distributors for reliable and efficient climate control solutions. 
               From commercial facilities to modern homes, we deliver high quality air conditioning systems backed by strong 
@@ -66,9 +120,16 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Three Cards Section - Left, Middle, Right Alignment */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:mx-[1in]">
+        <div 
+          ref={cardsRef}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:mx-[1in]"
+        >
           {/* First Card - Left Aligned */}
-          <div className="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow duration-300 text-left">
+          <div className={`bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-all duration-700 ${
+            isCardsInView 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}>
             <div className="flex justify-start mb-6">
               <div className="relative w-16 h-16 rounded-full overflow-hidden">
                 <Image
@@ -92,7 +153,11 @@ export default function TestimonialsSection() {
           </div>
 
           {/* Second Card - Middle Aligned */}
-          <div className="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow duration-300 text-left">
+          <div className={`bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-all duration-700 delay-200 ${
+            isCardsInView 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}>
             <div className="flex justify-start mb-6">
               <div className="relative w-16 h-16 rounded-full overflow-hidden">
                 <Image
@@ -116,7 +181,11 @@ export default function TestimonialsSection() {
           </div>
 
           {/* Third Card - Right Aligned */}
-          <div className="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow duration-300 text-left">
+          <div className={`bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-all duration-700 delay-400 ${
+            isCardsInView 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}>
             <div className="flex justify-start mb-6">
               <div className="relative w-16 h-16 rounded-full overflow-hidden">
                 <Image

@@ -1,7 +1,7 @@
 // components/PartnersSection.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import client1 from '../public/images/clients/client1.png'
 import client2 from '../public/images/clients/client2.png'
@@ -24,6 +24,13 @@ interface Client {
 export default function PartnersSection() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [animationKey, setAnimationKey] = useState(0);
+  const [isHeaderInView, setIsHeaderInView] = useState(false);
+  const [isCarouselInView, setIsCarouselInView] = useState(false);
+  const [isInfoInView, setIsInfoInView] = useState(false);
+  
+  const headerRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
 
   const clients: Client[] = [
     {
@@ -119,11 +126,60 @@ export default function PartnersSection() {
     setAnimationKey(prev => prev + 1);
   }, [activeCategory]);
 
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (entry.target === headerRef.current) {
+              setIsHeaderInView(true);
+            } else if (entry.target === carouselRef.current) {
+              setIsCarouselInView(true);
+            } else if (entry.target === infoRef.current) {
+              setIsInfoInView(true);
+            }
+          } else {
+            // Reset animations when elements leave viewport
+            if (entry.target === headerRef.current) {
+              setIsHeaderInView(false);
+            } else if (entry.target === carouselRef.current) {
+              setIsCarouselInView(false);
+            } else if (entry.target === infoRef.current) {
+              setIsInfoInView(false);
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    if (headerRef.current) observer.observe(headerRef.current);
+    if (carouselRef.current) observer.observe(carouselRef.current);
+    if (infoRef.current) observer.observe(infoRef.current);
+
+    return () => {
+      if (headerRef.current) observer.unobserve(headerRef.current);
+      if (carouselRef.current) observer.unobserve(carouselRef.current);
+      if (infoRef.current) observer.unobserve(infoRef.current);
+    };
+  }, []);
+
   return (
     <div className="bg-white py-20">
       <div className="container mx-auto px-10">
         {/* Header */}
-        <div className="text-center mb-16 lg:mx-[1in]">
+        <div 
+          ref={headerRef}
+          className={`text-center mb-16 lg:mx-[1in] transition-all duration-700 ${
+            isHeaderInView 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           <p className="text-gray-500 text-sm font-medium mb-2 tracking-wider">
             Trusted by Industry Leaders
           </p>
@@ -137,7 +193,13 @@ export default function PartnersSection() {
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-16 lg:mx-[1in]">
+        <div 
+          className={`flex flex-wrap justify-center gap-4 mb-16 lg:mx-[1in] transition-all duration-700 delay-300 ${
+            isHeaderInView 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           {categories.map((category) => (
             <button
               key={category.id}
@@ -154,10 +216,17 @@ export default function PartnersSection() {
         </div>
 
         {/* Scrolling Clients Carousel */}
-        <div className="relative overflow-hidden lg:mx-[1in]">
+        <div 
+          ref={carouselRef}
+          className="relative overflow-hidden lg:mx-[1in]"
+        >
           <div 
             key={animationKey}
-            className="flex animate-scroll scroll-pause"
+            className={`flex animate-scroll scroll-pause transition-all duration-1000 delay-500 ${
+              isCarouselInView 
+                ? 'opacity-100 scale-100' 
+                : 'opacity-0 scale-95'
+            }`}
             style={{ 
               animationDuration: `${30 * (filteredClients.length / clients.length)}s`
             }}
@@ -188,7 +257,14 @@ export default function PartnersSection() {
         </div>
 
         {/* Category info */}
-        <div className="text-center mt-8 text-sm text-gray-500">
+        <div 
+          ref={infoRef}
+          className={`text-center mt-8 text-sm text-gray-500 transition-all duration-700 delay-700 ${
+            isInfoInView 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           {activeCategory === "all" 
             ? "Showing all 10 clients" 
             : `Showing ${filteredClients.length} clients in ${categories.find(c => c.id === activeCategory)?.name} category`
