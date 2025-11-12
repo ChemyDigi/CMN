@@ -1,18 +1,18 @@
 import HeroSection from "../../components/AboutUsComponents/HeroSection";
 import Navbar from "../../components/Navbar";   
 import Footer from "../../components/Footer";
-// import AboutSection from "./components/AboutSection";
-// import TimelineSection from "./components/TimelineSection";
-// import MissionVisionSection from "./components/MissionVisionSection";
+import AboutSection from "../../components/AboutUsComponents/AboutSection";
+ import TimelineSection from "../../components/AboutUsComponents/TimelineSection";
+import MissionVisionSection  from "@/components/AboutUsComponents/MissionVisionSection";
 
 export default function AboutPage() {
   return (
     <main className="flex flex-col">
       <Navbar />
       <HeroSection />
-      {/* <AboutSection />
+      <AboutSection />
       <TimelineSection />
-      <MissionVisionSection /> */}
+      <MissionVisionSection />
       <Footer />
     </main>
   );
