@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { Refrigerator as RefrigeratorIcon } from "lucide-react";
 
 interface Product {
   id: number;
@@ -11,7 +12,16 @@ interface Product {
   status?: "sale" | "out-of-stock";
 }
 
-const categories = ["All", "Snap-on", "Blue Point", "Sioux", "ATI", "Bacho", "Bosch", "Williams"];
+const categories = [
+  "All",
+  "Snap-on",
+  "Blue Point",
+  "Sioux",
+  "ATI",
+  "Bacho",
+  "Bosch",
+  "Williams",
+];
 
 const products: Product[] = [
   { id: 1, name: "Professional Socket Set", image: "/images/product_sample.jpg", category: "Snap-on", status: "sale" },
@@ -24,7 +34,7 @@ const products: Product[] = [
   { id: 8, name: "Precision Screwdriver Set", image: "/images/product_sample.jpg", category: "Bosch" },
 ];
 
-const ProductSection: React.FC = () => {
+const Refrigerator: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -72,7 +82,11 @@ const ProductSection: React.FC = () => {
             stroke="currentColor"
             className="w-4 h-4 text-gray-700 ml-2"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"
+            />
           </svg>
         </div>
       </div>
@@ -110,7 +124,9 @@ const ProductSection: React.FC = () => {
 
             {/* Product Info */}
             <div className="p-4 text-center">
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">{product.name}</h3>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                {product.name}
+              </h3>
               <button className="text-black w-full border border-gray-800 rounded-md py-2 text-sm font-medium hover:bg-black hover:text-white transition-all">
                 Read More
               </button>
@@ -122,4 +138,4 @@ const ProductSection: React.FC = () => {
   );
 };
 
-export default refac;
+export default Refrigerator;
