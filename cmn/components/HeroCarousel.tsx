@@ -4,15 +4,15 @@ import { useState, useEffect } from "react";
 
 const carouselImages = [
   {
-    src: "/images/product_sample.jpg",
+    src: "/images/products-tools/product_sample.jpg",
     alt: "Professional construction tools and equipment",
   },
   {
-    src: "/images/product_sample.jpg",
+    src: "/images/products-tools/product_sample.jpg",
     alt: "Quality hand tools for precision work",
   },
   {
-    src: "/images/product_sample.jpg",
+    src: "/images/products-tools/product_sample.jpg",
     alt: "Heavy duty equipment for job sites",
   },
 ];
