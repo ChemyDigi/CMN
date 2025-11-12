@@ -14,7 +14,6 @@ import client8 from '../public/images/clients/client8.png'
 import client9 from '../public/images/clients/client9.png'
 import client10 from '../public/images/clients/client10.png'
 
-
 interface Client {
   id: number;
   name: string;
@@ -24,6 +23,7 @@ interface Client {
 
 export default function PartnersSection() {
   const [activeCategory, setActiveCategory] = useState("all");
+  const [animationKey, setAnimationKey] = useState(0);
 
   const clients: Client[] = [
     {
@@ -99,10 +99,26 @@ export default function PartnersSection() {
     ? clients 
     : clients.filter(client => client.industry === activeCategory);
 
-  // Duplicate clients for seamless infinite scroll
-  const duplicatedClients = [...filteredClients, ...filteredClients];
+  // For categories with fewer clients, duplicate more times
+  const getDuplicatedClients = () => {
+    const baseClients = filteredClients;
+    
+    if (baseClients.length <= 3) {
+      return [...baseClients, ...baseClients, ...baseClients, ...baseClients, ...baseClients];
+    } else if (baseClients.length <= 5) {
+      return [...baseClients, ...baseClients, ...baseClients];
+    } else {
+      return [...baseClients, ...baseClients];
+    }
+  };
 
-  
+  const duplicatedClients = getDuplicatedClients();
+
+  // Reset animation when category changes
+  useEffect(() => {
+    setAnimationKey(prev => prev + 1);
+  }, [activeCategory]);
+
   return (
     <div className="bg-white py-20">
       <div className="container mx-auto px-10">
@@ -121,12 +137,12 @@ export default function PartnersSection() {
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex justify-center gap-4 mb-16 lg:mx-[1in]">
+        <div className="flex flex-wrap justify-center gap-4 mb-16 lg:mx-[1in]">
           {categories.map((category) => (
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`px-8 py-3 rounded-full font-semibold text-sm transition-all ${
+              className={`px-6 py-3 rounded-full font-semibold text-sm transition-all ${
                 activeCategory === category.id
                   ? "bg-black text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
@@ -139,26 +155,44 @@ export default function PartnersSection() {
 
         {/* Scrolling Clients Carousel */}
         <div className="relative overflow-hidden lg:mx-[1in]">
-          <div className="flex animate-scroll hover:pause-scroll" key={activeCategory}>
+          <div 
+            key={animationKey}
+            className="flex animate-scroll scroll-pause"
+            style={{ 
+              animationDuration: `${30 * (filteredClients.length / clients.length)}s`
+            }}
+          >
             {duplicatedClients.map((client, index) => (
               <div
                 key={`${client.id}-${index}-${activeCategory}`}
-                className="flex-shrink-0 px-8 transition-all duration-300 hover:scale-110 cursor-default"
-                style={{ width: `${100 / 5}%` }} // Show 5 logos at a time
+                className="flex-shrink-0 px-6 transition-all duration-300 hover:scale-110 cursor-default"
+                style={{ 
+                  minWidth: '200px',
+                  width: '200px'
+                }}
               >
-                <div className="flex items-center justify-center h-40">
+                <div className="flex items-center justify-center h-32">
                   <div className="relative w-full h-24 transition-transform duration-300">
                     <Image
                       src={client.logo}
                       alt={client.name}
                       fill
                       className="object-contain transition-all duration-300"
+                      sizes="200px"
                     />
                   </div>
                 </div>
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Category info */}
+        <div className="text-center mt-8 text-sm text-gray-500">
+          {activeCategory === "all" 
+            ? "Showing all 10 clients" 
+            : `Showing ${filteredClients.length} clients in ${categories.find(c => c.id === activeCategory)?.name} category`
+          }
         </div>
       </div>
       
@@ -168,23 +202,23 @@ export default function PartnersSection() {
             transform: translateX(0);
           }
           100% {
-            transform: translateX(calc(-100% / 2));
+            transform: translateX(calc(-100% / ${duplicatedClients.length / filteredClients.length}));
           }
         }
         
         .animate-scroll {
-          animation: scroll 30s linear infinite;
+          animation: scroll linear infinite;
           display: flex;
           width: max-content;
         }
         
-        .hover\\:pause-scroll:hover {
+        .scroll-pause:hover {
           animation-play-state: paused;
         }
         
         @media (max-width: 768px) {
           .animate-scroll {
-            animation: scroll 20s linear infinite;
+            animation-duration: ${20 * (filteredClients.length / clients.length)}s !important;
           }
         }
       `}</style>
