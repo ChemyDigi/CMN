@@ -4,7 +4,7 @@ const ToolsHeroSection = () => {
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 hover:scale-105"
-        style={{ backgroundImage: `url('/images/product_sample.jpg')` }}
+        style={{ backgroundImage: `url('/images/products-tools/toolshero.jpg')` }}
       >
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/60" />
