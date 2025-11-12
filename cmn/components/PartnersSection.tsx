@@ -3,11 +3,22 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import client1 from '../public/images/clients/client1.png'
+import client2 from '../public/images/clients/client2.png'
+import client3 from '../public/images/clients/client3.png'
+import client4 from '../public/images/clients/client4.png'
+import client5 from '../public/images/clients/client5.png'
+import client6 from '../public/images/clients/client6.png'
+import client7 from '../public/images/clients/client7.png'
+import client8 from '../public/images/clients/client8.png'
+import client9 from '../public/images/clients/client9.png'
+import client10 from '../public/images/clients/client10.png'
+
 
 interface Client {
   id: number;
   name: string;
-  logo: string;
+  logo: any;
   industry: string;
 }
 
@@ -18,61 +29,61 @@ export default function PartnersSection() {
     {
       id: 1,
       name: "ABC Corporation",
-      logo: "/images/clients/client1.png",
+      logo: client1,
       industry: "manufacturing"
     },
     {
       id: 2,
       name: "XYZ Industries",
-      logo: "/images/clients/client2.png",
+      logo: client2,
       industry: "construction"
     },
     {
       id: 3,
       name: "Tech Solutions Ltd",
-      logo: "/images/clients/client3.png",
+      logo: client3,
       industry: "technology"
     },
     {
       id: 4,
       name: "BuildRight Constructions",
-      logo: "/images/clients/client4.png",
+      logo: client4,
       industry: "construction"
     },
     {
       id: 5,
       name: "Modern Manufacturing Co",
-      logo: "/images/clients/client5.png",
+      logo: client5,
       industry: "manufacturing"
     },
     {
       id: 6,
       name: "Innovate Tech",
-      logo: "/images/clients/client6.png",
+      logo: client6,
       industry: "technology"
     },
     {
       id: 7,
       name: "Global Builders",
-      logo: "/images/clients/client7.png",
+      logo: client7,
       industry: "construction"
     },
     {
       id: 8,
       name: "Precision Tools Inc",
-      logo: "/images/clients/client8.png",
+      logo: client8,
       industry: "manufacturing"
     },
     {
       id: 9,
       name: "Future Tech Systems",
-      logo: "/images/clients/client9.png",
+      logo: client9,
       industry: "technology"
     },
     {
       id: 10,
       name: "Urban Constructors",
-      logo: "/images/clients/client10.png",
+      logo: client10,
       industry: "construction"
     },
   ];
@@ -101,7 +112,7 @@ export default function PartnersSection() {
             Trusted by Industry Leaders
           </p>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Clients we've partnered with
+            Clients We've partnered with
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
             We've had the privilege of collaborating with renowned brands across multiple industries.
