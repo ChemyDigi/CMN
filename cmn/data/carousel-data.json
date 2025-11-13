@@ -26,15 +26,15 @@
     },
     "images": [
       {
-        "src": "/images/product_sample.jpg",
+        "src": "/images/products-tools/carousel_img/1.jpg",
         "alt": "Power tools collection"
       },
       {
-        "src": "/images/product_sample.jpg",
+        "src": "/images/products-tools/carousel_img/2.jpg",
         "alt": "Hand tools selection"
       },
       {
-        "src": "/images/product_sample.jpg",
+        "src": "/images/products-tools/carousel_img/3.jpg",
         "alt": "Safety equipment"
       }
     ]
