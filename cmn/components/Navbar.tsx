@@ -44,7 +44,7 @@ export default function Navbar() {
             <span className="hover:text-[#F272A8] flex items-center">
               Solutions
             </span>
-            <div className="absolute top-full left-[-391.25px] w-screen bg-white shadow-lg  py-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 mt-7.5">
+            <div className="fixed top-[70px] left-[190px] w-[calc(90%-0px)] bg-white shadow-lg py-10 z-50 hidden group-hover:block">
               <div className="flex w-full max-w-6xl mx-auto px-10">
                 <div className="flex-1">
                   <h3 className="text-2xl font-semibold">Solutions</h3>
@@ -67,7 +67,7 @@ export default function Navbar() {
             <span className="hover:text-[#F272A8] flex items-center">
               Products
             </span>
-            <div className="absolute top-full left-[-510.5px] w-screen bg-white shadow-lg  py-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 mt-7.5">
+            <div className="fixed top-[70px] left-[190px] w-[calc(90%-0px)] bg-white shadow-lg py-10 z-50 hidden group-hover:block">                    
               <div className="flex w-full max-w-6xl mx-auto px-10">
                 <div className="flex-1">
                   <h3 className="text-2xl font-semibold">Products</h3>
