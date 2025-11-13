@@ -38,20 +38,42 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
         <div className="space-y-8 mb-12">
           {reviews.map((review, i) => (
             <div key={i} className="pb-4">
-              <div className="flex flex-wrap items-center gap-2 mb-2">
-                <span className="font-semibold text-gray-900">
-                  {review.customerName}
-                </span>
-                <span className="text-pink-500 text-base sm:text-lg">
-                  {"★".repeat(review.rating)}
-                </span>
-                <span className="text-gray-300 text-base sm:text-lg">
-                  {"★".repeat(5 - review.rating)}
-                </span>
+              <div className="flex items-start gap-3 mb-2">
+                {/* User Icon */}
+                <div className="flex-shrink-0 w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                    className="text-gray-500"
+                  >
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-semibold text-gray-900">
+                      {review.customerName}
+                    </span>
+                    <span className="text-pink-500 text-base sm:text-lg">
+                      {"★".repeat(review.rating)}
+                    </span>
+                    <span className="text-gray-300 text-base sm:text-lg">
+                      {"★".repeat(5 - review.rating)}
+                    </span>
+                  </div>
+                  <p className="text-gray-700 text-sm sm:text-base leading-relaxed mt-2">
+                    {review.reviewDescription}
+                  </p>
+                </div>
               </div>
-              <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
-                {review.reviewDescription}
-              </p>
             </div>
           ))}
         </div>
@@ -131,12 +153,12 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
         </div>
 
         {/* Submit Button */}
-          <button
-            type="submit"
-            className="border border-gray-900 text-gray-900 px-5 py-1.5 rounded-md text-base font-medium hover:bg-gray-900 hover:text-white transition-all"
-          >
-            Submit
-          </button>
+        <button
+          type="submit"
+          className="border border-gray-900 text-gray-900 px-5 py-1.5 rounded-md text-base font-medium hover:bg-gray-900 hover:text-white transition-all"
+        >
+          Submit
+        </button>
       </form>
     </div>
   );
