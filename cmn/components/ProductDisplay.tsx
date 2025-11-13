@@ -13,7 +13,7 @@ interface ProductDisplayProps {
     warranty: string;
     material: string;
     finish: string;
-    inStock: boolean;
+    availability: string; // "in-stock" | "out-of-stock"
     images: string[];
   };
 }
@@ -86,12 +86,12 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
           {/* Stock Badge */}
           <p
             className={`mt-3 inline-block px-3 py-1 rounded-full text-sm font-semibold ${
-              product.inStock
+              product.availability === "in-stock"
                 ? "bg-green-100 text-green-700"
                 : "bg-red-100 text-red-600"
             }`}
           >
-            {product.inStock ? "In Stock" : "Out of Stock"}
+            {product.availability === "in-stock" ? "In Stock" : "Out of Stock"}
           </p>
 
           {/* Description */}

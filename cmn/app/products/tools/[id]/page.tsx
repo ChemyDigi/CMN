@@ -11,23 +11,27 @@ interface PageProps {
 }
 
 const ProductPage = async ({ params }: PageProps) => {
-  // Await the params promise first
+  // ✅ Await params first (since Next.js dynamic routes can pass a Promise)
   const { id } = await params;
 
+  // ✅ Reference product document
   const docRef = doc(db, "products", id);
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) {
     return (
       <div className="w-full text-center py-10">
-        <p>Product not found</p>
-        <Link href="/products/tools">← Back to products</Link>
+        <p className="text-gray-600 text-lg font-medium">Product not found</p>
+        <Link href="/products/tools" className="text-blue-600 hover:underline">
+          ← Back to products
+        </Link>
       </div>
     );
   }
 
   const data = docSnap.data();
 
+  // ✅ Define the product object used in ProductDisplay
   const product = {
     name: data.productName || "No Name",
     brand: data.brand || "No Brand",
@@ -35,17 +39,20 @@ const ProductPage = async ({ params }: PageProps) => {
     warranty: data.warranty || "Not specified",
     material: data.material || "Not specified",
     finish: data.finish || "Not specified",
-    inStock: data.availability === "In Stock",
+    availability: data.availability || "Unknown",
     images: data.subImages?.length
       ? [data.mainImage, ...data.subImages]
       : [data.mainImage],
   };
 
+  // ✅ Reviews array (if no reviews, fallback to empty)
+  const reviews = Array.isArray(data.reviews) ? data.reviews : [];
+
   return (
     <div className="w-full bg-white">
       <ProductDisplay product={product} />
-
-      <ProductReviews productId={id} reviews={data.reviews || []} />
+      {/* ✅ Pass productId for adding new reviews + existing reviews */}
+      <ProductReviews productId={id} reviews={reviews} />
       <SimilarProducts />
     </div>
   );

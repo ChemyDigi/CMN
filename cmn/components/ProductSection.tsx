@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // ✅ Import router
+import { useRouter } from "next/navigation";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
@@ -28,12 +28,13 @@ interface Product {
   category?: string;
 }
 
-const categories = ["All", "Toshiba", "Panasonic", "LG"];
+const categories = ["All", "Bosch", "Craftsman", "DeWalt","Makita","Milwaukee","Snap-on"];
 
 const ProductSection: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -47,6 +48,8 @@ const ProductSection: React.FC = () => {
         setProducts(productList);
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchProducts();
@@ -62,10 +65,11 @@ const ProductSection: React.FC = () => {
   });
 
   return (
-    <section className="w-full px-8 py-12 bg-white">
+    <section className="w-full px-25 py-25 bg-white">
       {/* Filter Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
-        <div className="flex flex-wrap gap-1 bg-gray-100 rounded-md p-1">
+        {/* Category Tabs */}
+        <div className="flex flex-wrap gap-1 overflow-x-auto scrollbar-hide bg-gray-100 rounded-md p-1">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -81,6 +85,7 @@ const ProductSection: React.FC = () => {
           ))}
         </div>
 
+        {/* Search Box */}
         <div className="relative flex items-center bg-gray-100 rounded-md px-4 py-2 w-full sm:w-64">
           <input
             type="text"
@@ -89,47 +94,79 @@ const ProductSection: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-4 h-4 text-gray-700 ml-2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"
+            />
+          </svg>
         </div>
       </div>
 
-      {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => (
-          <div
-            key={product.id}
-            className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden group"
-          >
-            <div className="relative w-full h-56 flex items-center justify-center">
-              <Image
-                src={product.mainImage}
-                alt={product.productName}
-                fill
-                className="object-cover"
-              />
+      {/* Loading State */}
+      {loading ? (
+        <div className="flex justify-center items-center py-20">
+          <div className="w-10 h-10 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
+        </div>
+      ) : filteredProducts.length === 0 ? (
+        // No Products Found
+        <div className="text-center py-20">
+          <p className="text-gray-600 text-lg font-medium">No products found.</p>
+        </div>
+      ) : (
+        // Product Grid
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              className="relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden group flex flex-col"
+            >
+              {/* Product Image */}
+              <div className="relative w-full h-72 flex items-center justify-center">
+                <Image
+                  src={product.mainImage}
+                  alt={product.productName}
+                  fill
+                  className="object-cover"
+                />
+                {product.availability === "in-stock" && (
+                  <span className="absolute top-3 left-3 bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                    In Stock
+                  </span>
+                )}
+                {product.availability === "out-of-stock" && (
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="bg-white text-black text-xs font-semibold px-4 py-1 rounded-full shadow-md">
+                      OUT OF STOCK
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Product Info */}
+              <div className="p-4 text-center flex-grow flex flex-col justify-end">
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                  {product.productName}
+                </h3>
+                <button
+                  onClick={() => router.push(`/products/tools/${product.id}`)}
+                  className="text-black w-full border border-gray-800 rounded-md py-2 text-sm font-medium hover:bg-black hover:text-white transition-all"
+                >
+                  Read More
+                </button>
+              </div>
             </div>
-
-            <div className="p-4 text-center">
-              <h3 className="text-sm font-semibold text-gray-900 mb-1">
-                {product.productName}
-              </h3>
-              <p className="text-xs text-gray-500 mb-3">{product.brand}</p>
-
-              {/* ✅ Redirect to /products/tools/[id] */}
-<button
-  onClick={() => {
-    console.log("Navigating to:", `/products/tools/${product.id}`);
-    router.push(`/products/tools/${product.id}`);
-  }}
-  className="text-black w-full border border-gray-800 rounded-md py-2 text-sm font-medium hover:bg-black hover:text-white transition-all"
->
-  Read More
-</button>
-
-
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 };
