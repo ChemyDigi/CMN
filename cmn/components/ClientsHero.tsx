@@ -20,15 +20,15 @@ const itemVariants = {
   hidden: { 
     opacity: 0, 
     y: 60,
-    filter: "blur(10px)"
+    filter: "blur(10px)" as const // ✅ Add 'as const' for CSS filter
   },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
+    filter: "blur(0px)" as const, // ✅ Add 'as const' for CSS filter
     transition: {
       duration: 0.8,
-      ease: [0.25, 0.4, 0.25, 1],
+      ease: [0.25, 0.4, 0.25, 1] as const, // ✅ Add 'as const' for the tuple
     }
   }
 };
@@ -44,7 +44,7 @@ const lineVariants = {
     transition: {
       delay: i * 0.15 + 0.8,
       duration: 0.7,
-      ease: [0.25, 0.4, 0.25, 1],
+      ease: [0.25, 0.4, 0.25, 1] as const, // ✅ Add 'as const'
     }
   })
 };
@@ -56,7 +56,7 @@ const backgroundVariants = {
     opacity: 1,
     transition: {
       duration: 1.2,
-      ease: "easeOut"
+      ease: "easeInOut" as const, // ✅ Add 'as const'
     }
   }
 };
