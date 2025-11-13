@@ -112,7 +112,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
 
       {/* Review Form */}
       <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900">
-        Be the first to write a review
+        Share your experience with this product
       </h3>
 
       <form onSubmit={handleSubmit} className="space-y-6">
