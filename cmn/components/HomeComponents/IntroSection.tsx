@@ -19,18 +19,34 @@ export default function HeroIntroSection() {
 
       {/* CONTENT WRAPPER */}
       <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        {/* LEFT WHITE ROUNDED CARD */}
         <div className="relative">
-          <div
+          {/* IMAGE ABOVE RECTANGLE */}
+          <Image
+            src="/images/Home/Tools.png"
+            alt="Top Decorative Image"
+            width={600}
+            height={600}
             className="
               absolute 
+              -top-10
+              -left-25
+              z-20
+              drop-shadow-xl
+            "
+          />
+
+          {/* WHITE ROUNDED SHAPE (NARROWER WIDTH) */}
+          <div
+            className="
+              absolute
               -left-28 md:-left-52 lg:-left-72 xl:-left-80 2xl:-left-96
-              top-0 
-              bg-white 
+              top-0
+              bg-white
               rounded-[280px]
-              w-[420px] md:w-[620px] lg:w-[760px] xl:w-[820px] 2xl:w-[880px] 
+              w-[360px] md:w-[520px] lg:w-[650px] xl:w-[700px] 2xl:w-[760px]
               h-[420px] md:h-[620px] lg:h-[760px] xl:h-[820px] 2xl:h-[880px]
               overflow-hidden
+              z-10
             "
           ></div>
         </div>
