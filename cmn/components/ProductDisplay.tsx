@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -20,6 +20,27 @@ interface ProductDisplayProps {
 
 const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
   const [mainImage, setMainImage] = useState(product.images[0]);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const imageRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!imageRef.current) return;
+
+    const { left, top, width, height } = imageRef.current.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    
+    setZoomPosition({ x, y });
+  };
+
+  const handleMouseEnter = () => {
+    setIsZoomed(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsZoomed(false);
+  };
 
   return (
     <div className="bg-white w-full min-h-screen text-gray-900">
@@ -40,16 +61,37 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 px-10 lg:px-20 py-12 items-start">
         {/* Left: Product Images */}
         <div className="flex flex-col items-center">
-          {/* Main Image */}
-          <div className="w-full flex justify-center">
-            <Image
-              src={mainImage}
-              alt={product.name}
-              width={600}
-              height={600}
-              className="object-contain w-full max-w-[500px] h-auto"
-              priority
-            />
+          {/* Main Image with Zoom */}
+          <div className="w-full flex justify-center relative">
+            <div
+              ref={imageRef}
+              className="relative w-full max-w-[500px] cursor-zoom-in overflow-hidden"
+              onMouseMove={handleMouseMove}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <Image
+                src={mainImage}
+                alt={product.name}
+                width={600}
+                height={600}
+                className="object-contain w-full h-auto transition-transform duration-200"
+                priority
+              />
+              
+              {/* Zoomed overlay */}
+              {isZoomed && (
+                <div
+                  className="absolute inset-0 bg-no-repeat bg-origin-padding"
+                  style={{
+                    backgroundImage: `url(${mainImage})`,
+                    backgroundSize: '200%',
+                    backgroundPosition: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                    transform: 'scale(1.1)',
+                  }}
+                />
+              )}
+            </div>
           </div>
 
           {/* Thumbnails */}
