@@ -65,16 +65,16 @@ const ProductSection: React.FC = () => {
   });
 
   return (
-    <section className="w-full px-25 py-25 bg-white">
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 bg-white">
       {/* Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-8 sm:mb-10">
         {/* Category Tabs */}
         <div className="flex flex-wrap gap-1 overflow-x-auto scrollbar-hide bg-gray-100 rounded-md p-1">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+              className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-md transition-all ${
                 activeCategory === cat
                   ? "bg-black text-white"
                   : "bg-white text-gray-800 border border-gray-200 hover:bg-gray-50"
@@ -86,7 +86,7 @@ const ProductSection: React.FC = () => {
         </div>
 
         {/* Search Box */}
-        <div className="relative flex items-center bg-gray-100 rounded-md px-4 py-2 w-full sm:w-64">
+        <div className="relative flex items-center bg-gray-100 rounded-md px-3 sm:px-4 py-2 w-full sm:w-64">
           <input
             type="text"
             placeholder="Search Products"
@@ -122,15 +122,15 @@ const ProductSection: React.FC = () => {
           <p className="text-gray-600 text-lg font-medium">No products found.</p>
         </div>
       ) : (
-        // Product Grid
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+        // Product Grid - 4 columns at all breakpoints
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
               className="relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden group flex flex-col"
             >
               {/* Product Image */}
-              <div className="relative w-full h-72 flex items-center justify-center">
+              <div className="relative w-full aspect-square flex items-center justify-center">
                 <Image
                   src={product.mainImage}
                   alt={product.productName}
@@ -138,13 +138,13 @@ const ProductSection: React.FC = () => {
                   className="object-cover"
                 />
                 {product.availability === "in-stock" && (
-                  <span className="absolute top-3 left-3 bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                  <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded">
                     In Stock
                   </span>
                 )}
                 {product.availability === "out-of-stock" && (
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="bg-white text-black text-xs font-semibold px-4 py-1 rounded-full shadow-md">
+                    <span className="bg-white text-black text-xs font-semibold px-3 py-1 rounded-full shadow-md">
                       OUT OF STOCK
                     </span>
                   </div>
@@ -152,13 +152,13 @@ const ProductSection: React.FC = () => {
               </div>
 
               {/* Product Info */}
-              <div className="p-4 text-center flex-grow flex flex-col justify-end">
-                <h3 className="text-sm font-semibold text-gray-900 mb-3">
+              <div className="p-3 sm:p-4 text-center flex-grow flex flex-col justify-end">
+                <h3 className="text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3 line-clamp-2">
                   {product.productName}
                 </h3>
                 <button
                   onClick={() => router.push(`/products/tools/${product.id}`)}
-                  className="text-black w-full border border-gray-800 rounded-md py-2 text-sm font-medium hover:bg-black hover:text-white transition-all"
+                  className="text-black w-full border border-gray-800 rounded-md py-2 text-xs sm:text-sm font-medium hover:bg-black hover:text-white transition-all"
                 >
                   Read More
                 </button>
