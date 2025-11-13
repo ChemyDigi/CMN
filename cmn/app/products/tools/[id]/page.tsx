@@ -4,13 +4,14 @@ import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
 import ProductDisplay from "@/components/ProductDisplay";
 import ProductReviews from "@/components/ReviewSection";
+import SimilarProducts from "@/components/SimilarProducts";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
 const ProductPage = async ({ params }: PageProps) => {
-  // ✅ Await the params promise first
+  // Await the params promise first
   const { id } = await params;
 
   const docRef = doc(db, "products", id);
@@ -42,15 +43,10 @@ const ProductPage = async ({ params }: PageProps) => {
 
   return (
     <div className="w-full bg-white">
-      <div className="mb-4">
-        <Link href="/products/tools">← Back to catalog</Link>
-      </div>
-
       <ProductDisplay product={product} />
 
-      <div className="h-[1px] bg-gray-200 my-6"></div>
-
       <ProductReviews productId={id} reviews={data.reviews || []} />
+      <SimilarProducts />
     </div>
   );
 };

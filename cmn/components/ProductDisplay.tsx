@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 interface ProductDisplayProps {
   product: {
@@ -20,38 +22,53 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
   const [mainImage, setMainImage] = useState(product.images[0]);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 lg:p-8 w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-        {/* Left: Images */}
-        <div className="w-full flex flex-col items-center">
+    <div className="bg-white w-full min-h-screen text-gray-900">
+      {/* Back to Catalog */}
+      <div className="flex items-center gap-2 pt-8 pl-10">
+        <Link
+          href="/products/tools"
+          className="flex items-center text-gray-700 hover:text-black transition-colors"
+        >
+          <div className="flex items-center justify-center w-8 h-8 rounded-full border-2 border-black mr-2">
+            <ArrowLeft size={16} className="text-black" />
+          </div>
+          <span className="text-sm font-medium">Back to catalog</span>
+        </Link>
+      </div>
+
+      {/* Product Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 px-10 lg:px-20 py-12 items-start">
+        {/* Left: Product Images */}
+        <div className="flex flex-col items-center">
           {/* Main Image */}
-          <div className="w-full max-w-[500px]">
+          <div className="w-full flex justify-center">
             <Image
               src={mainImage}
               alt={product.name}
-              width={500}
-              height={500}
-              className="rounded-lg object-contain w-full h-auto"
+              width={600}
+              height={600}
+              className="object-contain w-full max-w-[500px] h-auto"
+              priority
             />
           </div>
 
-          {/* Thumbnail Images */}
+          {/* Thumbnails */}
           {product.images.length > 1 && (
-            <div className="flex justify-center flex-wrap gap-3 mt-4">
+            <div className="flex justify-center gap-8 mt-6">
               {product.images.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setMainImage(img)}
-                  className={`border rounded-md overflow-hidden hover:ring-2 ${
-                    mainImage === img ? "ring-gray-400" : "ring-transparent"
+                  className={`transition-all duration-200 ${
+                    mainImage === img ? "opacity-100" : "opacity-70 hover:opacity-100"
                   }`}
                 >
                   <Image
                     src={img}
                     alt={`${product.name} ${i + 1}`}
-                    width={90}
-                    height={90}
-                    className="object-cover w-[90px] h-[90px]"
+                    width={100}
+                    height={100}
+                    className="object-contain w-[100px] h-[100px]"
                   />
                 </button>
               ))}
@@ -59,14 +76,16 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
           )}
         </div>
 
-        {/* Right: Product Info */}
-        <div className="text-gray-900 w-full">
+        {/* Right: Product Details */}
+        <div className="w-full max-w-xl">
           <p className="text-sm text-gray-500">{product.brand}</p>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mt-1 leading-tight">
+          <h1 className="text-3xl font-extrabold text-gray-900 mt-1 leading-snug">
             {product.name}
           </h1>
+
+          {/* Stock Badge */}
           <p
-            className={`mt-3 inline-block px-3 py-1 rounded-full text-sm font-medium ${
+            className={`mt-3 inline-block px-3 py-1 rounded-full text-sm font-semibold ${
               product.inStock
                 ? "bg-green-100 text-green-700"
                 : "bg-red-100 text-red-600"
@@ -76,30 +95,29 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
           </p>
 
           {/* Description */}
-          <div className="mt-6">
-            <h2 className="text-lg font-semibold">Description</h2>
-            <p className="text-gray-700 mt-2 leading-relaxed text-sm sm:text-base">
+          <div className="mt-8">
+            <h2 className="text-lg font-semibold mb-2">Description</h2>
+            <p className="text-gray-700 leading-relaxed text-[15px]">
               {product.description}
             </p>
           </div>
 
           {/* Specifications */}
-          <div className="mt-6">
-            <h2 className="text-lg font-semibold mb-2">Specifications</h2>
-            <ul className="text-gray-700 space-y-1 text-sm sm:text-base">
-              <li>
-                <strong>Brand:</strong> {product.brand}
-              </li>
-              <li>
-                <strong>Warranty:</strong> {product.warranty}
-              </li>
-              <li>
-                <strong>Material:</strong> {product.material}
-              </li>
-              <li>
-                <strong>Finish:</strong> {product.finish}
-              </li>
-            </ul>
+          <div className="mt-10">
+            <h2 className="text-lg font-semibold mb-4">Specifications</h2>
+            <div className="grid grid-cols-2 gap-y-2 text-[15px]">
+              <p className="text-gray-600 font-medium">Brand</p>
+              <p className="text-gray-900 font-semibold">{product.brand}</p>
+
+              <p className="text-gray-600 font-medium">Warranty</p>
+              <p className="text-gray-900 font-semibold">{product.warranty}</p>
+
+              <p className="text-gray-600 font-medium">Material</p>
+              <p className="text-gray-900 font-semibold">{product.material}</p>
+
+              <p className="text-gray-600 font-medium">Finish</p>
+              <p className="text-gray-900 font-semibold">{product.finish}</p>
+            </div>
           </div>
         </div>
       </div>

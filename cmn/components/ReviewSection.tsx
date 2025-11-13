@@ -14,7 +14,7 @@ interface ReviewSectionProps {
 }
 
 const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }) => {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(3);
   const [reviewText, setReviewText] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,24 +27,22 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
       rating,
       reviewText,
     });
-
-    // TODO: Add Firebase submission logic here
   };
 
   return (
-    <div className="mt-16 w-full bg-white border-t pt-10 pb-12 px-4 sm:px-6 lg:px-8 rounded-xl shadow-sm">
-      <h2 className="text-2xl font-semibold mb-8">Reviews</h2>
+    <div className="w-full bg-white border-t border-gray-400 mt-20 pt-10 pb-16 px-6 sm:px-10 lg:px-20">
+      {/* Reviews Section */}
+      <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900">Reviews</h2>
 
-      {/* Existing Reviews */}
       {reviews.length > 0 ? (
         <div className="space-y-8 mb-12">
           {reviews.map((review, i) => (
-            <div key={i} className="border-b pb-4">
+            <div key={i} className="pb-4">
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <span className="font-semibold text-gray-900">
                   {review.customerName}
                 </span>
-                <span className="text-yellow-500 text-base sm:text-lg">
+                <span className="text-pink-500 text-base sm:text-lg">
                   {"★".repeat(review.rating)}
                 </span>
                 <span className="text-gray-300 text-base sm:text-lg">
@@ -58,79 +56,87 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
           ))}
         </div>
       ) : (
-        <p className="text-gray-500 text-sm mb-10">
-          There are no reviews yet.
-        </p>
+        <p className="text-gray-600 text-[15px] mb-12">There are no reviews yet.</p>
       )}
 
-      {/* Review Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-5 max-w-2xl mx-auto w-full"
-      >
-        <h3 className="text-lg font-semibold">Add Your Review</h3>
+      <hr className="border-gray-300 mb-10" />
 
+      {/* Review Form */}
+      <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900">
+        Be the first to write a review
+      </h3>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Rating */}
         <div>
-          <label className="block text-sm font-medium mb-2">Rating</label>
+          <label className="block text-base font-medium text-gray-800 mb-2">
+            Your rating
+          </label>
           <div className="flex space-x-1">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
                 type="button"
                 onClick={() => setRating(star)}
-                className={`text-2xl sm:text-3xl focus:outline-none ${
-                  star <= rating ? "text-yellow-500" : "text-gray-400"
+                className={`text-xl sm:text-2xl focus:outline-none ${
+                  star <= rating ? "text-pink-500" : "text-gray-300"
                 }`}
               >
-                {star <= rating ? "★" : "☆"}
+                ★
               </button>
             ))}
           </div>
         </div>
 
+        {/* Review Text */}
+        <div>
+          <label className="block text-sm font-medium text-gray-800 mb-2">
+            Your review
+          </label>
+          <textarea
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            rows={6}
+            className="w-full border border-gray-300 bg-gray-50 rounded-lg p-3 focus:outline-none focus:ring-1 focus:ring-gray-400 text-[15px]"
+            required
+          />
+        </div>
+
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium mb-2">Name</label>
+          <label className="block text-sm font-medium text-gray-800 mb-2">
+            Your Name
+          </label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 sm:p-3 border rounded-md focus:ring focus:ring-gray-200"
+            className="w-full border border-gray-300 bg-gray-50 rounded-lg p-2.5 text-[15px] focus:outline-none focus:ring-1 focus:ring-gray-400"
             required
           />
         </div>
 
         {/* Email */}
         <div>
-          <label className="block text-sm font-medium mb-2">Email</label>
+          <label className="block text-sm font-medium text-gray-800 mb-2">
+            Your Email
+          </label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 sm:p-3 border rounded-md focus:ring focus:ring-gray-200"
+            className="w-full border border-gray-300 bg-gray-50 rounded-lg p-2.5 text-[15px] focus:outline-none focus:ring-1 focus:ring-gray-400"
             required
           />
         </div>
 
-        {/* Review Text */}
-        <div>
-          <label className="block text-sm font-medium mb-2">Review</label>
-          <textarea
-            value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
-            rows={4}
-            className="w-full p-2 sm:p-3 border rounded-md focus:ring focus:ring-gray-200"
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="bg-black text-white px-6 py-2 sm:px-8 sm:py-3 rounded-md hover:bg-gray-800 transition-colors"
-        >
-          Submit Review
-        </button>
+        {/* Submit Button */}
+          <button
+            type="submit"
+            className="border border-gray-900 text-gray-900 px-5 py-1.5 rounded-md text-base font-medium hover:bg-gray-900 hover:text-white transition-all"
+          >
+            Submit
+          </button>
       </form>
     </div>
   );
