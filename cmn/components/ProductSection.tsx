@@ -28,7 +28,7 @@ interface Product {
   category?: string;
 }
 
-const categories = ["All", "Bosch", "Craftsman", "DeWalt","Makita","Milwaukee","Snap-on"];
+const categories = ["All", "Bosch", "Craftsman", "DeWalt","Makita","Milwaukee", "Ridgid", "Snap-on"];
 
 const ProductSection: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
