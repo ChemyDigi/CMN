@@ -1,10 +1,10 @@
-const RefrigeratorHeroSection = () => {
+const RefAcHeroSection = () => {
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
       {/* Background Image */}
-      <div
+      <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 hover:scale-105"
-        style={{ backgroundImage: `url('/images/products-tools/toolshero.jpg')` }}
+        style={{ backgroundImage: `url('/images/RefAc/refhero.jpg')` }}
       >
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/60" />
@@ -15,30 +15,30 @@ const RefrigeratorHeroSection = () => {
         <div className="container mx-auto pr-12 md:pr-24 lg:pr-32 pl-8 md:pl-16 lg:pl-20">
           <div className="max-w-3xl animate-fade-in">
             {/* Eyebrow Text */}
-            <p
+            <p 
               className="mb-8 text-xs font-medium tracking-wider text-white/90 md:text-sm"
-              style={{
-                animation: "fade-in 0.6s ease-out 0.2s both",
+              style={{ 
+                animation: "fade-in 0.6s ease-out 0.2s both"
               }}
             >
               Tools and Equipment
             </p>
 
             {/* Main Heading */}
-            <h1
+            <h1 
               className="mb-12 text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl"
-              style={{
-                animation: "fade-in 0.6s ease-out 0.4s both",
+              style={{ 
+                animation: "fade-in 0.6s ease-out 0.4s both"
               }}
             >
               Tools That Move Industries Forward
             </h1>
 
             {/* Description */}
-            <p
+            <p 
               className="text-sm leading-relaxed text-white/90 md:text-base lg:text-lg"
-              style={{
-                animation: "fade-in 0.6s ease-out 0.6s both",
+              style={{ 
+                animation: "fade-in 0.6s ease-out 0.6s both"
               }}
             >
               From heavy duty equipment to everyday essentials, we provide solutions that empower progress and define quality in every field. Our equipment combines craftsmanship and innovation to deliver power, precision, and performance you can depend on, every day.
@@ -64,4 +64,4 @@ const RefrigeratorHeroSection = () => {
   );
 };
 
-export default RefrigeratorHeroSection;
+export default RefAcHeroSection;
