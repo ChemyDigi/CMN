@@ -77,12 +77,19 @@ const contact_us = () => {
           </div>
         </section>
 
-        {/* Contact Form - Smart Positioning */}
+        {/* Contact Form - Fixed Animation */}
         <motion.div 
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.3 }}
-          viewport={{ once: true }}
+          transition={{ 
+            duration: 1.2,
+            ease: "easeOut",
+            delay: 0.2
+          }}
+          viewport={{ 
+            once: true,
+            margin: "-100px"
+          }}
           className="relative"
         >
           <div 
@@ -97,7 +104,7 @@ const contact_us = () => {
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, delay: 0.3 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
               className="text-2xl font-bold text-gray-800 mb-6 text-center"
             >
@@ -109,7 +116,7 @@ const contact_us = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 0.4 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
                 viewport={{ once: true }}
               >
                 <label className="block text-gray-700 font-medium mb-2 text-sm" htmlFor="firstName">
@@ -126,7 +133,7 @@ const contact_us = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 0.5 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
                 viewport={{ once: true }}
               >
                 <label className="block text-gray-700 font-medium mb-2 text-sm" htmlFor="lastName">
@@ -143,7 +150,7 @@ const contact_us = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 0.6 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
                 viewport={{ once: true }}
               >
                 <label className="block text-gray-700 font-medium mb-2 text-sm" htmlFor="email">
@@ -160,7 +167,7 @@ const contact_us = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 0.7 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
                 viewport={{ once: true }}
               >
                 <label className="block text-gray-700 font-medium mb-2 text-sm" htmlFor="phone">
@@ -177,7 +184,7 @@ const contact_us = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 0.8 }}
+                transition={{ duration: 0.8, delay: 0.9 }}
                 viewport={{ once: true }}
               >
                 <label className="block text-gray-700 font-medium mb-2 text-sm" htmlFor="country">
@@ -198,7 +205,7 @@ const contact_us = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 0.9 }}
+                transition={{ duration: 0.8, delay: 1.0 }}
                 viewport={{ once: true }}
               >
                 <label className="block text-gray-700 font-medium mb-2 text-sm" htmlFor="message">
@@ -216,7 +223,7 @@ const contact_us = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 1.0 }}
+                transition={{ duration: 0.8, delay: 1.1 }}
                 viewport={{ once: true }}
                 className="text-left pt-2"
               >
