@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
 import Image from "next/image";
-import { Refrigerator as RefrigeratorIcon } from "lucide-react";
+import React, { useState } from "react";
 
 interface Product {
   id: number;
@@ -24,14 +23,13 @@ const categories = [
 ];
 
 const products: Product[] = [
-  { id: 1, name: "Professional Socket Set", image: "/images/product_sample.jpg", category: "Snap-on", status: "sale" },
-  { id: 2, name: "Cordless Impact Wrench", image: "/images/product_sample.jpg", category: "Bosch" },
-  { id: 3, name: "Digital Torque Wrench", image: "/images/product_sample.jpg", category: "Blue Point", status: "out-of-stock" },
-  { id: 4, name: "Precision Screwdriver Set", image: "/images/product_sample.jpg", category: "Bacho" },
-  { id: 5, name: "Professional Socket Set", image: "/images/product_sample.jpg", category: "Williams", status: "sale" },
-  { id: 6, name: "Cordless Impact Wrench", image: "/images/product_sample.jpg", category: "ATI" },
-  { id: 7, name: "Digital Torque Wrench", image: "/images/product_sample.jpg", category: "Sioux", status: "out-of-stock" },
-  { id: 8, name: "Precision Screwdriver Set", image: "/images/product_sample.jpg", category: "Bosch" },
+  { id: 1, name: "Professional Socket Set", image: "/images/RefAC/product_sample1.jpg", category: "Snap-on", status: "sale" },
+  { id: 2, name: "Cordless Impact Wrench", image: "/images/RefAC/product_sample3.jpg", category: "Blue Point", status: "out-of-stock" },
+  { id: 4, name: "Precision Screwdriver Set", image: "/images/RefAC/product_sample1.jpg", category: "Bacho" },
+  { id: 5, name: "Professional Socket Set", image: "/images/RefAC/product_sample2.jpg", category: "Williams", status: "sale" },
+  { id: 6, name: "Cordless Impact Wrench", image: "/images/RefAC/product_sample3.jpg", category: "ATI" },
+  { id: 7, name: "Digital Torque Wrench", image: "/images/RefAC/product_sample1.jpg", category: "Sioux", status: "out-of-stock" },
+  { id: 8, name: "Precision Screwdriver Set", image: "/images/RefAC/product_sample2.jpg", category: "Bosch" },
 ];
 
 const Refrigerator: React.FC = () => {

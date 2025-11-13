@@ -6,15 +6,15 @@
     },
     "images": [
       {
-        "src": "/images/RefAC/home-carousel-1.jpg",
+        "src": "/images/home-carousel-1.jpg",
         "alt": "Professional construction tools and equipment"
       },
       {
-        "src": "/images/RefAC/home-carousel-2.jpg",
+        "src": "/images/home-carousel-2.jpg",
         "alt": "Quality hand tools for precision work"
       },
       {
-        "src": "/images/RefAC/home-carousel-3.jpg",
+        "src": "/images/home-carousel-3.jpg",
         "alt": "Heavy duty equipment for job sites"
       }
     ]
@@ -26,15 +26,35 @@
     },
     "images": [
       {
-        "src": "/images/RefAC/product_sample.jpg",
+        "src": "/images/product_sample1.jpg",
         "alt": "Power tools collection"
       },
       {
-        "src": "/images/RefAC/product_sample.jpg",
+        "src": "/images/product_sample2.jpg",
         "alt": "Hand tools selection"
       },
       {
-        "src": "/images/RefAC/product_sample.jpg",
+        "src": "/images/product_sample3.jpg",
+        "alt": "Safety equipment"
+      }
+    ]
+  },
+  "RefAC": {
+    "heroText": {
+      "title": "Engineered for Your Comfort",
+      "description": "From powerful climate control to advanced food preservation, our appliances are built for reliability,efficiency of the modern home."
+    },
+    "images": [
+      {
+        "src": "/images/RefAC/refAC1.jpg",
+        "alt": "Power tools collection"
+      },
+      {
+        "src": "/images/RefAC/refAC2.jpg",
+        "alt": "Hand tools selection"
+      },
+      {
+        "src": "/images/RefAC/refAC3.jpg",
         "alt": "Safety equipment"
       }
     ]
@@ -46,15 +66,15 @@
     },
     "images": [
       {
-        "src": "/images/RefAC/about-carousel-1.jpg",
+        "src": "/images/about-carousel-1.jpg",
         "alt": "Our manufacturing facility"
       },
       {
-        "src": "/images/RefAC/about-carousel-2.jpg",
+        "src": "/images/about-carousel-2.jpg",
         "alt": "Quality control process"
       },
       {
-        "src": "/images/RefAC/about-carousel-3.jpg",
+        "src": "/images/about-carousel-3.jpg",
         "alt": "Team of experts"
       }
     ]
