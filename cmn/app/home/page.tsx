@@ -6,7 +6,7 @@ import IntroSection from "../../components/HomeComponents/IntroSection";
 import WhyChooseUs from "../../components/HomeComponents/WhyChooseUsSection";
 export default function AboutPage() {
   return (
-    <main className="flex flex-col">
+    <main className="flex flex-col overflow-x-hidden w-full">
       <Navbar />
       <HeroSection />
       <LogoCarousel />

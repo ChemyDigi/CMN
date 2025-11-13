@@ -26,8 +26,8 @@ export default function HeroSection() {
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 h-full flex items-center pl-[120px]">
-        <div>
+      <div className="relative z-10 h-full flex items-center px-6 sm:px-12 md:px-16 lg:pl-[120px]">
+        <div className="max-w-full">
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -41,7 +41,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.4 }}
-            className="text-4xl md:text-5xl font-bold text-white leading-snug"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-snug max-w-full"
           >
             Powering Industries with <br />
             Precision Tools & Trusted <br />

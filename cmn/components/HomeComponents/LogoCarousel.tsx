@@ -18,8 +18,8 @@ export default function LogoCarousel() {
   const fullList = [...logos, ...logos];
 
   return (
-    <section className="w-full py-12 overflow-hidden">
-      <h3 className="text-center text-base md:text-lg font-semibold text-black mb-10">
+    <section className="w-full py-12 overflow-hidden max-w-full">
+      <h3 className="text-center text-base md:text-lg font-semibold text-black mb-10 px-4">
         Trusted by Leading Global Brands and Industry Pioneers
       </h3>
 
