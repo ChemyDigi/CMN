@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[88vh] overflow-hidden rounded-br-[120px]">
+    <section className="relative w-full h-[90vh] overflow-hidden rounded-br-[120px]">
       {/* Background Image */}
       <motion.div
         initial={{ scale: 1.2, opacity: 0 }}
@@ -21,8 +21,8 @@ export default function HeroSection() {
           priority
         />
 
-        {/* Gradient overlay for Figma style */}
-        <div className="absolute inset-0 bg-linear-to-r from-black/70 to-black/10" />
+        {/* Strong left → transparent right gradient */}
+        <div className="absolute inset-0 bg-linear-to-r from-black via-black/70 to-transparent" />
       </motion.div>
 
       {/* Content */}
@@ -57,7 +57,6 @@ export default function HeroSection() {
             Offices in Singapore, India & Sri Lanka
           </motion.p>
 
-          {/* CTA Button */}
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
