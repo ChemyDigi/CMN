@@ -51,10 +51,16 @@ export default function Navbar() {
                 </div>
                 <div className="flex-1 border-l border-gray-300 pl-10 text-sm space-y-3">
                   <p className="font-semibold text-gray-600">Solutions</p>
-                  <Link href="/services/cmn" className="hover:text-[#F272A8] block">
+                  <Link
+                    href="/services/cmn"
+                    className="hover:text-[#F272A8] block"
+                  >
                     CMN Solutions
                   </Link>
-                  <Link href="/services/airdoot" className="hover:text-[#F272A8] block">
+                  <Link
+                    href="/services/airdoot"
+                    className="hover:text-[#F272A8] block"
+                  >
                     AirDoot
                   </Link>
                 </div>
@@ -67,16 +73,22 @@ export default function Navbar() {
             <span className="hover:text-[#F272A8] flex items-center">
               Products
             </span>
-            <div className="absolute top-full left-[-510.5px] w-screen bg-white shadow-lg  py-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 mt-7.5">
+            <div className="absolute top-full left-[-110.5px] w-screen bg-white shadow-lg  py-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 mt-7.5">
               <div className="flex w-full max-w-6xl mx-auto px-10">
                 <div className="flex-1">
                   <h3 className="text-2xl font-semibold">Products</h3>
                 </div>
                 <div className="flex-1 border-l border-gray-300 pl-10 grid grid-cols-2 gap-x-10 text-sm">
-                  <Link href="/products/tools" className="hover:text-[#F272A8] block">
+                  <Link
+                    href="/products/tools"
+                    className="hover:text-[#F272A8] block"
+                  >
                     Tools & Equipment
                   </Link>
-                  <Link href="/products/ref-ac" className="hover:text-[#F272A8] block">
+                  <Link
+                    href="/products/ref-ac"
+                    className="hover:text-[#F272A8] block"
+                  >
                     Refrigerators and Air Conditioners
                   </Link>
                 </div>
