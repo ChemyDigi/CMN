@@ -52,11 +52,11 @@ export default function SimilarProducts() {
   }, []);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? products.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? Math.ceil(products.length / 4) - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === products.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === Math.ceil(products.length / 4) - 1 ? 0 : prev + 1));
   };
 
   const scrollTo = (index: number) => {
@@ -71,99 +71,84 @@ export default function SimilarProducts() {
   const getCurrentProducts = () => {
     if (products.length === 0) return [];
     
+    const startIndex = currentIndex * 4;
     const displayedProducts = [];
+    
     for (let i = 0; i < 4; i++) {
-      const index = (currentIndex + i) % products.length;
+      const index = (startIndex + i) % products.length;
       displayedProducts.push(products[index]);
     }
     return displayedProducts;
   };
 
   const currentProducts = getCurrentProducts();
+  const totalPages = Math.ceil(products.length / 4);
 
   if (products.length === 0) {
-    return null; // or return a loading state
+    return null;
   }
 
   return (
     <section className="w-full bg-white pb-12 pt-4 flex flex-col items-center">
-      <h2 className="text-3xl font-bold text-black mb-12">
+      <h2 className="text-3xl font-bold text-black mb-8">
         Explore <span className="ml-2">Similar Products</span>
       </h2>
 
-      <div className="relative w-full max-w-6xl">
-        {/* Navigation Arrows - Positioned outside the image container */}
-        {products.length > 4 && (
-          <>
+      <div className="relative w-full max-w-7xl px-12">
+        {/* Products Container - Grid layout for consistent 4-card display */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+          {/* Left Arrow - Positioned inside the container */}
+          {products.length > 4 && (
             <button
               onClick={handlePrev}
-              className="absolute -left-16 top-1/2 flex h-16 w-16 -translate-y-1/2 items-center justify-center hover:scale-110 transition-transform"
+              className="absolute -left-10 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center hover:scale-110 transition-transform z-10"
               aria-label="Previous slide"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
+                width="32"
+                height="32"
                 viewBox="0 0 24 24"
                 fill="black"
               >
                 <path d="M15 18L9 12L15 6L15 18Z" />
               </svg>
             </button>
+          )}
 
-            <button
-              onClick={handleNext}
-              className="absolute -right-16 top-1/2 flex h-16 w-16 -translate-y-1/2 items-center justify-center hover:scale-110 transition-transform"
-              aria-label="Next slide"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="black"
-              >
-                <path d="M9 18L15 12L9 6L9 18Z" />
-              </svg>
-            </button>
-          </>
-        )}
-
-        {/* Products Container */}
-        <div className="flex gap-8 overflow-hidden justify-center px-6 py-4">
           {currentProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer flex-shrink-0 w-80 hover:-translate-y-2 flex flex-col"
+              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-1 flex flex-col h-full"
               onClick={() => handleProductClick(product.id)}
             >
-              {/* Image Container - Added padding and better spacing */}
-              <div className="relative w-full h-64 rounded-t-xl overflow-hidden p-4">
+              {/* Image Container - Smaller */}
+              <div className="relative w-full h-48 rounded-t-lg overflow-hidden">
                 <Image
                   src={product.mainImage}
                   alt={product.productName}
                   fill
-                  className="object-cover hover:scale-105 transition-transform duration-300 rounded-lg"
-                  sizes="(max-width: 320px) 100vw, 320px"
+                  className="object-cover hover:scale-105 transition-transform duration-300"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
               </div>
 
-              {/* Product Details - Added more vertical padding and spacing */}
-              <div className="p-6 space-y-4 flex-1 flex flex-col justify-center">
+              {/* Product Details - Compact */}
+              <div className="p-4 space-y-2 flex-1 flex flex-col">
                 {/* Brand */}
-                <p className="text-gray-600 text-sm font-medium">
+                <p className="text-gray-600 text-xs font-medium uppercase tracking-wide">
                   {product.brand}
                 </p>
 
                 {/* Product Name */}
-                <h3 className="font-semibold text-gray-900 text-lg leading-tight">
+                <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-2">
                   {product.productName}
                 </h3>
 
                 {/* Review Count */}
                 {product.reviews && product.reviews.length > 0 && (
-                  <div className="flex items-center pt-1">
-                    <span className="text-xs text-gray-600">
+                  <div className="flex items-center mt-1">
+                    <span className="text-xs text-gray-500">
                       {product.reviews.length} review{product.reviews.length !== 1 ? 's' : ''}
                     </span>
                   </div>
@@ -171,18 +156,37 @@ export default function SimilarProducts() {
               </div>
             </div>
           ))}
+
+          {/* Right Arrow - Positioned inside the container */}
+          {products.length > 4 && (
+            <button
+              onClick={handleNext}
+              className="absolute -right-10 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center hover:scale-110 transition-transform z-10"
+              aria-label="Next slide"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="black"
+              >
+                <path d="M9 18L15 12L9 6L9 18Z" />
+              </svg>
+            </button>
+          )}
         </div>
 
-        {/* Dots Navigation - Added more margin top */}
+        {/* Dots Navigation */}
         {products.length > 4 && (
-          <div className="flex justify-center mt-12 gap-2">
-            {Array.from({ length: Math.ceil(products.length / 4) }).map((_, index) => (
+          <div className="flex justify-center mt-8 gap-2">
+            {Array.from({ length: totalPages }).map((_, index) => (
               <button
                 key={index}
-                onClick={() => scrollTo(index * 4)}
+                onClick={() => scrollTo(index)}
                 className={`h-2 rounded-full transition-all ${
-                  Math.floor(currentIndex / 4) === index
-                    ? "w-8 bg-gray-900"
+                  currentIndex === index
+                    ? "w-6 bg-gray-900"
                     : "w-2 bg-gray-300 hover:bg-gray-400"
                 }`}
                 aria-label={`Go to page ${index + 1}`}
