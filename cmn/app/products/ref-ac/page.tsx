@@ -1,7 +1,7 @@
 import HeroCarousel from "@/components/GeneralHeroCarousel";
  
-import RefAcHeroSection from "@/components/refrigeratorHero";
-import ProductSection from "@/components/ACandRef/ProductSection";
+import RefAcHeroSection from "@/components/AC-Ref/refrigeratorHero";
+import ProductSection from "@/components/AC-Ref/ProductSection";
 
 export default function Home() {
   return (

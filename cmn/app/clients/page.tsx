@@ -1,8 +1,8 @@
 // app/clients/page.tsx
 
-import ClientsHero from "../../components/ClientsHero";
-import PartnersSection from "../../components/PartnersSection";
-import TestimonialsSection from "../../components/TestimonialsSection";
+import ClientsHero from "../../components/Clients/ClientsHero";
+import PartnersSection from "../../components/Clients/PartnersSection";
+import TestimonialsSection from "../../components/Clients/TestimonialsSection";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
