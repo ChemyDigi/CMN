@@ -3,16 +3,16 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import client1 from '../public/images/clients/client1.png'
-import client2 from '../public/images/clients/client2.png'
-import client3 from '../public/images/clients/client3.png'
-import client4 from '../public/images/clients/client4.png'
-import client5 from '../public/images/clients/client5.png'
-import client6 from '../public/images/clients/client6.png'
-import client7 from '../public/images/clients/client7.png'
-import client8 from '../public/images/clients/client8.png'
-import client9 from '../public/images/clients/client9.png'
-import client10 from '../public/images/clients/client10.png'
+import client1 from '@/public/images/clients/client1.png'
+import client2 from '@/public/images/clients/client2.png'
+import client3 from '@/public/images/clients/client3.png'
+import client4 from '@/public/images/clients/client4.png'
+import client5 from '@/public/images/clients/client5.png'
+import client6 from '@/public/images/clients/client6.png'
+import client7 from '@/public/images/clients/client7.png'
+import client8 from '@/public/images/clients/client8.png'
+import client9 from '@/public/images/clients/client9.png'
+import client10 from '@/public/images/clients/client10.png'
 
 interface Client {
   id: number;
