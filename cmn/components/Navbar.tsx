@@ -37,7 +37,7 @@ export default function Navbar() {
           {/* NAV LINKS */}
           <ul className="flex items-center space-x-14 text-sm font-semibold text-black mr-10 pl-32">
             <li className="hover:text-[#F272A8]" onMouseEnter={() => setActiveMenu(null)}>
-              <Link href="/">Home</Link>
+              <Link href="/home">Home</Link>
             </li>
 
             <li className="hover:text-[#F272A8]" onMouseEnter={() => setActiveMenu(null)}>
