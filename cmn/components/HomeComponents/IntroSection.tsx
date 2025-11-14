@@ -29,7 +29,7 @@ export default function HeroIntroSection() {
             className="
               absolute 
               -top-10
-              -left-25
+              -left-30
               z-20
               drop-shadow-xl
             "

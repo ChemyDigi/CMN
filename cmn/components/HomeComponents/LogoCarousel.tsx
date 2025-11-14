@@ -14,33 +14,33 @@ export default function LogoCarousel() {
     "/images/Home/Logos/10.png",
   ];
 
-  // Duplicate for seamless looping
+  // Duplicate list once only
   const fullList = [...logos, ...logos];
 
   return (
-    <section className="w-full py-12 overflow-hidden max-w-full">
-      <h3 className="text-center text-base md:text-lg font-semibold text-black mb-10 px-4">
+    <section className="w-full py-12 overflow-hidden">
+      <h3 className="text-center text-base md:text-lg font-semibold text-black mb-10">
         Trusted by Leading Global Brands and Industry Pioneers
       </h3>
 
       <div className="relative w-full overflow-hidden">
         <motion.div
-          className="flex whitespace-nowrap"
-          animate={{ x: ["0%", "-100%"] }}
+          className="flex whitespace-nowrap will-change-transform"
+          animate={{ x: ["0%", "-50%"] }} // only -50% for perfect loop
           transition={{
-            duration: 20, // speed
+            duration: 30,
             ease: "linear",
             repeat: Infinity,
           }}
         >
-          {fullList.map((src, index) => (
+          {fullList.map((src, i) => (
             <div
-              key={index}
+              key={i}
               className="flex items-center justify-center min-w-[200px] px-6"
             >
               <Image
                 src={src}
-                alt={`Logo ${index}`}
+                alt={`Logo ${i}`}
                 width={60}
                 height={60}
                 className="object-contain opacity-90 hover:opacity-100 transition"
