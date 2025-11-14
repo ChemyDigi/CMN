@@ -30,7 +30,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
     try {
       setIsSubmitting(true);
 
-      // ✅ Add review to Firestore for AC & Ref products
+      // ✅ Add review to Firestore using arrayUnion
       const productRef = doc(db, "AC&Ref", productId);
       await updateDoc(productRef, {
         reviews: arrayUnion({
@@ -59,9 +59,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
   return (
     <div className="w-full bg-white border-t border-gray-400 mt-20 pt-10 pb-16 px-6 sm:px-10 lg:px-20">
       {/* Reviews Section */}
-      <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900">
-        Customer Reviews
-      </h2>
+      <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900">Reviews</h2>
 
       {reviews.length > 0 ? (
         <div className="space-y-8 mb-12">
@@ -70,15 +68,15 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
               <div className="flex items-start gap-3 mb-2">
                 {/* User Icon */}
                 <div className="flex-shrink-0 w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
                     strokeLinejoin="round"
                     className="text-gray-500"
                   >
@@ -91,7 +89,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
                     <span className="font-semibold text-gray-900">
                       {review.customerName}
                     </span>
-                    <span className="text-yellow-500 text-base sm:text-lg">
+                    <span className="text-pink-500 text-base sm:text-lg">
                       {"★".repeat(review.rating)}
                     </span>
                     <span className="text-gray-300 text-base sm:text-lg">
@@ -107,21 +105,19 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
           ))}
         </div>
       ) : (
-        <p className="text-gray-600 text-[15px] mb-12">
-          There are no reviews yet for this product.
-        </p>
+        <p className="text-gray-600 text-[15px] mb-12">There are no reviews yet.</p>
       )}
 
       <hr className="border-gray-300 mb-10" />
 
       {/* Review Form */}
-      <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900">
-        Share your experience with this AC or Refrigerator
-      </h3>
+      {/* <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900">
+        Share your experience with this product
+      </h3> */}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      {/* <form onSubmit={handleSubmit} className="space-y-6"> */}
         {/* Rating */}
-        <div>
+        {/* <div>
           <label className="block text-base font-medium text-gray-800 mb-2">
             Your rating
           </label>
@@ -132,70 +128,66 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
                 type="button"
                 onClick={() => setRating(star)}
                 className={`text-xl sm:text-2xl focus:outline-none ${
-                  star <= rating ? "text-yellow-500" : "text-gray-300"
+                  star <= rating ? "text-pink-500" : "text-gray-300"
                 }`}
               >
                 ★
               </button>
             ))}
           </div>
-        </div>
+        </div> */}
 
-        {/* Review Text */}
-        <div>
-          <label className="block text-sm font-medium text-gray-800 mb-2">
-            Your review
-          </label>
-          <textarea
-            value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
-            rows={6}
-            className="w-full border border-gray-300 bg-gray-50 text-gray-900 rounded-lg p-3 focus:outline-none focus:ring-1 focus:ring-gray-400 text-[15px]"
-            required
-          />
-        </div>
+{/* Review Text */}
+{/* <div>
+  <label className="block text-sm font-medium text-gray-800 mb-2">
+    Your review
+  </label>
+  <textarea
+    value={reviewText}
+    onChange={(e) => setReviewText(e.target.value)}
+    rows={6}
+    className="w-full border border-gray-300 bg-gray-50 text-gray-900 rounded-lg p-3 focus:outline-none focus:ring-1 focus:ring-gray-400 text-[15px]"
+    required
+  />
+</div> */}
 
-        {/* Name */}
-        <div>
-          <label className="block text-sm font-medium text-gray-800 mb-2">
-            Your Name
-          </label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full border border-gray-300 bg-gray-50 text-gray-900 rounded-lg p-2.5 text-[15px] focus:outline-none focus:ring-1 focus:ring-gray-400"
-            required
-          />
-        </div>
+{/* Name */}
+{/* <div>
+  <label className="block text-sm font-medium text-gray-800 mb-2">
+    Your Name
+  </label>
+  <input
+    type="text"
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+    className="w-full border border-gray-300 bg-gray-50 text-gray-900 rounded-lg p-2.5 text-[15px] focus:outline-none focus:ring-1 focus:ring-gray-400"
+    required
+  />
+</div> */}
 
-        {/* Email */}
-        <div>
-          <label className="block text-sm font-medium text-gray-800 mb-2">
-            Your Email
-          </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-300 bg-gray-50 text-gray-900 rounded-lg p-2.5 text-[15px] focus:outline-none focus:ring-1 focus:ring-gray-400"
-            required
-          />
-        </div>
+{/* Email */}
+{/* <div>
+  <label className="block text-sm font-medium text-gray-800 mb-2">
+    Your Email
+  </label>
+  <input
+    type="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    className="w-full border border-gray-300 bg-gray-50 text-gray-900 rounded-lg p-2.5 text-[15px] focus:outline-none focus:ring-1 focus:ring-gray-400"
+    required
+  />
+</div> */}
+
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className={`border border-gray-900 text-gray-900 px-5 py-1.5 rounded-md text-base font-medium transition-all ${
-            isSubmitting
-              ? "opacity-60 cursor-not-allowed"
-              : "hover:bg-gray-900 hover:text-white"
-          }`}
-        >
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </button>
-      </form>
+          {/* <button
+            type="submit"
+            className="border border-gray-900 text-gray-900 px-5 py-1.5 rounded-md text-base font-medium hover:bg-gray-900 hover:text-white transition-all"
+          >
+            Submit
+          </button>
+      </form> */}
     </div>
   );
 };
