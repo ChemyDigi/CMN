@@ -26,6 +26,15 @@
     },
     "images": [
       {
+        "src": "/images/products-tools/carousel_img/1.jpg",
+        "alt": "Power tools collection"
+      },
+      {
+        "src": "/images/products-tools/carousel_img/2.jpg",
+        "alt": "Hand tools selection"
+      },
+      {
+        "src": "/images/products-tools/carousel_img/3.jpg",
         "src": "/images/product_sample1.jpg",
         "alt": "Power tools collection"
       },

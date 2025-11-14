@@ -1,13 +1,15 @@
-import Navbar from "@/components/Navbar";   
-import Footer from "@/components/Footer";   
-export default function ToolPage() {
+import ProductSection from "@/components/tools/ProductSection";
+import HeroCarousel from "@/components/tools/GeneralHeroCarousel";
+import ToolsHeroSection from "@/components/tools/ToolsHeroSection";
+
+export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
-        <Navbar/>
-        <Footer/>
-      
-      
-      
-    </div>
+    <main>
+      <ToolsHeroSection />
+      <HeroCarousel 
+        page="products" 
+      />
+      <ProductSection />
+    </main>
   );
 }
