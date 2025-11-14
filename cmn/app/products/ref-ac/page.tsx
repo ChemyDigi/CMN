@@ -1,13 +1,14 @@
-import Navbar from "@/components/Navbar";   
-import Footer from "@/components/Footer";   
-export default function RefAcPage() {
+import HeroCarousel from "@/components/GeneralHeroCarousel";
+ 
+import RefAcHeroSection from "@/components/refrigeratorHero";
+import ProductSection from "@/components/ACandRef/ProductSection";
+
+export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
-        <Navbar/>
-        <Footer/>
-      
-      
-      
-    </div>
+    <main>
+      <RefAcHeroSection />
+      <HeroCarousel page="RefAC" />
+     <ProductSection/>
+    </main>
   );
 }
