@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 export default function HeroIntroSection() {
   return (
@@ -19,8 +20,8 @@ export default function HeroIntroSection() {
 
       {/* CONTENT WRAPPER */}
       <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {/* LEFT DECORATIVE SHAPE + IMAGE */}
         <div className="relative">
-          {/* IMAGE ABOVE RECTANGLE */}
           <Image
             src="/images/Home/Tools.png"
             alt="Top Decorative Image"
@@ -35,7 +36,6 @@ export default function HeroIntroSection() {
             "
           />
 
-          {/* WHITE ROUNDED SHAPE (NARROWER WIDTH) */}
           <div
             className="
               absolute
@@ -78,7 +78,7 @@ export default function HeroIntroSection() {
             response, stronger in performance, and deeper in insight.
           </p>
 
-          {/* CTA BUTTON */}
+          {/* CTA BUTTON WITH LUCIDE ICON */}
           <Link
             href="#"
             className="
@@ -86,7 +86,8 @@ export default function HeroIntroSection() {
               bg-[#F272A8] text-white font-medium rounded-md shadow-lg hover:bg-[#f45c98] transition
             "
           >
-            Here’s How →
+            Here’s How
+            <ArrowUpRight size={20} />
           </Link>
         </div>
       </div>
