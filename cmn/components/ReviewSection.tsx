@@ -89,12 +89,19 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
                     <span className="font-semibold text-gray-900">
                       {review.customerName}
                     </span>
-                    <span className="text-pink-500 text-base sm:text-lg">
-                      {"★".repeat(review.rating)}
-                    </span>
-                    <span className="text-gray-300 text-base sm:text-lg">
-                      {"★".repeat(5 - review.rating)}
-                    </span>
+                      <div className="relative inline-flex">
+                          {/* Gray stars (background) */}
+                          <div className="text-gray-300 text-base sm:text-lg">
+                            {"★".repeat(5)}
+                          </div>
+                          {/* Colored stars (overlay) */}
+                          <div 
+                            className="text-pink-500 text-base sm:text-lg absolute top-0 left-0 overflow-hidden"
+                            style={{ width: `${(review.rating / 5) * 100}%` }}
+                          >
+                            {"★".repeat(5)}
+                          </div>
+                        </div>
                   </div>
                   <p className="text-gray-700 text-sm sm:text-base leading-relaxed mt-2">
                     {review.reviewDescription}
@@ -111,13 +118,13 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
       <hr className="border-gray-300 mb-10" />
 
       {/* Review Form */}
-      <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900">
+      {/* <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900">
         Share your experience with this product
-      </h3>
+      </h3> */}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      {/* <form onSubmit={handleSubmit} className="space-y-6"> */}
         {/* Rating */}
-        <div>
+        {/* <div>
           <label className="block text-base font-medium text-gray-800 mb-2">
             Your rating
           </label>
@@ -135,10 +142,10 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
               </button>
             ))}
           </div>
-        </div>
+        </div> */}
 
 {/* Review Text */}
-<div>
+{/* <div>
   <label className="block text-sm font-medium text-gray-800 mb-2">
     Your review
   </label>
@@ -149,10 +156,10 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
     className="w-full border border-gray-300 bg-gray-50 text-gray-900 rounded-lg p-3 focus:outline-none focus:ring-1 focus:ring-gray-400 text-[15px]"
     required
   />
-</div>
+</div> */}
 
 {/* Name */}
-<div>
+{/* <div>
   <label className="block text-sm font-medium text-gray-800 mb-2">
     Your Name
   </label>
@@ -163,10 +170,10 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
     className="w-full border border-gray-300 bg-gray-50 text-gray-900 rounded-lg p-2.5 text-[15px] focus:outline-none focus:ring-1 focus:ring-gray-400"
     required
   />
-</div>
+</div> */}
 
 {/* Email */}
-<div>
+{/* <div>
   <label className="block text-sm font-medium text-gray-800 mb-2">
     Your Email
   </label>
@@ -177,17 +184,17 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
     className="w-full border border-gray-300 bg-gray-50 text-gray-900 rounded-lg p-2.5 text-[15px] focus:outline-none focus:ring-1 focus:ring-gray-400"
     required
   />
-</div>
+</div> */}
 
 
         {/* Submit Button */}
-          <button
+          {/* <button
             type="submit"
             className="border border-gray-900 text-gray-900 px-5 py-1.5 rounded-md text-base font-medium hover:bg-gray-900 hover:text-white transition-all"
           >
             Submit
           </button>
-      </form>
+      </form> */}
     </div>
   );
 };
