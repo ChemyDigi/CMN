@@ -1,13 +1,19 @@
-import Navbar from "@/components/Navbar";   
-import Footer from "@/components/Footer";   
-export default function HomePage() {
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import HeroSection from "../../components/HomeComponents/HeroSection";
+import LogoCarousel from "../../components/HomeComponents/LogoCarousel";
+import IntroSection from "../../components/HomeComponents/IntroSection";
+import WhyChooseUs from "../../components/HomeComponents/WhyChooseUsSection";
+export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white">
-        <Navbar/>
-        <Footer/>
-      
-      
-      
-    </div>
+    <main className="flex flex-col overflow-x-hidden w-full">
+      <Navbar />
+      <HeroSection />
+      <LogoCarousel />
+      <IntroSection />
+      <WhyChooseUs />
+      <Footer />
+    </main>
   );
 }
+
