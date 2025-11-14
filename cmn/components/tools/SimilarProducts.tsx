@@ -86,12 +86,12 @@ export default function SimilarProducts() {
   }
 
   return (
-    <section className="w-full bg-white py-12 flex flex-col items-center">
+    <section className="w-full bg-white pb-12 pt-4 flex flex-col items-center">
       <h2 className="text-3xl font-bold text-black mb-12">
         Explore <span className="ml-2">Similar Products</span>
       </h2>
 
-      <div className="relative w-full max-w-6xl py-8">
+      <div className="relative w-full max-w-6xl">
         {/* Navigation Arrows - Positioned outside the image container */}
         {products.length > 4 && (
           <>

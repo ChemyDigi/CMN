@@ -58,7 +58,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
       </div>
 
       {/* Product Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 px-10 lg:px-20 py-12 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 px-10 lg:px-20 pb-12 pt-8 items-start">
         {/* Left: Product Images */}
         <div className="flex flex-col items-center">
           {/* Main Image with Zoom */}

@@ -57,7 +57,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ productId, reviews = [] }
   };
 
   return (
-    <div className="w-full bg-white border-t border-gray-400 mt-20 pt-10 pb-16 px-6 sm:px-10 lg:px-20">
+    <div className="w-full bg-white border-t border-gray-400 mt-8 sm:mt-12 lg:mt-16 pt-8 pb-16 px-6 sm:px-10 lg:px-20">
       {/* Reviews Section */}
       <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900">Reviews</h2>
 
