@@ -1,7 +1,20 @@
-export default function Home() {
+// app/clients/page.tsx
+
+import ClientsHero from "../../components/ClientsHero";
+import PartnersSection from "../../components/PartnersSection";
+import TestimonialsSection from "../../components/TestimonialsSection";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
+export default function ClientsPage() {
   return (
-    <main>
+    <div className="min-h-screen bg-white">
+      <Navbar />
+      <ClientsHero />
+      <PartnersSection />
+      <TestimonialsSection />
+      <Footer />  
       
-    </main>
+    </div>
   );
 }
