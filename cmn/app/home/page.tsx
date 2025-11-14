@@ -1,7 +1,7 @@
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import HeroSection from "../../components/HomeComponents/HeroSection";
-import LogoCarousel from "../../components/HomeComponents/LogoCarousel";
+import LogoSlider from "../../components/HomeComponents/LogoSlider";
 import IntroSection from "../../components/HomeComponents/IntroSection";
 import WhyChooseUs from "../../components/HomeComponents/WhyChooseUsSection";
 export default function AboutPage() {
@@ -9,7 +9,7 @@ export default function AboutPage() {
     <main className="flex flex-col overflow-x-hidden w-full">
       <Navbar />
       <HeroSection />
-      <LogoCarousel />
+      <LogoSlider />
       <IntroSection />
       <WhyChooseUs />
       <Footer />
