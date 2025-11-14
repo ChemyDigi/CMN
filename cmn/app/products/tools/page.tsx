@@ -1,6 +1,6 @@
-import ProductSection from "@/components/ProductSection";
-import HeroCarousel from "@/components/GeneralHeroCarousel";
-import ToolsHeroSection from "@/components/ToolsHeroSection";
+import ProductSection from "@/components/tools/ProductSection";
+import HeroCarousel from "@/components/tools/GeneralHeroCarousel";
+import ToolsHeroSection from "@/components/tools/ToolsHeroSection";
 
 export default function Home() {
   return (

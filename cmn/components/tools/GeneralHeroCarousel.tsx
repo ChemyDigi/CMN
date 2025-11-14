@@ -18,7 +18,7 @@ interface CarouselData {
 }
 
 interface DynamicHeroCarouselProps {
-  page: keyof typeof import('../data/carousel-data.json');
+  page: keyof typeof import('@/data/carousel-data.json');
   autoAdvance?: boolean;
   autoAdvanceInterval?: number;
   showArrows?: boolean;
@@ -41,7 +41,7 @@ const DynamicHeroCarousel = ({
   useEffect(() => {
     const loadCarouselData = async () => {
       try {
-        const data = await import('../data/carousel-data.json');
+        const data = await import('@/data/carousel-data.json');
         setCarouselData(data.default[page] || data[page]);
       } catch (error) {
         console.error(`Error loading carousel data for page: ${page}`, error);

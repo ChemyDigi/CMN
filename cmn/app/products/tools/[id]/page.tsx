@@ -2,9 +2,9 @@
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
-import ProductDisplay from "@/components/ProductDisplay";
-import ProductReviews from "@/components/ReviewSection";
-import SimilarProducts from "@/components/SimilarProducts";
+import ProductDisplay from "@/components/tools/ProductDisplay";
+import ProductReviews from "@/components/tools/ReviewSection";
+import SimilarProducts from "@/components/tools/SimilarProducts";
 
 interface PageProps {
   params: Promise<{ id: string }>;
