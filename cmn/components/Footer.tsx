@@ -106,7 +106,7 @@ export default function Footer() {
         <Link href="https://www.instagram.com/freedemuae/?hl=en" aria-label="Instagram" className="hover:text-[#F272A8] target:blank" target="blank">
               <i className="ri-instagram-line text-lg"></i>
         </Link>
-        <Link href="https://www.facebook.com/p/Freedem-Cricket-Sport-Academy-100047773096052/" aria-label="Facebook" className="hover:text-[#B32E2E] target:blank" target="blank">
+        <Link href="https://www.facebook.com/cmndistributorssl/" aria-label="Facebook" className="hover:text-[#B32E2E] target:blank" target="blank">
             <i className="ri-facebook-circle-line text-lg"></i>
         </Link>
       </div>           
