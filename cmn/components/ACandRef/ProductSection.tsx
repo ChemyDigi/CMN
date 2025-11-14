@@ -33,10 +33,7 @@ const categories = [
   "Samsung",
   "LG",
   "Panasonic",
-  "Mitsubishi",
-  "Daikin",
-  "Hitachi",
-  "Haier",
+  "Whirlpool",
 ];
 
 const ACRefSection: React.FC = () => {
@@ -169,7 +166,7 @@ const ACRefSection: React.FC = () => {
                   onClick={() => router.push(`/products/ref-ac/${product.id}`)}
                   className="text-black w-full border border-gray-800 rounded-md py-2 text-xs sm:text-sm font-medium hover:bg-black hover:text-white transition-all"
                 >
-                  View Details
+                  Read More
                 </button>
 
               </div>
