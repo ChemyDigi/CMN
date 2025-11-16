@@ -1,67 +1,66 @@
-const ToolsHeroSection = () => {
+"use client";
+import Image from "next/image";
+import { motion } from "framer-motion";
+
+export default function HeroSection() {
   return (
-    <section className="relative min-h-screen w-full overflow-hidden">
+    <section className="relative w-full h-[80vh] flex items-center overflow-hidden">
       {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 hover:scale-105"
-        style={{ backgroundImage: `url('/images/products-tools/toolshero.jpg')` }}
+      <motion.div
+        initial={{ scale: 1.2, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1.8, ease: "easeOut" }}
+        className="absolute inset-0"
       >
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/60" />
-      </div>
+        <Image
+          src="/images/products-tools/toolshero.jpg"
+          alt="CMN Distributor Hero"
+          fill
+          className="object-cover brightness-50"
+          priority
+        />
+      </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 flex min-h-screen items-center">
-        <div className="container mx-auto pr-12 md:pr-24 lg:pr-32 pl-8 md:pl-16 lg:pl-20">
-          <div className="max-w-3xl animate-fade-in">
-            {/* Eyebrow Text */}
-            <p 
-              className="mb-8 text-xs font-medium tracking-wider text-white/90 md:text-sm"
-              style={{ 
-                animation: "fade-in 0.6s ease-out 0.2s both"
-              }}
-            >
-              Tools and Equipment
-            </p>
+      <div className="relative z-10 text-white max-w-4xl pl-[230px]">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.3 }}
+          className="text-sm mb-2 opacity-80"
+        >
+          Tools and Equipment
+        </motion.p>
 
-            {/* Main Heading */}
-            <h1 
-              className="mb-12 text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl"
-              style={{ 
-                animation: "fade-in 0.6s ease-out 0.4s both"
-              }}
-            >
-              Tools That Move Industries Forward
-            </h1>
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.5 }}
+          className="text-4xl md:text-5xl font-bold leading-tight mb-4"
+        >
+          Tools that Move <br />
+          Industries Forward
+        </motion.h1>
 
-            {/* Description */}
-            <p 
-              className="text-sm leading-relaxed text-white/90 md:text-base lg:text-lg"
-              style={{ 
-                animation: "fade-in 0.6s ease-out 0.6s both"
-              }}
-            >
-              From heavy duty equipment to everyday essentials, we provide solutions that empower progress and define quality in every field. Our equipment combines craftsmanship and innovation to deliver power, precision, and performance you can depend on, every day.
-            </p>
-          </div>
-        </div>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.8 }}
+          className="text-base md:text-lg max-w-xl text-gray-200"
+        >
+          From heavy duty equipment to everyday essentials, we provide solutions that empower
+          progress and define quality in every field. Our equipment combines craftsmanship and
+          innovation to deliver power, precision, and performance you can depend on, every day.
+        </motion.p>
+
+        {/* Optional subtle underline or divider animation */}
+        <motion.div
+          initial={{ width: 0, opacity: 0 }}
+          animate={{ width: "520px", opacity: 1 }}
+          transition={{ duration: 2, delay: 1 }}
+          className="mt-6 h-[2px] bg-[#F272A8] rounded"
+        />
       </div>
-
-      {/* Inline Keyframes */}
-      <style>{`
-        @keyframes fade-in {
-          0% {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </section>
   );
-};
-
-export default ToolsHeroSection;
+}
