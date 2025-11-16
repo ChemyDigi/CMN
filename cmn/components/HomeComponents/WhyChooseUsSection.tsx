@@ -38,8 +38,9 @@ export default function WhyChooseUsSection() {
 
   return (
     <section className="w-full bg-[#000000] text-white py-20 px-6 md:px-16 lg:px-24">
-      {/* Title */}
-      <div className="max-w-6xl mx-auto mb-12">
+      
+      {/* Title (CENTERED NOW) */}
+      <div className="max-w-6xl mx-auto mb-12 text-center">
         <p className="text-gray-400 text-sm mb-2">Why Choose Us</p>
         <h2 className="text-3xl md:text-4xl font-semibold leading-snug">
           Delivering Quality, Reliability & <br /> Service You Can Trust
@@ -50,6 +51,7 @@ export default function WhyChooseUsSection() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 mt-10">
         {features.map((item, index) => (
           <div key={index} className="flex flex-col items-center text-center">
+            
             {/* ICON CIRCLE */}
             <div className="w-28 h-28 flex items-center justify-center rounded-full border-2 border-white mb-4">
               <Image

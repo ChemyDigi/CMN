@@ -7,29 +7,29 @@ export default function TimelineSection() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 200px", "end end"], // start when timeline hits viewport
+    offset: ["start 200px", "end end"],
   });
 
-  // Map scroll progress (0–1) to line height
+  // Stretch line only for desktop/tablet
   const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   const timeline = [
     {
       year: "2004",
       title: "Partnerships in HVAC & R Sector",
-      desc: "CMN starts distribution of Niche products related to HVAC & R tie-up with YUTAS – A Tata Group Company & Carrier – A UTC Group Company in Mumbai (India).",
+      desc: "CMN starts distribution of Niche products related to HVAC & R...",
       side: "right",
     },
     {
       year: "2005",
       title: "Diversification into Engineering Tools",
-      desc: "CMN diversifies into engineering products – dealing in premium and mid-tier tools of SNAP ON & BLUE POINT from Snap On Tools Inc – USA.",
+      desc: "CMN diversifies into engineering products...",
       side: "left",
     },
     {
       year: "2008",
       title: "Expansion into Key Industries",
-      desc: "CMN starts its Tools sales PAN India to key customers in Aviation, Nuclear Power, Defence Research, Oil & Gas industry etc.",
+      desc: "CMN starts its Tools sales PAN India...",
       side: "right",
     },
     {
@@ -41,25 +41,25 @@ export default function TimelineSection() {
     {
       year: "2011",
       title: "Partnership with YORK",
-      desc: "Begins distribution of YORK Air Conditioners and Air Purifiers across Western India.",
+      desc: "Begins distribution of YORK Air Conditioners across Western India.",
       side: "right",
     },
     {
       year: "2016",
       title: "Regional Presence in Sri Lanka",
-      desc: "Established a distribution office in Sri Lanka, strengthening CMN’s reach in the South Asian region.",
+      desc: "Established a distribution office in Sri Lanka...",
       side: "left",
     },
     {
       year: "2018",
       title: "Partnership with Vance Chemicals",
-      desc: "CMN takes up distribution from Vance Chemicals of Mr McKenic, Germ Killer & Mrs McKenic for India and Sri Lanka.",
+      desc: "CMN takes up distribution from Vance Chemicals...",
       side: "right",
     },
     {
       year: "2018",
       title: "Strategic Alliance with Sagar Asia",
-      desc: "Signs a distribution and sales representation agreement with Sagar Asia for South East Asia and Bangladesh for their brands – Litelift, Finet, Euro Star and Unite Giant.",
+      desc: "Signs a distribution and sales representation agreement...",
       side: "left",
     },
   ];
@@ -80,14 +80,19 @@ export default function TimelineSection() {
       </motion.h2>
 
       <div className="relative max-w-6xl mx-auto">
-        {/* Animated Vertical Line */}
+
+        {/* ========== CENTER LINE — HIDE ON MOBILE ========== */}
         <motion.div
           style={{ height: lineHeight }}
-          className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[2px] bg-[#F272A8] origin-top"
-        ></motion.div>
+          className="
+            hidden md:block               /* HIDE ON MOBILE */
+            absolute top-0 left-1/2 -translate-x-1/2 
+            w-[2px] bg-[#F272A8] origin-top
+          "
+        />
 
-        {/* Timeline Items */}
         <div className="flex flex-col space-y-16">
+
           {timeline.map((item, index) => (
             <motion.div
               key={index}
@@ -99,32 +104,39 @@ export default function TimelineSection() {
                 ease: "easeOut",
               }}
               viewport={{ once: true }}
-              className={`flex flex-col md:flex-row ${
-                item.side === "left"
-                  ? "md:justify-start"
-                  : "md:justify-end"
-              } relative`}
+              className={`
+                flex flex-col md:flex-row relative
+                md:${item.side === "left" ? "justify-start" : "justify-end"}
+              `}
             >
-              {/* Connector Dot */}
+
+              {/* ========== DOT — HIDE ON MOBILE ========== */}
               <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
                 transition={{
                   duration: 0.3,
                   delay: index * 0.15,
                   ease: "easeOut",
                 }}
-                viewport={{ once: true }}
-                className="absolute left-1/2 transform -translate-x-1/2 w-5 h-5 bg-[#F272A8] rounded-full border-4 border-[#2E2E2E]"
-              ></motion.div>
+                className="
+                  hidden md:block           /* HIDE ON MOBILE */
+                  absolute left-1/2 -translate-x-1/2
+                  w-5 h-5 bg-[#F272A8] rounded-full border-4 border-[#2E2E2E]
+                "
+              />
 
-              {/* Timeline Card */}
+              {/* ========== TIMELINE CARD ========== */}
               <div
-                className={`w-full md:w-1/2 px-8 ${
-                  item.side === "left"
-                    ? "md:pr-16 text-right md:text-right"
-                    : "md:pl-16 text-left md:text-left"
-                }`}
+                className={`
+                  w-full md:w-1/2 px-8
+
+                  /* DESKTOP & TABLET LEFT/RIGHT */
+                  md:${item.side === "left" ? "pr-16 text-right" : "pl-16 text-left"}
+
+                  /* MOBILE CENTER EVERYTHING */
+                  text-center md:text-inherit
+                `}
               >
                 <p className="text-[#F272A8] font-semibold text-lg mb-2">
                   {item.year}
@@ -138,6 +150,7 @@ export default function TimelineSection() {
               </div>
             </motion.div>
           ))}
+
         </div>
       </div>
     </section>

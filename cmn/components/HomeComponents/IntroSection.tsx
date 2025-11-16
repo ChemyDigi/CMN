@@ -7,7 +7,8 @@ import { ArrowUpRight } from "lucide-react";
 export default function HeroIntroSection() {
   return (
     <section className="relative w-full bg-black text-white py-28 px-6 md:px-16 lg:px-24 overflow-hidden">
-      {/* BACKGROUND IMAGE (LOW OPACITY) */}
+      
+      {/* BACKGROUND IMAGE */}
       <div className="absolute inset-0">
         <Image
           src="/images/Home/HomeIntro.jpg"
@@ -19,9 +20,17 @@ export default function HeroIntroSection() {
       </div>
 
       {/* CONTENT WRAPPER */}
-      <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        {/* LEFT DECORATIVE SHAPE + IMAGE */}
-        <div className="relative">
+      <div
+        className="
+          relative z-10 max-w-7xl mx-auto 
+          grid grid-cols-1 lg:grid-cols-2 gap-16
+          items-center 
+          text-center lg:text-left      /* Center content on mobile */
+        "
+      >
+        {/* LEFT DECORATIVE AREA – HIDE ON MOBILE/TABLET */}
+        <div className="relative hidden lg:block">
+          {/* Decorative Image – Desktop Only */}
           <Image
             src="/images/Home/Tools.png"
             alt="Top Decorative Image"
@@ -36,6 +45,7 @@ export default function HeroIntroSection() {
             "
           />
 
+          {/* White Decorative Shape – Desktop Only */}
           <div
             className="
               absolute
@@ -51,39 +61,39 @@ export default function HeroIntroSection() {
           ></div>
         </div>
 
-        {/* RIGHT TEXT CONTENT */}
-        <div className="space-y-6">
+        {/* RIGHT CONTENT – CENTERED ON MOBILE */}
+        <div className="space-y-6 flex flex-col items-center lg:items-start">
           <h2 className="text-3xl md:text-4xl font-bold leading-snug">
             Redefining Global Distribution with <br />
             Intelligent Supply Chain Solutions
           </h2>
 
-          <p className="text-gray-300 leading-relaxed">
+          <p className="text-gray-300 leading-relaxed max-w-xl">
             CMD Distributors is transforming the distribution landscape through
             data driven intelligence and automation. Leveraging a vast global
-            network and cutting edge technology, we’re setting new standards for
-            reliability, efficiency, and scalability in product distribution.
+            network and cutting-edge technology, we’re setting new standards for
+            reliability, efficiency, and scalability.
           </p>
 
-          <p className="text-gray-300 leading-relaxed">
+          <p className="text-gray-300 leading-relaxed max-w-xl">
             We empower industries to be Efficient by Design—building smarter,
             more agile distribution systems that anticipate challenges before
-            they arise. With our automated distribution intelligence platform,
-            we utilize AI and predictive analytics to optimize sourcing,
+            they arise. Using AI and predictive analytics, we optimize sourcing,
             logistics, and delivery operations across continents.
           </p>
 
-          <p className="text-gray-300 leading-relaxed">
+          <p className="text-gray-300 leading-relaxed max-w-xl">
             This allows our partners to stay ahead of market demand—faster in
             response, stronger in performance, and deeper in insight.
           </p>
 
-          {/* CTA BUTTON WITH LUCIDE ICON */}
+          {/* CTA BUTTON */}
           <Link
             href="#"
             className="
               inline-flex items-center gap-2 px-6 py-3 
-              bg-[#F272A8] text-white font-medium rounded-md shadow-lg hover:bg-[#f45c98] transition
+              bg-[#F272A8] text-white font-medium rounded-md shadow-lg 
+              hover:bg-[#f45c98] transition
             "
           >
             Here’s How

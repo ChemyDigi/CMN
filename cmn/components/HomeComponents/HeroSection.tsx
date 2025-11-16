@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 export default function HeroSection() {
   return (
     <section className="relative w-full h-[90vh] overflow-hidden rounded-br-[120px]">
+
       {/* Background Image */}
       <motion.div
         initial={{ scale: 1.2, opacity: 0 }}
@@ -21,13 +22,15 @@ export default function HeroSection() {
           priority
         />
 
-        {/* Strong left → transparent right gradient */}
         <div className="absolute inset-0 bg-linear-to-r from-black via-black/70 to-transparent" />
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 h-full flex items-center px-6 sm:px-12 md:px-16 lg:pl-[120px]">
-        <div className="max-w-full">
+      <div className="relative z-10 h-full flex items-center px-6 sm:px-12 md:px-16 lg:pl-[120px] 
+                      text-center md:text-left      /* NEW */
+                      ">
+        <div className="max-w-full mx-auto md:mx-0 flex flex-col items-center md:items-start"> {/* NEW */}
+          
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -65,6 +68,7 @@ export default function HeroSection() {
           >
             Contact Us
           </motion.button>
+
         </div>
       </div>
     </section>
