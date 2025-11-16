@@ -6,13 +6,17 @@ import { useState } from "react";
 
 export default function Navbar() {
   const [activeMenu, setActiveMenu] = useState<"solutions" | "products" | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileDropdown, setMobileDropdown] = useState<"solutions" | "products" | null>(null);
 
   return (
     <header className="relative w-full">
 
-      {/* TOP BLACK LOGO BAR */}
-      <div className="w-full h-20 flex items-center pl-10 bg-black">
-        <Link href="/" className="flex items-center">
+      {/* TOP BLACK BAR */}
+      <div className="w-full h-20 flex items-center justify-between bg-black px-4 sm:px-6 lg:pl-10 lg:pr-0">
+        
+        {/* LOGO */}
+        <Link href="/" className="flex items-center flex-shrink-0">
           <Image
             src="/images/CMN_logo.png"
             alt="Company Logo"
@@ -21,105 +25,251 @@ export default function Navbar() {
             className="object-contain"
           />
         </Link>
-        {/* NAVBAR WRAPPER — DROPDOWN ANCHORS TO THIS */}
-      <div className="relative w-full flex">
-        <nav
-          className="
-            relative    /* IMPORTANT */
-            bg-white h-20 shadow-sm rounded-tl-[120px]
-            flex items-center justify-between
-            px-10 pr-40
-            max-w-[1200px] w-full ml-auto
-            z-50
-          "
-          onMouseLeave={() => setActiveMenu(null)}
-        >
-          {/* NAV LINKS */}
-          <ul className="flex items-center space-x-14 text-sm font-semibold text-black mr-10 pl-32">
-            <li className="hover:text-[#F272A8]" onMouseEnter={() => setActiveMenu(null)}>
-              <Link href="/home">Home</Link>
-            </li>
 
-            <li className="hover:text-[#F272A8]" onMouseEnter={() => setActiveMenu(null)}>
-              <Link href="/about">About</Link>
-            </li>
-
-            <li
-              className="hover:text-[#F272A8] cursor-pointer"
-              onMouseEnter={() => setActiveMenu("solutions")}
-            >
-              Solutions
-            </li>
-
-            <li
-              className="hover:text-[#F272A8] cursor-pointer"
-              onMouseEnter={() => setActiveMenu("products")}
-            >
-              Products
-            </li>
-
-            <li className="hover:text-[#F272A8]" onMouseEnter={() => setActiveMenu(null)}>
-              <Link href="/clients">Clients</Link>
-            </li>
-          </ul>
-
-          {/* CONTACT BUTTON */}
-          <Link
-            href="/contact"
-            className="bg-[#202020] text-white px-6 py-2 rounded-md text-sm font-semibold hover:bg-gray-900 transition"
+        {/* DESKTOP NAVBAR */}
+        <div className="relative hidden lg:flex flex-1">
+          <nav
+            className={`
+              relative
+              bg-white h-16 lg:h-20 shadow-sm rounded-tl-[90px] lg:rounded-tl-[120px]
+              flex items-center justify-between
+              px-4 sm:px-6 lg:px-8 xl:px-10
+              pr-6 sm:pr-10 lg:pr-12 xl:pr-40
+              max-w-[1200px] w-full ml-auto
+              z-50
+            `}
+            onMouseLeave={() => setActiveMenu(null)}
           >
-            CONTACT
-          </Link>
 
-          {/* DROPDOWN INSIDE NAVBAR (NOW CORRECTLY ALIGNED) */}
-          {activeMenu && (
-            <div
-              className="
-                absolute left-0 top-full  
-                w-full bg-white shadow-lg z-40
-              "
+            {/* NAV LINKS */}
+            <ul
+              className={`
+                flex items-center
+                text-xs sm:text-sm font-semibold text-black
+                mr-6 sm:mr-8 lg:mr-14 xl:mr-20
+                sm:pl-10 lg:pl-20 xl:pl-32
+                space-x-4 sm:space-x-8 lg:space-x-10 xl:space-x-14
+              `}
             >
-              <div className="max-w-[1200px] w-full ml-auto flex py-14 px-10 pr-40">
+              <li className="hover:text-[#F272A8]" onMouseEnter={() => setActiveMenu(null)}>
+                <Link href="/home">Home</Link>
+              </li>
 
-                {/* LEFT TITLE */}
-                <div className="w-1/2 pl-10">
-                  <h3 className="text-4xl font-semibold capitalize text-gray-900">
-                    {activeMenu}
-                  </h3>
-                </div>
+              <li className="hover:text-[#F272A8]" onMouseEnter={() => setActiveMenu(null)}>
+                <Link href="/about">About</Link>
+              </li>
 
-                {/* RIGHT CONTENT */}
-                <div className="w-1/2 border-l pl-10 text-sm space-y-4">
+              <li
+                className="hover:text-[#F272A8] cursor-pointer"
+                onMouseEnter={() => setActiveMenu("solutions")}
+              >
+                Solutions
+              </li>
 
-                  {activeMenu === "solutions" && (
-                    <>
-                      <p className="font-bold text-gray-700 text-decoration: underline">Solutions</p>
-                      <Link href="/services/cmn" className="hover:text-[#F272A8] block text-gray-500">
-                        CMN Solutions
-                      </Link>
-                      <Link href="/services/airdoot" className="hover:text-[#F272A8] block text-gray-500">
-                        AirDoot
-                      </Link>
-                    </>
-                  )}
+              <li
+                className="hover:text-[#F272A8] cursor-pointer"
+                onMouseEnter={() => setActiveMenu("products")}
+              >
+                Products
+              </li>
 
-                  {activeMenu === "products" && (
-                    <div className="grid grid-cols-2 gap-x-10">
-                      <Link href="/products/tools" className="hover:text-[#F272A8]  text-gray-500">
-                        Tools & Equipment
-                      </Link>
-                      <Link href="/products/ref-ac" className="hover:text-[#F272A8]  text-gray-500">
-                        Refrigerators & Air Conditioners
-                      </Link>
-                    </div>
-                  )}
+              <li className="hover:text-[#F272A8]" onMouseEnter={() => setActiveMenu(null)}>
+                <Link href="/clients">Clients</Link>
+              </li>
+            </ul>
+
+            {/* CONTACT BUTTON */}
+            <Link
+              href="/contact"
+              className="bg-[#202020] text-white px-5 py-2 rounded-md text-xs sm:text-sm font-semibold hover:bg-gray-900 transition whitespace-nowrap"
+            >
+              CONTACT
+            </Link>
+
+            {/* DROPDOWN */}
+            {activeMenu && (
+              <div className="absolute left-0 top-full w-full bg-white shadow-lg z-40 animate-slideDownSlow">
+                <div className="max-w-[1200px] w-full ml-auto flex py-10 lg:py-14 px-6 sm:px-8 lg:px-10 lg:pr-40">
+
+                  <div className="w-1/2 pl-4 sm:pl-6 lg:pl-10">
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold capitalize text-gray-900">
+                      {activeMenu}
+                    </h3>
+                  </div>
+
+                  <div className="w-1/2 border-l pl-6 lg:pl-10 text-sm space-y-4 animate-dropdownSmooth">
+                    {activeMenu === "solutions" && (
+                      <>
+                        <p className="font-bold text-gray-700 underline">Solutions</p>
+                        <Link href="/services/cmn" className="hover:text-[#F272A8] block text-gray-500">
+                          CMN Solutions
+                        </Link>
+                        <Link href="/services/airdoot" className="hover:text-[#F272A8] block text-gray-500">
+                          AirDoot
+                        </Link>
+                      </>
+                    )}
+
+                    {activeMenu === "products" && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3">
+                        <Link href="/products/tools" className="hover:text-[#F272A8] text-gray-500">
+                          Tools & Equipment
+                        </Link>
+                        <Link href="/products/ref-ac" className="hover:text-[#F272A8] text-gray-500">
+                          Refrigerators & Air Conditioners
+                        </Link>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
+            )}
+          </nav>
+        </div>
+
+        {/* MOBILE BUTTON */}
+        <button
+          className="lg:hidden block text-white ml-4"
+          onClick={() => setMobileOpen(!mobileOpen)}
+        >
+          <div className="space-y-1 transition-all">
+            <span className="block w-6 h-0.5 bg-white"></span>
+            <span className="block w-6 h-0.5 bg-white"></span>
+            <span className="block w-6 h-0.5 bg-white"></span>
+          </div>
+        </button>
+      </div>
+
+      {/* MOBILE MENU */}
+      {mobileOpen && (
+        <div className="lg:hidden w-full bg-white shadow-xl border-t border-gray-200 animate-slideDownSlow">
+          <div className="px-6 py-6 space-y-6 text-black">
+
+            <MobileLink href="/home" label="Home" setMobileOpen={setMobileOpen} />
+            <MobileLink href="/about" label="About" setMobileOpen={setMobileOpen} />
+
+            <MobileDropdown
+              title="Solutions"
+              active={mobileDropdown === "solutions"}
+              toggle={() => setMobileDropdown(mobileDropdown === "solutions" ? null : "solutions")}
+              items={[
+                { label: "CMN Solutions", href: "/services/cmn" },
+                { label: "AirDoot", href: "/services/airdoot" },
+              ]}
+              setMobileOpen={setMobileOpen}
+            />
+
+            <MobileDropdown
+              title="Products"
+              active={mobileDropdown === "products"}
+              toggle={() => setMobileDropdown(mobileDropdown === "products" ? null : "products")}
+              items={[
+                { label: "Tools & Equipment", href: "/products/tools" },
+                { label: "Refrigerators & Air Conditioners", href: "/products/ref-ac" },
+              ]}
+              setMobileOpen={setMobileOpen}
+            />
+
+            <MobileLink href="/clients" label="Clients" setMobileOpen={setMobileOpen} />
+
+            <div className="pt-2">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center bg-[#202020] text-white px-6 py-2 rounded-md text-sm font-semibold shadow-sm hover:bg-gray-900 transition-all"
+                onClick={() => setMobileOpen(false)}
+              >
+                CONTACT
+              </Link>
             </div>
-          )}
-        </nav>
-      </div>
-      </div>
+          </div>
+        </div>
+      )}
+
+      {/* ANIMATIONS */}
+      <style jsx global>{`
+        @keyframes slideDownSlow {
+          0% { opacity: 0; transform: translateY(-10px); }
+          100% { opacity: 1; transform: translateY(0px); }
+        }
+        .animate-slideDownSlow { animation: slideDownSlow .35s ease-out forwards; }
+
+        @keyframes dropdownSmooth {
+          0% { opacity: 0; transform: translateY(-5px); }
+          100% { opacity: 1; transform: translateY(0px); }
+        }
+        .animate-dropdownSmooth { animation: dropdownSmooth .3s ease-out forwards; }
+      `}</style>
+
     </header>
+  );
+}
+
+/* ======================================================
+   REUSABLE MOBILE COMPONENTS WITH TYPES
+   ====================================================== */
+
+interface MobileLinkProps {
+  href: string;
+  label: string;
+  setMobileOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function MobileLink({ href, label, setMobileOpen }: MobileLinkProps) {
+  return (
+    <Link
+      href={href}
+      onClick={() => setMobileOpen(false)}
+      className="block text-base font-medium text-gray-900 hover:text-[#F272A8] transition"
+    >
+      {label}
+    </Link>
+  );
+}
+
+interface DropdownItem {
+  label: string;
+  href: string;
+}
+
+interface MobileDropdownProps {
+  title: string;
+  active: boolean;
+  toggle: () => void;
+  items: DropdownItem[];
+  setMobileOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function MobileDropdown({
+  title,
+  active,
+  toggle,
+  items,
+  setMobileOpen,
+}: MobileDropdownProps) {
+  return (
+    <div className="border-t border-gray-200 pt-4">
+      <button
+        onClick={toggle}
+        className="flex items-center justify-between w-full text-base font-semibold text-[#F272A8]"
+      >
+        {title}
+        <span className="text-xs">{active ? "▲" : "▼"}</span>
+      </button>
+
+      {active && (
+        <div className="mt-3 pl-4 space-y-3 text-sm text-gray-600 animate-dropdownSmooth">
+          {items.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="block hover:text-[#F272A8] transition"
+              onClick={() => setMobileOpen(false)}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
