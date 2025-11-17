@@ -74,21 +74,23 @@ const ACRefSection: React.FC = () => {
     <section className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 bg-white">
       {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 md:mb-10">
-        {/* Category Tabs */}
-        <div className="flex flex-wrap gap-1 overflow-x-auto scrollbar-hide bg-gray-100 rounded-md p-1 w-full sm:w-auto">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
-                activeCategory === cat
-                  ? "bg-black text-white"
-                  : "bg-white text-gray-800 border border-gray-200 hover:bg-gray-50"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+        {/* Category Tabs - Beautiful Grid Layout for Mobile */}
+        <div className="w-full sm:w-auto">
+          <div className="grid grid-cols-3 gap-1 sm:flex sm:flex-wrap sm:gap-1 sm:overflow-x-auto scrollbar-hide bg-gray-100 rounded-md p-1">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-2 py-2 sm:px-3 md:px-4 sm:py-2 text-xs font-medium rounded-md transition-all whitespace-nowrap min-h-[40px] flex items-center justify-center ${
+                  activeCategory === cat
+                    ? "bg-black text-white"
+                    : "bg-white text-gray-800 border border-gray-200 hover:bg-gray-50"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Search Box */}
