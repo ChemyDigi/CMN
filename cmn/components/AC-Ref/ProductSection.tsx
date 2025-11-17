@@ -71,19 +71,20 @@ const ACRefSection: React.FC = () => {
   });
 
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 bg-white">
+    <section className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 bg-white">
       {/* Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-8 sm:mb-10">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 md:mb-10">
         {/* Category Tabs */}
-        <div className="flex flex-wrap gap-1 overflow-x-auto scrollbar-hide bg-gray-100 rounded-md p-1">
+        <div className="flex flex-wrap gap-1 overflow-x-auto scrollbar-hide bg-gray-100 rounded-md p-1 w-full sm:w-auto">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-md transition-all ${activeCategory === cat
+              className={`px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 text-xs font-medium rounded-md transition-all whitespace-nowrap ${
+                activeCategory === cat
                   ? "bg-black text-white"
                   : "bg-white text-gray-800 border border-gray-200 hover:bg-gray-50"
-                }`}
+              }`}
             >
               {cat}
             </button>
@@ -91,11 +92,11 @@ const ACRefSection: React.FC = () => {
         </div>
 
         {/* Search Box */}
-        <div className="relative flex items-center bg-gray-100 rounded-md px-3 sm:px-4 py-2 w-full sm:w-64">
+        <div className="relative flex items-center bg-gray-100 rounded-md px-3 py-2 w-full sm:w-48 md:w-56 lg:w-64">
           <input
             type="text"
             placeholder="Search AC & Refrigerator"
-            className="bg-transparent w-full text-sm text-gray-800 placeholder-gray-500 focus:outline-none"
+            className="bg-transparent w-full text-xs sm:text-sm text-gray-800 placeholder-gray-500 focus:outline-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -105,7 +106,7 @@ const ACRefSection: React.FC = () => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-4 h-4 text-gray-700 ml-2"
+            className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700 ml-2"
           >
             <path
               strokeLinecap="round"
@@ -118,22 +119,22 @@ const ACRefSection: React.FC = () => {
 
       {/* Loading State */}
       {loading ? (
-        <div className="flex justify-center items-center py-20">
-          <div className="w-10 h-10 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
+        <div className="flex justify-center items-center py-16 sm:py-20">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
         </div>
       ) : filteredProducts.length === 0 ? (
-        <div className="text-center py-20">
-          <p className="text-gray-600 text-lg font-medium">
+        <div className="text-center py-16 sm:py-20">
+          <p className="text-gray-600 text-base sm:text-lg font-medium">
             No AC or Refrigerator products found.
           </p>
         </div>
       ) : (
         // Product Grid
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden group flex flex-col"
+              className="relative bg-white rounded-lg sm:rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden group flex flex-col"
             >
               {/* Product Image */}
               <div className="relative w-full aspect-square flex items-center justify-center">
@@ -144,13 +145,13 @@ const ACRefSection: React.FC = () => {
                   className="object-cover"
                 />
                 {product.availability === "in-stock" && (
-                  <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                  <span className="absolute top-1.5 sm:top-2 left-1.5 sm:left-2 bg-green-600 text-white text-xs font-semibold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">
                     In Stock
                   </span>
                 )}
                 {product.availability === "out-of-stock" && (
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="bg-white text-black text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                    <span className="bg-white text-black text-xs font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-md">
                       OUT OF STOCK
                     </span>
                   </div>
@@ -158,17 +159,16 @@ const ACRefSection: React.FC = () => {
               </div>
 
               {/* Product Info */}
-              <div className="p-3 sm:p-4 text-center flex-grow flex flex-col justify-end">
-                <h3 className="text-xs sm:text-sm font-semibold text-gray-900 mb-2 sm:mb-3 line-clamp-2">
+              <div className="p-2 sm:p-3 md:p-4 text-center flex-grow flex flex-col justify-end">
+                <h3 className="text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 sm:mb-2 md:mb-3 line-clamp-2 min-h-[2.5rem] sm:min-h-[3rem] flex items-center justify-center">
                   {product.productName}
                 </h3>
                 <button
                   onClick={() => router.push(`/products/ref-ac/${product.id}`)}
-                  className="text-black w-full border border-gray-800 rounded-md py-2 text-xs sm:text-sm font-medium hover:bg-black hover:text-white transition-all"
+                  className="text-black w-full border border-gray-800 rounded-md py-1.5 sm:py-2 text-xs sm:text-sm font-medium hover:bg-black hover:text-white transition-all"
                 >
                   Read More
                 </button>
-
               </div>
             </div>
           ))}
