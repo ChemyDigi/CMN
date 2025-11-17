@@ -13,8 +13,8 @@ export default function Navbar() {
     <header className="relative w-full">
 
       {/* TOP BLACK BAR */}
-      <div className="w-full h-20 flex items-center justify-between bg-black px-4 sm:px-6 lg:pl-10 lg:pr-0">
-        
+      <div className="w-full h-20 flex items-center justify-between bg-black px-4 sm:px-6 lg:px-10 pl-0">
+
         {/* LOGO */}
         <Link href="/" className="flex items-center flex-shrink-0">
           <Image
@@ -27,30 +27,15 @@ export default function Navbar() {
         </Link>
 
         {/* DESKTOP NAVBAR */}
-        <div className="relative hidden lg:flex flex-1">
+        <div className="hidden lg:flex flex-1">
           <nav
-            className={`
-              relative
-              bg-white h-16 lg:h-20 shadow-sm rounded-tl-[90px] lg:rounded-tl-[120px]
-              flex items-center justify-between
-              px-4 sm:px-6 lg:px-8 xl:px-10
-              pr-6 sm:pr-10 lg:pr-12 xl:pr-40
-              max-w-[1200px] w-full ml-auto
-              z-50
-            `}
             onMouseLeave={() => setActiveMenu(null)}
+            className="relative bg-white shadow-sm h-16 lg:h-20 flex items-center justify-between rounded-tl-[90px] lg:rounded-tl-[120px] ml-auto w-full max-w-[1200px] px-6 lg:px-10 xl:px-16 2xl:px-[150px] 3xl:px-[220px] 2xl:rounded-tl-[150px] 3xl:rounded-tl-[180px] z-50"
           >
 
             {/* NAV LINKS */}
-            <ul
-              className={`
-                flex items-center
-                text-xs sm:text-sm font-semibold text-black
-                mr-6 sm:mr-8 lg:mr-14 xl:mr-20
-                sm:pl-10 lg:pl-20 xl:pl-32
-                space-x-4 sm:space-x-8 lg:space-x-10 xl:space-x-14
-              `}
-            >
+            <ul className="flex items-center text-black font-semibold text-xs sm:text-sm md:text-base space-x-4 sm:space-x-8 lg:space-x-12 xl:space-x-16 2xl:space-x-20 3xl:space-x-24 pl-6 sm:pl-12 lg:pl-20 xl:pl-28 2xl:pl-40 3xl:pl-56 mr-6 sm:mr-8 lg:mr-12 xl:mr-16 2xl:mr-20">
+
               <li className="hover:text-[#F272A8]" onMouseEnter={() => setActiveMenu(null)}>
                 <Link href="/home">Home</Link>
               </li>
@@ -59,17 +44,11 @@ export default function Navbar() {
                 <Link href="/about">About</Link>
               </li>
 
-              <li
-                className="hover:text-[#F272A8] cursor-pointer"
-                onMouseEnter={() => setActiveMenu("solutions")}
-              >
+              <li className="hover:text-[#F272A8] cursor-pointer" onMouseEnter={() => setActiveMenu("solutions")}>
                 Solutions
               </li>
 
-              <li
-                className="hover:text-[#F272A8] cursor-pointer"
-                onMouseEnter={() => setActiveMenu("products")}
-              >
+              <li className="hover:text-[#F272A8] cursor-pointer" onMouseEnter={() => setActiveMenu("products")}>
                 Products
               </li>
 
@@ -88,10 +67,10 @@ export default function Navbar() {
 
             {/* DROPDOWN */}
             {activeMenu && (
-              <div className="absolute left-0 top-full w-full bg-white shadow-lg z-40 animate-slideDownSlow">
-                <div className="max-w-[1200px] w-full ml-auto flex py-10 lg:py-14 px-6 sm:px-8 lg:px-10 lg:pr-40">
+              <div className="absolute left-0 top-full w-full bg-white shadow-lg z-40 animate-slideDownSlow px-6 sm:px-10 lg:px-20 xl:px-28 2xl:px-[200px] 3xl:px-[260px]">
+                <div className="w-full flex py-10 lg:py-14 gap-10 lg:gap-20 xl:gap-32">
 
-                  <div className="w-1/2 pl-4 sm:pl-6 lg:pl-10">
+                  <div className="w-1/2">
                     <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold capitalize text-gray-900">
                       {activeMenu}
                     </h3>
@@ -101,43 +80,35 @@ export default function Navbar() {
                     {activeMenu === "solutions" && (
                       <>
                         <p className="font-bold text-gray-700 underline">Solutions</p>
-                        <Link href="/services/cmn" className="hover:text-[#F272A8] block text-gray-500">
-                          CMN Solutions
-                        </Link>
-                        <Link href="/services/airdoot" className="hover:text-[#F272A8] block text-gray-500">
-                          AirDoot
-                        </Link>
+                        <Link href="/services/cmn" className="block text-gray-500 hover:text-[#F272A8]">CMN Solutions</Link>
+                        <Link href="/services/airdoot" className="block text-gray-500 hover:text-[#F272A8]">AirDoot</Link>
                       </>
                     )}
 
                     {activeMenu === "products" && (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3">
-                        <Link href="/products/tools" className="hover:text-[#F272A8] text-gray-500">
-                          Tools & Equipment
-                        </Link>
-                        <Link href="/products/ref-ac" className="hover:text-[#F272A8] text-gray-500">
-                          Refrigerators & Air Conditioners
-                        </Link>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <Link href="/products/tools" className="text-gray-500 hover:text-[#F272A8]">Tools & Equipment</Link>
+                        <Link href="/products/ref-ac" className="text-gray-500 hover:text-[#F272A8]">Refrigerators & Air Conditioners</Link>
                       </div>
                     )}
                   </div>
+
                 </div>
               </div>
             )}
+
           </nav>
         </div>
 
-        {/* MOBILE BUTTON */}
-        <button
-          className="lg:hidden block text-white ml-4"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
+        {/* MOBILE MENU BUTTON */}
+        <button className="lg:hidden block text-white ml-4" onClick={() => setMobileOpen(!mobileOpen)}>
           <div className="space-y-1 transition-all">
             <span className="block w-6 h-0.5 bg-white"></span>
             <span className="block w-6 h-0.5 bg-white"></span>
             <span className="block w-6 h-0.5 bg-white"></span>
           </div>
         </button>
+
       </div>
 
       {/* MOBILE MENU */}
@@ -175,12 +146,13 @@ export default function Navbar() {
             <div className="pt-2">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center bg-[#202020] text-white px-6 py-2 rounded-md text-sm font-semibold shadow-sm hover:bg-gray-900 transition-all"
                 onClick={() => setMobileOpen(false)}
+                className="inline-flex items-center justify-center bg-[#202020] text-white px-6 py-2 rounded-md text-sm font-semibold shadow-sm hover:bg-gray-900 transition-all"
               >
                 CONTACT
               </Link>
             </div>
+
           </div>
         </div>
       )}
@@ -204,17 +176,8 @@ export default function Navbar() {
   );
 }
 
-/* ======================================================
-   REUSABLE MOBILE COMPONENTS WITH TYPES
-   ====================================================== */
-
-interface MobileLinkProps {
-  href: string;
-  label: string;
-  setMobileOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-function MobileLink({ href, label, setMobileOpen }: MobileLinkProps) {
+/* MOBILE LINK COMPONENT */
+function MobileLink({ href, label, setMobileOpen }: any) {
   return (
     <Link
       href={href}
@@ -226,26 +189,8 @@ function MobileLink({ href, label, setMobileOpen }: MobileLinkProps) {
   );
 }
 
-interface DropdownItem {
-  label: string;
-  href: string;
-}
-
-interface MobileDropdownProps {
-  title: string;
-  active: boolean;
-  toggle: () => void;
-  items: DropdownItem[];
-  setMobileOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-function MobileDropdown({
-  title,
-  active,
-  toggle,
-  items,
-  setMobileOpen,
-}: MobileDropdownProps) {
+/* MOBILE DROPDOWN COMPONENT */
+function MobileDropdown({ title, active, toggle, items, setMobileOpen }: any) {
   return (
     <div className="border-t border-gray-200 pt-4">
       <button
@@ -258,12 +203,12 @@ function MobileDropdown({
 
       {active && (
         <div className="mt-3 pl-4 space-y-3 text-sm text-gray-600 animate-dropdownSmooth">
-          {items.map((item) => (
+          {items.map((item: any) => (
             <Link
               key={item.href}
               href={item.href}
-              className="block hover:text-[#F272A8] transition"
               onClick={() => setMobileOpen(false)}
+              className="block hover:text-[#F272A8] transition"
             >
               {item.label}
             </Link>
