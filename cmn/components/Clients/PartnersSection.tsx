@@ -27,6 +27,8 @@ export default function PartnersSection() {
   const [isHeaderInView, setIsHeaderInView] = useState(false);
   const [isCarouselInView, setIsCarouselInView] = useState(false);
   const [isInfoInView, setIsInfoInView] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
   
   const headerRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -111,11 +113,11 @@ export default function PartnersSection() {
     const baseClients = filteredClients;
     
     if (baseClients.length <= 3) {
-      return [...baseClients, ...baseClients, ...baseClients, ...baseClients, ...baseClients];
+      return [...baseClients, ...baseClients, ...baseClients, ...baseClients, ...baseClients, ...baseClients];
     } else if (baseClients.length <= 5) {
-      return [...baseClients, ...baseClients, ...baseClients];
+      return [...baseClients, ...baseClients, ...baseClients, ...baseClients];
     } else {
-      return [...baseClients, ...baseClients];
+      return [...baseClients, ...baseClients, ...baseClients];
     }
   };
 
@@ -125,6 +127,22 @@ export default function PartnersSection() {
   useEffect(() => {
     setAnimationKey(prev => prev + 1);
   }, [activeCategory]);
+
+  // Check screen size for responsive adjustments
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width < 1024);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -168,13 +186,26 @@ export default function PartnersSection() {
     };
   }, []);
 
+  // Calculate animation duration based on screen size and client count
+  const getAnimationDuration = () => {
+    const baseDuration = 30 * (filteredClients.length / clients.length);
+    
+    if (isMobile) {
+      return baseDuration * 0.7; // Faster on mobile
+    } else if (isTablet) {
+      return baseDuration * 0.85; // Slightly faster on tablet
+    }
+    
+    return baseDuration;
+  };
+
   return (
-    <div className="bg-white py-20">
-      <div className="container mx-auto px-10">
+    <div className="bg-white py-12 sm:py-16 lg:py-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div 
           ref={headerRef}
-          className={`text-center mb-16 lg:mx-[1in] transition-all duration-700 ${
+          className={`text-center mb-12 lg:mb-16 transition-all duration-700 ${
             isHeaderInView 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-10'
@@ -183,10 +214,10 @@ export default function PartnersSection() {
           <p className="text-gray-500 text-sm font-medium mb-2 tracking-wider">
             Trusted by Industry Leaders
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
             Clients We've partnered with
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-gray-600 text-sm sm:text-base max-w-4xl mx-auto leading-relaxed px-4 sm:px-0">
             We've had the privilege of collaborating with renowned brands across multiple industries.
             Below is a snapshot of some of the partners who placed their trust in our expertise.
           </p>
@@ -194,7 +225,7 @@ export default function PartnersSection() {
 
         {/* Filter Buttons */}
         <div 
-          className={`flex flex-wrap justify-center gap-4 mb-16 lg:mx-[1in] transition-all duration-700 delay-300 ${
+          className={`flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 mb-12 lg:mb-16 transition-all duration-700 delay-300 ${
             isHeaderInView 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-10'
@@ -204,10 +235,10 @@ export default function PartnersSection() {
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`px-6 py-3 rounded-full font-semibold text-sm transition-all ${
+              className={`px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-full font-semibold text-xs sm:text-sm transition-all ${
                 activeCategory === category.id
-                  ? "bg-black text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  ? "bg-black text-white shadow-lg transform scale-105"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300 hover:shadow-md"
               }`}
             >
               {category.name}
@@ -218,7 +249,7 @@ export default function PartnersSection() {
         {/* Scrolling Clients Carousel */}
         <div 
           ref={carouselRef}
-          className="relative overflow-hidden lg:mx-[1in]"
+          className="relative overflow-hidden"
         >
           <div 
             key={animationKey}
@@ -228,48 +259,60 @@ export default function PartnersSection() {
                 : 'opacity-0 scale-95'
             }`}
             style={{ 
-              animationDuration: `${30 * (filteredClients.length / clients.length)}s`
+              animationDuration: `${getAnimationDuration()}s`
             }}
           >
             {duplicatedClients.map((client, index) => (
               <div
                 key={`${client.id}-${index}-${activeCategory}`}
-                className="flex-shrink-0 px-6 transition-all duration-300 hover:scale-110 cursor-default"
+                className="flex-shrink-0 px-3 sm:px-4 md:px-6 transition-all duration-300 hover:scale-105 cursor-default"
                 style={{ 
-                  minWidth: '200px',
-                  width: '200px'
+                  minWidth: isMobile ? '140px' : isTablet ? '160px' : '200px',
+                  width: isMobile ? '140px' : isTablet ? '160px' : '200px'
                 }}
               >
-                <div className="flex items-center justify-center h-32">
-                  <div className="relative w-full h-24 transition-transform duration-300">
+                <div className="flex items-center justify-center h-20 sm:h-24 md:h-28 lg:h-32">
+                  <div className="relative w-full h-16 sm:h-20 md:h-24 transition-transform duration-300">
                     <Image
                       src={client.logo}
                       alt={client.name}
                       fill
-                      className="object-contain transition-all duration-300"
-                      sizes="200px"
+                      className="object-contain transition-all duration-300 hover:filter hover:brightness-110"
+                      sizes="(max-width: 640px) 140px, (max-width: 1024px) 160px, 200px"
+                      priority={index < 6} // Prioritize loading first few images
                     />
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Gradient overlays for better scrolling experience */}
+          <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-12 md:w-16 lg:w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-12 md:w-16 lg:w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
         </div>
 
         {/* Category info */}
         <div 
           ref={infoRef}
-          className={`text-center mt-8 text-sm text-gray-500 transition-all duration-700 delay-700 ${
+          className={`text-center mt-6 sm:mt-8 text-xs sm:text-sm text-gray-500 transition-all duration-700 delay-700 ${
             isInfoInView 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-10'
           }`}
         >
           {activeCategory === "all" 
-            ? "Showing all 10 clients" 
+            ? `Showing all ${clients.length} clients` 
             : `Showing ${filteredClients.length} clients in ${categories.find(c => c.id === activeCategory)?.name} category`
           }
         </div>
+
+        {/* Mobile touch instructions */}
+        {isMobile && (
+          <div className="text-center mt-4 text-xs text-gray-400">
+            Touch and hold to pause scroll
+          </div>
+        )}
       </div>
       
       <style jsx>{`
@@ -291,10 +334,36 @@ export default function PartnersSection() {
         .scroll-pause:hover {
           animation-play-state: paused;
         }
-        
+
+        /* Mobile touch support */
         @media (max-width: 768px) {
           .animate-scroll {
-            animation-duration: ${20 * (filteredClients.length / clients.length)}s !important;
+            animation-play-state: running;
+          }
+          
+          .animate-scroll:active {
+            animation-play-state: paused;
+          }
+        }
+        
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+          .animate-scroll {
+            animation: none;
+          }
+        }
+
+        /* Large desktop screens */
+        @media (min-width: 1536px) {
+          .container {
+            max-width: 1280px;
+          }
+        }
+
+        /* Extra large screens */
+        @media (min-width: 1920px) {
+          .container {
+            max-width: 1536px;
           }
         }
       `}</style>
