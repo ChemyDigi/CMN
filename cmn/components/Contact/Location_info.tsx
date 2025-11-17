@@ -68,7 +68,7 @@ export const Location_info = (): ReactElement => {
 
   return (
     <div className="py-8">
-      <div className="max-w-4xl">
+      <div className="max-w-6xl mx-auto">
         <div className="space-y-16">
           {offices.map((office: OfficeInfo, officeIndex: number) => (
             <div key={office.country}>
@@ -87,7 +87,7 @@ export const Location_info = (): ReactElement => {
                 >
                   {office.country}
                 </motion.h3>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {/* Left Column - Company name and address */}
                   <div className="space-y-4">
                     <motion.div

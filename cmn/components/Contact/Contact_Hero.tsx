@@ -23,11 +23,11 @@ export const Contact_Hero = (): ReactElement => {
         </div>
       </motion.div>
 
-      {/* Hero Content */}
-      <div className="relative z-10 flex h-screen items-center">
+      {/* Hero Content - Centered on mobile, fixed to avoid navbar push */}
+      <div className="relative z-10 flex h-screen items-center justify-center lg:justify-start">
         <div className="container mx-auto px-6">
-          <div className="pl-8 md:pl-16 lg:pl-24">
-            <div className="max-w-2xl">
+          <div className="text-center lg:text-left lg:pl-8 xl:pl-16">
+            <div className="max-w-2xl mx-auto lg:mx-0">
               {/* Main Heading */}
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
@@ -55,7 +55,7 @@ export const Contact_Hero = (): ReactElement => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.2, delay: 0.9 }}
-                className="text-base md:text-md text-white/90 leading-relaxed max-w-lg"
+                className="text-base md:text-md text-white/90 leading-relaxed max-w-lg mx-auto lg:mx-0"
               >
                 Managing risk across complex aviation supply networks is challenging but CMN Distributors makes it seamless, reliable, and future-ready. Our intelligent distribution platform gives you real time visibility and control over every stage of your supply chain.
               </motion.p>
@@ -65,7 +65,7 @@ export const Contact_Hero = (): ReactElement => {
                 initial={{ width: 0, opacity: 0 }}
                 animate={{ width: "520px", opacity: 1 }}
                 transition={{ duration: 2, delay: 1.2 }}
-                className="mt-6 h-[2px] bg-[#F272A8] rounded"
+                className="mt-6 h-[2px] bg-[#F272A8] rounded mx-auto lg:mx-0"
               />
             </div>
           </div>
