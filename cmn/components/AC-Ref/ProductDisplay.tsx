@@ -40,7 +40,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
   return (
     <div className="bg-white w-full min-h-screen text-gray-900">
       {/* Back to Catalog */}
-      <div className="flex items-center gap-2 pt-8 pl-10">
+      <div className="flex items-center gap-2 pt-6 md:pt-8 px-4 sm:px-6 lg:pl-10">
         <Link
           href="/products/ref-ac"
           className="flex items-center text-gray-700 hover:text-black transition-colors"
@@ -53,14 +53,14 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
       </div>
 
       {/* Product Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 px-10 lg:px-20 py-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-20 px-4 sm:px-6 lg:px-8 xl:px-20 py-6 sm:py-8 lg:py-12 items-start">
         {/* Left: Product Images */}
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center w-full">
           {/* Main Image with Zoom */}
           <div className="w-full flex justify-center relative">
             <div
               ref={imageRef}
-              className="relative w-full max-w-[500px] cursor-zoom-in overflow-hidden"
+              className="relative w-full max-w-[400px] sm:max-w-[500px] cursor-zoom-in overflow-hidden"
               onMouseMove={handleMouseMove}
               onMouseEnter={() => setIsZoomed(true)}
               onMouseLeave={() => setIsZoomed(false)}
@@ -91,7 +91,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
 
           {/* Sub Images */}
           {product.subImages && product.subImages.length > 1 && (
-            <div className="flex justify-center gap-6 mt-6">
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 mt-4 sm:mt-6">
               {product.subImages.map((img, i) => (
                 <button
                   key={i}
@@ -107,7 +107,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
                     alt={`${product.productName} ${i + 1}`}
                     width={100}
                     height={100}
-                    className="object-contain w-[100px] h-[100px]"
+                    className="object-contain w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] md:w-[100px] md:h-[100px]"
                   />
                 </button>
               ))}
@@ -116,9 +116,9 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
         </div>
 
         {/* Right: Product Details */}
-        <div className="w-full max-w-xl">
+        <div className="w-full max-w-full lg:max-w-xl px-2 sm:px-0">
           <p className="text-sm text-gray-500">{product.brand}</p>
-          <h1 className="text-3xl font-extrabold text-gray-900 mt-1 leading-snug">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-1 leading-snug">
             {product.productName}
           </h1>
 
@@ -134,7 +134,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
           </p>
 
           {/* Description */}
-          <div className="mt-8">
+          <div className="mt-6 sm:mt-8">
             <h2 className="text-lg font-semibold mb-2">Description</h2>
             <p className="text-gray-700 leading-relaxed text-[15px]">
               {product.description}
@@ -142,7 +142,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
           </div>
 
           {/* Specifications */}
-          <div className="mt-10">
+          <div className="mt-8 sm:mt-10">
             <h2 className="text-lg font-semibold mb-4">Specifications</h2>
             <div className="grid grid-cols-2 gap-y-2 text-[15px]">
               <p className="text-gray-600 font-medium">Brand</p>
