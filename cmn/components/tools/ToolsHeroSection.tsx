@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[80vh] flex items-center overflow-hidden">
+    <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[75vh] lg:h-[80vh] flex items-center overflow-hidden">
 
       {/* Background Image */}
       <motion.div
@@ -25,16 +25,18 @@ export default function HeroSection() {
       {/* CONTENT */}
       <div
         className="
-          relative z-10 text-white max-w-4xl
+          relative z-10 text-white max-w-4xl w-full
 
-          pl-0                  /* Mobile */
-          sm:pl-0               /* Small tablets */
-          md:pl-0               /* Tablets */
-          lg:pl-[230px]         /* Desktop ONLY — ORIGINAL */
+          /* Mobile & Tablet: Center aligned */
+          px-4 xs:px-6 sm:px-8 md:px-12
+          mx-auto
+          text-center
 
-          px-6 md:px-10
-          mx-auto lg:mx-0
-          text-center lg:text-left
+          /* Desktop: Left aligned with original padding */
+          lg:pl-[180px] xl:pl-[230px]
+          lg:mx-0
+          lg:text-left
+          lg:px-0
         "
       >
         {/* SMALL HEADING */}
@@ -42,7 +44,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.3 }}
-          className="text-sm mb-2 opacity-80"
+          className="text-xs sm:text-sm md:text-base mb-2 sm:mb-3 opacity-80"
         >
           Tools and Equipment
         </motion.p>
@@ -52,9 +54,9 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.5 }}
-          className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-4"
+          className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-bold leading-tight mb-3 sm:mb-4 md:mb-5"
         >
-          Tools that Move <br />
+          Tools that Move <br className="hidden xs:block" />
           Industries Forward
         </motion.h1>
 
@@ -64,8 +66,12 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.8 }}
           className="
-            text-base md:text-lg max-w-xl text-gray-200
-            mx-auto lg:mx-0
+            text-sm xs:text-base sm:text-lg md:text-lg
+            max-w-xs xs:max-w-sm sm:max-w-md md:max-w-xl
+            text-gray-200
+            mx-auto
+            lg:mx-0
+            mb-4 sm:mb-5
           "
         >
           From heavy duty equipment to everyday essentials, we provide
@@ -74,23 +80,37 @@ export default function HeroSection() {
           precision, and performance you can depend on, every day.
         </motion.p>
 
-        {/* UNDERLINE */}
+        {/* DESKTOP UNDERLINE (Original) */}
         <motion.div
           initial={{ width: 0, opacity: 0 }}
-          animate={{ width: "520px", opacity: 1 }}
+          animate={{ width: "320px", opacity: 1 }}
           transition={{ duration: 2, delay: 1 }}
           className="
-            mt-6 h-[2px] bg-[#F272A8] rounded
-            hidden lg:block                 /* Desktop ONLY */
+            mt-4 md:mt-6 h-[2px] bg-[#F272A8] rounded
+            hidden lg:block
           "
         />
 
-        {/* MOBILE UNDERLINE (CENTERED, SMALLER) */}
+        {/* TABLET UNDERLINE (Medium screens) */}
+        <motion.div
+          initial={{ width: 0, opacity: 0 }}
+          animate={{ width: "200px", opacity: 1 }}
+          transition={{ duration: 1.8, delay: 1 }}
+          className="
+            mt-4 md:mt-6 h-[2px] bg-[#F272A8] rounded
+            hidden md:block lg:hidden mx-auto
+          "
+        />
+
+        {/* MOBILE UNDERLINE (Small screens) */}
         <motion.div
           initial={{ width: 0, opacity: 0 }}
           animate={{ width: "120px", opacity: 1 }}
           transition={{ duration: 1.8, delay: 1 }}
-          className="mt-6 h-[2px] bg-[#F272A8] rounded mx-auto lg:hidden"
+          className="
+            mt-4 h-[2px] bg-[#F272A8] rounded 
+            block md:hidden mx-auto
+          "
         />
       </div>
     </section>
