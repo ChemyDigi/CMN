@@ -22,6 +22,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
   const [mainImage, setMainImage] = useState(product.images[0]);
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const [activeTab, setActiveTab] = useState('description');
   const imageRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -32,6 +33,41 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
     const y = ((e.clientY - top) / height) * 100;
 
     setZoomPosition({ x, y });
+  };
+
+  // Tab content configuration
+  const tabContent = {
+    description: (
+      <div className="space-y-4">
+        <p className="text-gray-700 leading-relaxed text-[15px]">
+          {product.description}
+        </p>
+      </div>
+    ),
+    specifications: (
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-y-3 text-[15px]">
+          <p className="text-gray-600 font-medium">Brand</p>
+          <p className="text-gray-900 font-semibold">{product.brand}</p>
+
+          <p className="text-gray-600 font-medium">Warranty</p>
+          <p className="text-gray-900 font-semibold">{product.warranty}</p>
+
+          <p className="text-gray-600 font-medium">Material</p>
+          <p className="text-gray-900 font-semibold">{product.material}</p>
+
+          <p className="text-gray-600 font-medium">Finish</p>
+          <p className="text-gray-900 font-semibold">{product.finish}</p>
+        </div>
+      </div>
+    ),
+    warranty: (
+      <div className="space-y-4">
+        <p className="text-gray-700 leading-relaxed text-[15px]">
+          {product.warranty} - Full terms and conditions apply. Please contact customer service for warranty claims.
+        </p>
+      </div>
+    )
   };
 
   return (
@@ -131,34 +167,35 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
             {product.availability === "in-stock" ? "In Stock" : "Out of Stock"}
           </p>
 
-          {/* Description */}
+          {/* Tabs Section */}
           <div className="mt-6">
-            <h2 className="text-lg font-semibold mb-2">Description</h2>
-            <p className="text-gray-700 leading-relaxed text-[15px]">
-              {product.description}
-            </p>
-          </div>
+            {/* Tab Headers */}
+            <div className="flex border-b border-gray-200 overflow-x-auto">
+              {[
+                { id: 'description', label: 'Description' },
+                { id: 'specifications', label: 'Specifications' },
+                { id: 'warranty', label: 'Warranty' }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex-shrink-0 px-4 py-3 font-medium text-sm transition-colors duration-200 ${
+                    activeTab === tab.id
+                      ? 'text-black border-b-2 border-black'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
 
-          {/* Specifications */}
-          <div className="mt-4">
-            <h2 className="text-lg font-semibold mb-3">Specifications</h2>
-
-            <div className="grid grid-cols-2 gap-y-3 text-[15px]">
-              <p className="text-gray-600 font-medium">Brand</p>
-              <p className="text-gray-900 font-semibold">{product.brand}</p>
-
-              <p className="text-gray-600 font-medium">Warranty</p>
-              <p className="text-gray-900 font-semibold">{product.warranty}</p>
-
-              <p className="text-gray-600 font-medium">Material</p>
-              <p className="text-gray-900 font-semibold">{product.material}</p>
-
-              <p className="text-gray-600 font-medium">Finish</p>
-              <p className="text-gray-900 font-semibold">{product.finish}</p>
+            {/* Tab Content */}
+            <div className="py-4 min-h-[200px]">
+              {tabContent[activeTab as keyof typeof tabContent]}
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );
