@@ -13,7 +13,7 @@ interface ProductDisplayProps {
     warranty: string;
     material: string;
     finish: string;
-    availability: string; // "in-stock" | "out-of-stock"
+    availability: string;
     images: string[];
   };
 }
@@ -30,45 +30,38 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
     const { left, top, width, height } = imageRef.current.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
-    
+
     setZoomPosition({ x, y });
   };
 
-  const handleMouseEnter = () => {
-    setIsZoomed(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsZoomed(false);
-  };
-
   return (
-    <div className="bg-white w-full min-h-screen text-gray-900">
-      {/* Back to Catalog */}
-      <div className="flex items-center gap-2 pt-8 pl-10">
+    <div className="bg-white w-full text-gray-900">
+      {/* Back Button */}
+      <div className="flex items-center gap-2 pt-6 px-4 sm:px-6 lg:px-10">
         <Link
           href="/products/tools"
           className="flex items-center text-gray-700 hover:text-black transition-colors"
         >
           <div className="flex items-center justify-center w-8 h-8 rounded-full border-2 border-black mr-2">
-            <ArrowLeft size={16} className="text-black" />
+            <ArrowLeft size={16} />
           </div>
           <span className="text-sm font-medium">Back to catalog</span>
         </Link>
       </div>
 
       {/* Product Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 px-10 lg:px-20 pb-12 pt-8 items-start">
-        {/* Left: Product Images */}
-        <div className="flex flex-col items-center">
-          {/* Main Image with Zoom */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 px-4 sm:px-6 lg:px-20 pb-16 pt-8 items-start">
+        
+        {/* Left Section – Images */}
+        <div className="flex flex-col items-center w-full">
+          {/* Main Image */}
           <div className="w-full flex justify-center relative">
             <div
               ref={imageRef}
-              className="relative w-full max-w-[500px] cursor-zoom-in overflow-hidden"
+              className="relative w-full max-w-[450px] sm:max-w-[500px] cursor-zoom-in overflow-hidden rounded-md"
               onMouseMove={handleMouseMove}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
+              onMouseEnter={() => setIsZoomed(true)}
+              onMouseLeave={() => setIsZoomed(false)}
             >
               <Image
                 src={mainImage}
@@ -78,16 +71,15 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
                 className="object-contain w-full h-auto transition-transform duration-200"
                 priority
               />
-              
-              {/* Zoomed overlay */}
+
+              {/* Zoom */}
               {isZoomed && (
                 <div
-                  className="absolute inset-0 bg-no-repeat bg-origin-padding"
+                  className="absolute inset-0 bg-no-repeat"
                   style={{
                     backgroundImage: `url(${mainImage})`,
-                    backgroundSize: '200%',
+                    backgroundSize: "200%",
                     backgroundPosition: `${zoomPosition.x}% ${zoomPosition.y}%`,
-                    transform: 'scale(1.1)',
                   }}
                 />
               )}
@@ -96,21 +88,23 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
 
           {/* Thumbnails */}
           {product.images.length > 1 && (
-            <div className="flex justify-center gap-8 mt-6">
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-6 px-2">
               {product.images.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setMainImage(img)}
                   className={`transition-all duration-200 ${
-                    mainImage === img ? "opacity-100" : "opacity-70 hover:opacity-100"
+                    mainImage === img
+                      ? "opacity-100"
+                      : "opacity-70 hover:opacity-100"
                   }`}
                 >
                   <Image
                     src={img}
                     alt={`${product.name} ${i + 1}`}
-                    width={100}
-                    height={100}
-                    className="object-contain w-[100px] h-[100px]"
+                    width={85}
+                    height={85}
+                    className="object-contain w-[75px] h-[75px] sm:w-[95px] sm:h-[95px] rounded-md border"
                   />
                 </button>
               ))}
@@ -118,16 +112,17 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
           )}
         </div>
 
-        {/* Right: Product Details */}
-        <div className="w-full max-w-xl">
+        {/* Right Section – Details */}
+        <div className="w-full max-w-xl space-y-6">
           <p className="text-sm text-gray-500">{product.brand}</p>
-          <h1 className="text-3xl font-extrabold text-gray-900 mt-1 leading-snug">
+
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-snug">
             {product.name}
           </h1>
 
           {/* Stock Badge */}
           <p
-            className={`mt-3 inline-block px-3 py-1 rounded-full text-sm font-semibold ${
+            className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
               product.availability === "in-stock"
                 ? "bg-green-100 text-green-700"
                 : "bg-red-100 text-red-600"
@@ -137,7 +132,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
           </p>
 
           {/* Description */}
-          <div className="mt-8">
+          <div className="mt-6">
             <h2 className="text-lg font-semibold mb-2">Description</h2>
             <p className="text-gray-700 leading-relaxed text-[15px]">
               {product.description}
@@ -145,9 +140,10 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
           </div>
 
           {/* Specifications */}
-          <div className="mt-10">
-            <h2 className="text-lg font-semibold mb-4">Specifications</h2>
-            <div className="grid grid-cols-2 gap-y-2 text-[15px]">
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold mb-3">Specifications</h2>
+
+            <div className="grid grid-cols-2 gap-y-3 text-[15px]">
               <p className="text-gray-600 font-medium">Brand</p>
               <p className="text-gray-900 font-semibold">{product.brand}</p>
 
@@ -162,6 +158,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );

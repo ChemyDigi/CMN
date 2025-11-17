@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { collection, getDocs } from "firebase/firestore";
@@ -10,190 +10,214 @@ interface Product {
   id: string;
   brand: string;
   productName: string;
-  availability: string;
-  description: string;
-  warranty: string;
-  material: string;
-  finish: string;
+  availability?: string;
+  description?: string;
+  warranty?: string;
+  material?: string;
+  finish?: string;
   mainImage: string;
-  subImages: string[];
-  reviews: Review[];
+  subImages?: string[];
+  reviews?: { rating: number }[];
   category?: string;
   price?: number;
-  specifications?: Record<string, string>;
-}
-
-interface Review {
-  customerName: string;
-  email: string;
-  reviewDescription: string;
-  rating: number;
 }
 
 export default function SimilarProducts() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const [itemsPerView, setItemsPerView] = useState(4);
+  const [currentPage, setCurrentPage] = useState(0);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
   const router = useRouter();
 
+  // determine items per view responsively
+  useEffect(() => {
+    const updateItems = () => {
+      const w = window.innerWidth;
+      if (w < 640) setItemsPerView(1);
+      else if (w < 900) setItemsPerView(2);
+      else if (w < 1200) setItemsPerView(3);
+      else setItemsPerView(4);
+    };
+    updateItems();
+    window.addEventListener("resize", updateItems);
+    return () => window.removeEventListener("resize", updateItems);
+  }, []);
+
+  // fetch products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "products"));
-        const productList = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Product[];
-        setProducts(productList);
-      } catch (error) {
-        console.error("Error fetching products:", error);
+        const snap = await getDocs(collection(db, "products"));
+        const list = snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) })) as Product[];
+        setProducts(list);
+      } catch (err) {
+        console.error("fetch products error", err);
       }
     };
     fetchProducts();
   }, []);
 
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? Math.ceil(products.length / 4) - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev === Math.ceil(products.length / 4) - 1 ? 0 : prev + 1));
-  };
-
-  const scrollTo = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  const handleProductClick = (productId: string) => {
-    router.push(`/products/tools/${productId}`);
-  };
-
-  // Get the current products to display (4 at a time)
-  const getCurrentProducts = () => {
-    if (products.length === 0) return [];
-    
-    const startIndex = currentIndex * 4;
-    const displayedProducts = [];
-    
-    for (let i = 0; i < 4; i++) {
-      const index = (startIndex + i) % products.length;
-      displayedProducts.push(products[index]);
-    }
-    return displayedProducts;
-  };
-
-  const currentProducts = getCurrentProducts();
-  const totalPages = Math.ceil(products.length / 4);
-
-  if (products.length === 0) {
-    return null;
+  // regroup pages whenever products or itemsPerView change
+  const pages: Product[][] = [];
+  for (let i = 0; i < products.length; i += itemsPerView) {
+    pages.push(products.slice(i, i + itemsPerView));
   }
+  const totalPages = Math.max(1, pages.length);
+
+  // ensure currentPage stays in range when itemsPerView changes
+  useEffect(() => {
+    if (currentPage >= totalPages) setCurrentPage(totalPages - 1);
+  }, [totalPages, currentPage]);
+
+  // touch handlers for swipe by page
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchEndX.current = null;
+  };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = () => {
+    if (touchStartX.current == null || touchEndX.current == null) return;
+    const diff = touchStartX.current - touchEndX.current;
+    const THRESHOLD = 50;
+    if (diff > THRESHOLD) handleNext();
+    else if (diff < -THRESHOLD) handlePrev();
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  // mouse drag support (optional)
+  const dragStartX = useRef<number | null>(null);
+  const handleMouseDown = (e: React.MouseEvent) => {
+    dragStartX.current = e.clientX;
+    (carouselRef.current as HTMLDivElement).style.cursor = "grabbing";
+  };
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (dragStartX.current == null) return;
+    // We won't implement drag-as-dragging-UI; just capture end position on mouseup
+    // (simple behavior to allow desktop swipe-like action)
+  };
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (dragStartX.current == null) return;
+    const diff = dragStartX.current - e.clientX;
+    const THRESHOLD = 50;
+    if (diff > THRESHOLD) handleNext();
+    else if (diff < -THRESHOLD) handlePrev();
+    dragStartX.current = null;
+    if (carouselRef.current) (carouselRef.current as HTMLDivElement).style.cursor = "grab";
+  };
+  const handleMouseLeave = () => {
+    dragStartX.current = null;
+    if (carouselRef.current) (carouselRef.current as HTMLDivElement).style.cursor = "grab";
+  };
+
+  const handlePrev = () => setCurrentPage((p) => (p === 0 ? totalPages - 1 : p - 1));
+  const handleNext = () => setCurrentPage((p) => (p === totalPages - 1 ? 0 : p + 1));
+
+  if (products.length === 0) return null;
 
   return (
-    <section className="w-full bg-white pb-12 pt-4 flex flex-col items-center">
-      <h2 className="text-3xl font-bold text-black mb-8">
-        Explore <span className="ml-2">Similar Products</span>
-      </h2>
+    <section className="w-full bg-white py-10 flex flex-col items-center">
+      <h2 className="text-2xl sm:text-3xl font-bold text-black mb-6">Explore <span className="ml-2">Similar Products</span></h2>
 
-      <div className="relative w-full max-w-7xl px-12">
-        {/* Products Container - Grid layout for consistent 4-card display */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-          {/* Left Arrow - Positioned inside the container */}
-          {products.length > 4 && (
-            <button
-              onClick={handlePrev}
-              className="absolute -left-10 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center hover:scale-110 transition-transform z-10"
-              aria-label="Previous slide"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="black"
+      <div className="relative w-full max-w-7xl px-4 sm:px-8">
+        {/* Carousel viewport */}
+        <div
+          ref={carouselRef}
+          className="overflow-hidden rounded-lg"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+          style={{ cursor: "grab" }}
+        >
+          {/* Pages row — each page is 100% of viewport width */}
+          <div
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{
+              width: `${totalPages * 100}%`,
+              transform: `translateX(-${currentPage * (100 / totalPages)}%)`,
+            }}
+          >
+            {pages.map((page, pageIndex) => (
+              <div
+                key={pageIndex}
+                className="flex gap-4 p-3"
+                style={{ width: `${100 / totalPages}%`, justifyContent: "center" }}
               >
-                <path d="M15 18L9 12L15 6L15 18Z" />
-              </svg>
-            </button>
-          )}
+                {page.map((product) => (
+                  <div
+                    key={product.id}
+                    className="bg-white rounded-xl shadow-md hover:shadow-lg transition-transform duration-300 cursor-pointer flex-shrink-0"
+                    style={{ width: `${100 / itemsPerView}%`, maxWidth: "320px", display: "flex", flexDirection: "column" }}
+                    onClick={() => router.push(`/products/tools/${product.id}`)}
+                  >
+                    <div className="relative w-full h-44 rounded-t-lg overflow-hidden">
+                      <Image
+                        src={product.mainImage}
+                        alt={product.productName}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        className="object-cover"
+                      />
+                    </div>
 
-          {currentProducts.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-1 flex flex-col h-full"
-              onClick={() => handleProductClick(product.id)}
-            >
-              {/* Image Container - Smaller */}
-              <div className="relative w-full h-48 rounded-t-lg overflow-hidden">
-                <Image
-                  src={product.mainImage}
-                  alt={product.productName}
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-300"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
-              </div>
-
-              {/* Product Details - Compact */}
-              <div className="p-4 space-y-2 flex-1 flex flex-col">
-                {/* Brand */}
-                <p className="text-gray-600 text-xs font-medium uppercase tracking-wide">
-                  {product.brand}
-                </p>
-
-                {/* Product Name */}
-                <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-2">
-                  {product.productName}
-                </h3>
-
-                {/* Review Count */}
-                {product.reviews && product.reviews.length > 0 && (
-                  <div className="flex items-center mt-1">
-                    <span className="text-xs text-gray-500">
-                      {product.reviews.length} review{product.reviews.length !== 1 ? 's' : ''}
-                    </span>
+                    <div className="p-3 flex flex-col flex-1 justify-between">
+                      <div>
+                        <p className="text-gray-600 text-xs font-medium uppercase tracking-wide">{product.brand}</p>
+                        <h3 className="font-semibold text-gray-900 text-sm leading-tight mt-1 line-clamp-2">{product.productName}</h3>
+                      </div>
+                      {product.reviews && product.reviews.length > 0 && (
+                        <div className="text-xs text-gray-500 mt-2">{product.reviews.length} review{product.reviews.length !== 1 ? "s" : ""}</div>
+                      )}
+                    </div>
                   </div>
-                )}
+                ))}
               </div>
-            </div>
-          ))}
-
-          {/* Right Arrow - Positioned inside the container */}
-          {products.length > 4 && (
-            <button
-              onClick={handleNext}
-              className="absolute -right-10 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center hover:scale-110 transition-transform z-10"
-              aria-label="Next slide"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="black"
-              >
-                <path d="M9 18L15 12L9 6L9 18Z" />
-              </svg>
-            </button>
-          )}
-        </div>
-
-        {/* Dots Navigation */}
-        {products.length > 4 && (
-          <div className="flex justify-center mt-8 gap-2">
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => scrollTo(index)}
-                className={`h-2 rounded-full transition-all ${
-                  currentIndex === index
-                    ? "w-6 bg-gray-900"
-                    : "w-2 bg-gray-300 hover:bg-gray-400"
-                }`}
-                aria-label={`Go to page ${index + 1}`}
-              />
             ))}
           </div>
-        )}
+        </div>
+
+        {/* Arrows */}
+        {totalPages > 1 && (
+  <>
+    <button
+      onClick={handlePrev}
+      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black text-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 transition"
+      aria-label="Previous page"
+      title="Previous"
+    >
+      <span className="text-white text-xl select-none">‹</span>
+    </button>
+
+    <button
+      onClick={handleNext}
+      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black text-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 transition"
+      aria-label="Next page"
+      title="Next"
+    >
+      <span className="text-white text-xl select-none">›</span>
+    </button>
+  </>
+)}
+
+        {/* Dots */}
+        <div className="flex justify-center mt-4 gap-2">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i)}
+              className={`h-2 rounded-full transition-all ${currentPage === i ? "w-6 bg-gray-900" : "w-2 bg-gray-300 hover:bg-gray-400"}`}
+              aria-label={`Go to page ${i + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

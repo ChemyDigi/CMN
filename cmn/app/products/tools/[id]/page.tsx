@@ -5,7 +5,8 @@ import Link from "next/link";
 import ProductDisplay from "@/components/Tools/ProductDisplay";
 import ProductReviews from "@/components/Tools/ReviewSection";
 import SimilarProducts from "@/components/Tools/SimilarProducts";
-
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 interface PageProps {
   params: Promise<{ id: string }>;
 }
@@ -50,10 +51,12 @@ const ProductPage = async ({ params }: PageProps) => {
 
   return (
     <div className="w-full bg-white">
+      <Navbar />
       <ProductDisplay product={product} />
       {/* ✅ Pass productId for adding new reviews + existing reviews */}
       <ProductReviews productId={id} reviews={reviews} />
       <SimilarProducts />
+      <Footer />
     </div>
   );
 };
