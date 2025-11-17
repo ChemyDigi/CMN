@@ -35,9 +35,10 @@ export default function SimilarProducts() {
   useEffect(() => {
     const updateItems = () => {
       const w = window.innerWidth;
-      if (w < 640) setItemsPerView(1);
-      else if (w < 900) setItemsPerView(2);
-      else if (w < 1200) setItemsPerView(3);
+      if (w < 480) setItemsPerView(1);
+      else if (w < 640) setItemsPerView(1);
+      else if (w < 768) setItemsPerView(2);
+      else if (w < 1024) setItemsPerView(3);
       else setItemsPerView(4);
     };
     updateItems();
@@ -120,10 +121,12 @@ export default function SimilarProducts() {
   if (products.length === 0) return null;
 
   return (
-    <section className="w-full bg-white py-10 flex flex-col items-center">
-      <h2 className="text-2xl sm:text-3xl font-bold text-black mb-6">Explore <span className="ml-2">Similar Products</span></h2>
+    <section className="w-full bg-white py-6 sm:py-8 md:py-10 flex flex-col items-center">
+      <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-black mb-4 sm:mb-5 md:mb-6 text-center px-4">
+        Explore <span className="ml-1 sm:ml-2">Similar Products</span>
+      </h2>
 
-      <div className="relative w-full max-w-7xl px-4 sm:px-8">
+      <div className="relative w-full max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8">
         {/* Carousel viewport */}
         <div
           ref={carouselRef}
@@ -148,33 +151,35 @@ export default function SimilarProducts() {
             {pages.map((page, pageIndex) => (
               <div
                 key={pageIndex}
-                className="flex gap-4 p-3"
+                className="flex gap-2 sm:gap-3 md:gap-4 p-2 sm:p-3"
                 style={{ width: `${100 / totalPages}%`, justifyContent: "center" }}
               >
                 {page.map((product) => (
                   <div
                     key={product.id}
-                    className="bg-white rounded-xl shadow-md hover:shadow-lg transition-transform duration-300 cursor-pointer flex-shrink-0"
-                    style={{ width: `${100 / itemsPerView}%`, maxWidth: "320px", display: "flex", flexDirection: "column" }}
+                    className="bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-lg transition-transform duration-300 cursor-pointer flex-shrink-0"
+                    style={{ width: `${100 / itemsPerView}%`, maxWidth: "280px", display: "flex", flexDirection: "column" }}
                     onClick={() => router.push(`/products/tools/${product.id}`)}
                   >
-                    <div className="relative w-full h-44 rounded-t-lg overflow-hidden">
+                    <div className="relative w-full h-32 sm:h-36 md:h-40 lg:h-44 rounded-t-lg sm:rounded-t-xl overflow-hidden">
                       <Image
                         src={product.mainImage}
                         alt={product.productName}
                         fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        sizes="(max-width: 480px) 100vw, (max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         className="object-cover"
                       />
                     </div>
 
-                    <div className="p-3 flex flex-col flex-1 justify-between">
+                    <div className="p-2 sm:p-3 flex flex-col flex-1 justify-between">
                       <div>
                         <p className="text-gray-600 text-xs font-medium uppercase tracking-wide">{product.brand}</p>
-                        <h3 className="font-semibold text-gray-900 text-sm leading-tight mt-1 line-clamp-2">{product.productName}</h3>
+                        <h3 className="font-semibold text-gray-900 text-xs sm:text-sm leading-tight mt-1 line-clamp-2 min-h-[2.5rem] sm:min-h-[3rem]">
+                          {product.productName}
+                        </h3>
                       </div>
                       {product.reviews && product.reviews.length > 0 && (
-                        <div className="text-xs text-gray-500 mt-2">{product.reviews.length} review{product.reviews.length !== 1 ? "s" : ""}</div>
+                        <div className="text-xs text-gray-500 mt-1 sm:mt-2">{product.reviews.length} review{product.reviews.length !== 1 ? "s" : ""}</div>
                       )}
                     </div>
                   </div>
@@ -186,34 +191,38 @@ export default function SimilarProducts() {
 
         {/* Arrows */}
         {totalPages > 1 && (
-  <>
-    <button
-      onClick={handlePrev}
-      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black text-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 transition"
-      aria-label="Previous page"
-      title="Previous"
-    >
-      <span className="text-white text-xl select-none">‹</span>
-    </button>
+          <>
+            <button
+              onClick={handlePrev}
+              className="absolute -left-2 sm:-left-3 md:left-2 top-1/2 -translate-y-1/2 bg-black text-white shadow-lg rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center hover:scale-105 transition"
+              aria-label="Previous page"
+              title="Previous"
+            >
+              <span className="text-white text-lg sm:text-xl select-none">‹</span>
+            </button>
 
-    <button
-      onClick={handleNext}
-      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black text-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 transition"
-      aria-label="Next page"
-      title="Next"
-    >
-      <span className="text-white text-xl select-none">›</span>
-    </button>
-  </>
-)}
+            <button
+              onClick={handleNext}
+              className="absolute -right-2 sm:-right-3 md:right-2 top-1/2 -translate-y-1/2 bg-black text-white shadow-lg rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center hover:scale-105 transition"
+              aria-label="Next page"
+              title="Next"
+            >
+              <span className="text-white text-lg sm:text-xl select-none">›</span>
+            </button>
+          </>
+        )}
 
         {/* Dots */}
-        <div className="flex justify-center mt-4 gap-2">
+        <div className="flex justify-center mt-3 sm:mt-4 gap-1.5 sm:gap-2">
           {Array.from({ length: totalPages }).map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrentPage(i)}
-              className={`h-2 rounded-full transition-all ${currentPage === i ? "w-6 bg-gray-900" : "w-2 bg-gray-300 hover:bg-gray-400"}`}
+              className={`h-1.5 sm:h-2 rounded-full transition-all ${
+                currentPage === i 
+                  ? "w-4 sm:w-6 bg-gray-900" 
+                  : "w-1.5 sm:w-2 bg-gray-300 hover:bg-gray-400"
+              }`}
               aria-label={`Go to page ${i + 1}`}
             />
           ))}
