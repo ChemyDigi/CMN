@@ -36,8 +36,8 @@ export const Contact_Form = (): ReactElement => {
   // Static render for SSR (no animations)
   if (!isMounted) {
     return (
-      <div className="w-full">
-        <div className="bg-white p-8 shadow-2xl rounded-lg">
+      <div className="w-full max-w-md mx-auto md:max-w-lg lg:max-w-md">
+        <div className="bg-white p-6 md:p-8 shadow-2xl rounded-lg">
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
             Request Contact
           </h2>
@@ -108,9 +108,9 @@ export const Contact_Form = (): ReactElement => {
         ease: "easeOut",
       }}
       viewport={{ once: true, amount: 0.3 }}
-      className="w-full"
+      className="w-full max-w-md mx-auto md:max-w-lg lg:max-w-md"
     >
-      <div className="bg-white p-8 shadow-2xl rounded-lg">
+      <div className="bg-white p-6 md:p-8 shadow-2xl rounded-lg">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
