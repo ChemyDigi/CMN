@@ -157,16 +157,7 @@ export default function PartnersSection() {
             } else if (entry.target === infoRef.current) {
               setIsInfoInView(true);
             }
-          } else {
-            // Reset animations when elements leave viewport
-            if (entry.target === headerRef.current) {
-              setIsHeaderInView(false);
-            } else if (entry.target === carouselRef.current) {
-              setIsCarouselInView(false);
-            } else if (entry.target === infoRef.current) {
-              setIsInfoInView(false);
-            }
-          }
+          } 
         });
       },
       {

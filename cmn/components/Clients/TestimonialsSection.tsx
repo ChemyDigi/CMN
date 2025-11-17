@@ -58,14 +58,7 @@ export default function TestimonialsSection() {
             } else if (entry.target === cardsRef.current) {
               setIsCardsInView(true);
             }
-          } else {
-            // Reset animations when elements leave viewport
-            if (entry.target === topGridRef.current) {
-              setIsTopGridInView(false);
-            } else if (entry.target === cardsRef.current) {
-              setIsCardsInView(false);
-            }
-          }
+          } 
         });
       },
       {
