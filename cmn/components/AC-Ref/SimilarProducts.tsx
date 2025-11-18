@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { collection, getDocs } from "firebase/firestore";
@@ -10,187 +10,258 @@ interface Product {
   id: string;
   brand: string;
   productName: string;
-  availability: string;
-  description: string;
-  warranty: string;
-  material: string;
-  finish: string;
+  availability?: string;
+  description?: string;
+  warranty?: string;
+  material?: string;
+  finish?: string;
   mainImage: string;
-  subImages: string[];
-  reviews: Review[];
+  subImages?: string[];
+  reviews?: { rating: number }[];
   category?: string;
+  price?: number;
 }
 
-interface Review {
-  customerName: string;
-  email: string;
-  reviewDescription: string;
-  rating: number;
-}
-
-export default function SimilarACRefProducts() {
+export default function SimilarProducts() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [itemsPerView, setItemsPerView] = useState(4);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
   const router = useRouter();
 
+  // Determine items per view responsively
+  useEffect(() => {
+    const updateItems = () => {
+      const w = window.innerWidth;
+      if (w < 480) setItemsPerView(1);
+      else if (w < 640) setItemsPerView(1);
+      else if (w < 768) setItemsPerView(2);
+      else if (w < 1024) setItemsPerView(3);
+      else setItemsPerView(4);
+    };
+    updateItems();
+    window.addEventListener("resize", updateItems);
+    return () => window.removeEventListener("resize", updateItems);
+  }, []);
+
+  // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // ✅ Fetch from "AC&Ref" collection
-        const querySnapshot = await getDocs(collection(db, "AC&Ref"));
-        const productList = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Product[];
-        setProducts(productList);
-      } catch (error) {
-        console.error("Error fetching AC & Ref products:", error);
+        const snap = await getDocs(collection(db, "AC&Ref"));
+        const list = snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) })) as Product[];
+        setProducts(list);
+      } catch (err) {
+        console.error("fetch products error", err);
       }
     };
     fetchProducts();
   }, []);
 
+  // Create infinite carousel data
+  const getVisibleProducts = () => {
+    if (products.length === 0) return [];
+    
+    // Create extended array for seamless looping
+    const extendedProducts = [...products, ...products, ...products];
+    const startIndex = products.length + currentIndex;
+    return extendedProducts.slice(startIndex, startIndex + itemsPerView);
+  };
+
+  const visibleProducts = getVisibleProducts();
+
+  // Touch handlers for swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchEndX.current = null;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current == null || touchEndX.current == null) return;
+    const diff = touchStartX.current - touchEndX.current;
+    const THRESHOLD = 50;
+    if (diff > THRESHOLD) handleNext();
+    else if (diff < -THRESHOLD) handlePrev();
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  // Mouse drag support
+  const dragStartX = useRef<number | null>(null);
+  
+  const handleMouseDown = (e: React.MouseEvent) => {
+    dragStartX.current = e.clientX;
+    if (carouselRef.current) carouselRef.current.style.cursor = "grabbing";
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (dragStartX.current == null) return;
+    const diff = dragStartX.current - e.clientX;
+    const THRESHOLD = 50;
+    if (diff > THRESHOLD) handleNext();
+    else if (diff < -THRESHOLD) handlePrev();
+    dragStartX.current = null;
+    if (carouselRef.current) carouselRef.current.style.cursor = "grab";
+  };
+
+  const handleMouseLeave = () => {
+    dragStartX.current = null;
+    if (carouselRef.current) carouselRef.current.style.cursor = "grab";
+  };
+
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? products.length - 1 : prev - 1));
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === products.length - 1 ? 0 : prev + 1));
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => (prev + 1) % products.length);
   };
 
-  const scrollTo = (index: number) => {
-    setCurrentIndex(index);
-  };
+  // Auto-play (optional - remove if not needed)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleNext();
+    }, 5000); // Change slide every 5 seconds
 
-  const handleProductClick = (productId: string) => {
-    // ✅ Redirect to AC & Ref product details page
-    router.push(`/products/ac-ref/${productId}`);
-  };
+    return () => clearInterval(interval);
+  }, [products.length]);
 
-  const getCurrentProducts = () => {
-    if (products.length === 0) return [];
-
-    const itemsPerView = getItemsPerView();
-    const displayedProducts = [];
-    for (let i = 0; i < itemsPerView; i++) {
-      const index = (currentIndex + i) % products.length;
-      displayedProducts.push(products[index]);
-    }
-    return displayedProducts;
-  };
-
-  const getItemsPerView = () => {
-    // Responsive items per view
-    if (typeof window === 'undefined') return 4;
-    
-    const width = window.innerWidth;
-    if (width < 640) return 1;  // Mobile
-    if (width < 768) return 2;  // Small tablet
-    if (width < 1024) return 3; // Tablet
-    return 4; // Desktop
-  };
-
-  const currentProducts = getCurrentProducts();
-
-  if (products.length === 0) {
-    return null; // or return a loading spinner
-  }
+  if (products.length === 0) return null;
 
   return (
     <section className="w-full bg-white py-6 sm:py-8 md:py-10 flex flex-col items-center">
-      <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-4 sm:mb-6 md:mb-8 text-center px-4">
-        Explore <span className="ml-1 sm:ml-2">Similar AC & Refrigerator Products</span>
+      <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-black mb-4 sm:mb-5 md:mb-6 text-center px-4">
+        Explore <span className="ml-1 sm:ml-2">Similar Products</span>
       </h2>
 
-      <div className="relative w-full max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-6xl px-2 sm:px-4">
+      <div className="relative w-full max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8">
+        {/* Carousel viewport */}
+        <div
+          ref={carouselRef}
+          className="overflow-hidden rounded-lg"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+          style={{ cursor: "grab" }}
+        >
+          {/* Products row with smooth transition */}
+          <div
+            className={`flex gap-2 sm:gap-3 md:gap-4 p-2 sm:p-3 justify-center ${
+              isTransitioning ? "transition-transform duration-500 ease-in-out" : ""
+            }`}
+          >
+            {visibleProducts.map((product, index) => (
+              <div
+                key={`${product.id}-${index}`}
+                className="bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer flex-shrink-0 hover:scale-105"
+                style={{ 
+                  width: `calc(${100 / itemsPerView}% - ${(itemsPerView - 1) * 0.5}rem)`, 
+                  maxWidth: "280px",
+                  display: "flex", 
+                  flexDirection: "column" 
+                }}
+                onClick={() => router.push(`/products/ref-ac/${product.id}`)}
+              >
+                <div className="relative w-full h-32 sm:h-36 md:h-40 lg:h-44 rounded-t-lg sm:rounded-t-xl overflow-hidden">
+                  <Image
+                    src={product.mainImage}
+                    alt={product.productName}
+                    fill
+                    sizes="(max-width: 480px) 100vw, (max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    className="object-cover"
+                  />
+                  {/* Availability Badge */}
+                  {product.availability && (
+                    <span className={`absolute top-2 left-2 text-[8px] sm:text-[9px] font-semibold px-1.5 py-0.5 rounded ${
+                      product.availability === "in-stock" 
+                        ? "bg-green-600 text-white" 
+                        : "bg-red-600 text-white"
+                    }`}>
+                      {product.availability === "in-stock" ? "In Stock" : "Out of Stock"}
+                    </span>
+                  )}
+                </div>
+
+                <div className="p-2 sm:p-3 flex flex-col flex-1 justify-between">
+                  <div>
+                    <p className="text-gray-600 text-xs font-medium uppercase tracking-wide">
+                      {product.brand}
+                    </p>
+                    <h3 className="font-semibold text-gray-900 text-xs sm:text-sm leading-tight mt-1 line-clamp-2 min-h-[2.5rem] sm:min-h-[3rem]">
+                      {product.productName}
+                    </h3>
+                  </div>
+                  
+                  {/* Price and Reviews */}
+                  <div className="mt-2">
+                    {product.price && (
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-sm font-bold text-gray-900">
+                          ${product.price}
+                        </span>
+                      </div>
+                    )}
+                    {product.reviews && product.reviews.length > 0 && (
+                      <div className="text-xs text-gray-500">
+                        {product.reviews.length} review{product.reviews.length !== 1 ? "s" : ""}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Navigation Arrows */}
-        {products.length > getItemsPerView() && (
+        {products.length > itemsPerView && (
           <>
             <button
               onClick={handlePrev}
-              className="absolute -left-8 sm:-left-10 md:-left-12 lg:-left-16 top-1/2 transform -translate-y-1/2 flex h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-16 lg:w-16 items-center justify-center"
-              aria-label="Previous slide"
+              className="absolute -left-2 sm:-left-3 md:left-2 top-1/2 -translate-y-1/2 bg-black/80 hover:bg-black text-white shadow-lg rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center hover:scale-105 transition-all duration-200 backdrop-blur-sm"
+              aria-label="Previous products"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                className="sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14"
-                viewBox="0 0 24 24"
-                fill="black"
-              >
-                <path d="M15 18L9 12L15 6L15 18Z" />
-              </svg>
+              <span className="text-white text-lg sm:text-xl select-none">‹</span>
             </button>
 
             <button
               onClick={handleNext}
-              className="absolute -right-8 sm:-right-10 md:-right-12 lg:-right-16 top-1/2 transform -translate-y-1/2 flex h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-16 lg:w-16 items-center justify-center"
-              aria-label="Next slide"
+              className="absolute -right-2 sm:-right-3 md:right-2 top-1/2 -translate-y-1/2 bg-black/80 hover:bg-black text-white shadow-lg rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center hover:scale-105 transition-all duration-200 backdrop-blur-sm"
+              aria-label="Next products"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
-                className="sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14"
-                viewBox="0 0 24 24"
-                fill="black"
-              >
-                <path d="M9 18L15 12L9 6L9 18Z" />
-              </svg>
+              <span className="text-white text-lg sm:text-xl select-none">›</span>
             </button>
           </>
         )}
 
-        {/* Products Carousel */}
-        <div className="flex gap-3 sm:gap-4 md:gap-5 lg:gap-6 overflow-hidden justify-center">
-          {currentProducts.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-lg transition cursor-pointer flex-shrink-0 w-full max-w-[280px] sm:max-w-[240px] md:max-w-[260px] lg:max-w-[280px]"
-              onClick={() => handleProductClick(product.id)}
-            >
-              <div className="relative w-full h-40 sm:h-44 md:h-48 lg:h-52">
-                <Image
-                  src={product.mainImage}
-                  alt={product.productName}
-                  fill
-                  className="object-cover rounded-t-lg sm:rounded-t-xl"
-                />
-              </div>
-              <div className="p-2 sm:p-3 md:p-4 text-center">
-                <h3 className="text-sm sm:text-base md:text-lg font-semibold text-gray-900 line-clamp-2 min-h-[2.5rem] sm:min-h-[3rem] flex items-center justify-center">
-                  {product.productName}
-                </h3>
-                <p
-                  className={`text-xs sm:text-sm font-medium mt-1 sm:mt-2 ${
-                    product.availability === "in-stock"
-                      ? "text-green-600"
-                      : "text-red-500"
-                  }`}
-                >
-                  {product.availability === "in-stock"
-                    ? "In Stock"
-                    : "Out of Stock"}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Dots Navigation */}
-        {products.length > getItemsPerView() && (
-          <div className="flex justify-center mt-4 sm:mt-6 md:mt-8 gap-1.5 sm:gap-2">
-            {Array.from({ length: Math.ceil(products.length / getItemsPerView()) }).map((_, index) => (
+        {/* Dots Indicator */}
+        {products.length > itemsPerView && (
+          <div className="flex justify-center mt-3 sm:mt-4 gap-1.5 sm:gap-2">
+            {Array.from({ length: Math.min(products.length, 10) }).map((_, i) => (
               <button
-                key={index}
-                onClick={() => scrollTo(index * getItemsPerView())}
-                className={`h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full transition-all ${
-                  Math.floor(currentIndex / getItemsPerView()) === index
-                    ? "w-4 sm:w-6 md:w-8 bg-gray-900"
-                    : "bg-gray-300 hover:bg-gray-400"
+                key={i}
+                onClick={() => {
+                  setIsTransitioning(true);
+                  setCurrentIndex(i);
+                }}
+                className={`h-1.5 sm:h-2 rounded-full transition-all ${
+                  currentIndex === i 
+                    ? "w-4 sm:w-6 bg-gray-900" 
+                    : "w-1.5 sm:w-2 bg-gray-300 hover:bg-gray-400"
                 }`}
-                aria-label={`Go to slide ${index + 1}`}
+                aria-label={`Go to product ${i + 1}`}
               />
             ))}
           </div>
