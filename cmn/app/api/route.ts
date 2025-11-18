@@ -9,7 +9,7 @@ export async function GET() {
       id: "dewalt-cordless-drill-20v",
       brand: "DeWalt",
       productName: "DeWalt 20 V Cordless Drill Kit",
-      availability: "In Stock",
+      availability: "in-stock",
       description:
         "High-performance 20V brushless drill driver kit with 2 batteries, charger and rugged case.",
       warranty: "3 Years Tool Warranty",
@@ -46,7 +46,7 @@ export async function GET() {
       id: "makita-impact-driver-18v",
       brand: "Makita",
       productName: "Makita 18 V Impact Driver",
-      availability: "Out of Stock",
+      availability: "out-of-stock",
       description:
         "Compact and powerful impact driver offering high torque—ideal for heavy-duty fastening.",
       warranty: "1 Year Standard, 3 Years with Registration",
@@ -83,7 +83,7 @@ export async function GET() {
       id: "bosch-combo-kit-12v",
       brand: "Bosch",
       productName: "Bosch 12 V Combo Kit (Drill + Driver)",
-      availability: "In Stock",
+      availability: "in-stock",
       description:
         "Lightweight 12V combo kit with both drill/driver and impact driver—ideal for around-the-house repairs.",
       warranty: "2 Year Tool Warranty",
@@ -114,7 +114,7 @@ export async function GET() {
       id: "milwaukee-m18-fuel-drill",
       brand: "Milwaukee",
       productName: "Milwaukee M18 Fuel Hammer Drill",
-      availability: "In Stock",
+      availability: "in-stock",
       description:
         "Professional-grade hammer drill with brushless motor and 2-speed gearbox—built for concrete and masonry drilling.",
       warranty: "5 Years Tool + Battery Warranty",
@@ -145,7 +145,7 @@ export async function GET() {
       id: "craftsman-v20-circular-saw",
       brand: "Craftsman",
       productName: "Craftsman V20 Cordless Circular Saw",
-      availability: "In Stock",
+      availability: "in-stock",
       description:
         "7-¼ inch cordless circular saw with tool-free blade changes and electric brake—compact yet powerful.",
       warranty: "3 Years Tool Warranty",
@@ -176,7 +176,7 @@ export async function GET() {
       id: "ridgid-wet-dry-vacuum-12gal",
       brand: "Ridgid",
       productName: "Ridgid 12 Gal Wet/Dry Vacuum",
-      availability: "In Stock",
+      availability: "in-stock",
       description:
         "Powerful workshop vacuum with 6.0 Peak HP motor and built-in blower port—ideal for dust and wet cleanup.",
       warranty: "3 Years Tool Warranty",
@@ -207,7 +207,7 @@ export async function GET() {
       id: "snap-on-diagnostic-scan-tool",
       brand: "Snap-on",
       productName: "Snap-on ProLink Diagnostic Scan Tool",
-      availability: "Out of Stock",
+      availability: "out-of-stock",
       description:
         "Handheld advanced scanner for automotive diagnostics supporting multi-makes with color display and WiFi updates.",
       warranty: "2 Years",

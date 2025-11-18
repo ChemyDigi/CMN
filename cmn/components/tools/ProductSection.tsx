@@ -28,7 +28,16 @@ interface Product {
   category?: string;
 }
 
-const categories = ["All", "Bosch", "Craftsman", "DeWalt","Makita","Milwaukee", "Ridgid", "Snap-on"];
+const categories = [
+  "All",
+  "Bosch",
+  "Craftsman",
+  "DeWalt",
+  "Makita",
+  "Milwaukee",
+  "Ridgid",
+  "Snap-on",
+];
 
 const ProductSection: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -68,9 +77,9 @@ const ProductSection: React.FC = () => {
     <section className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 bg-white">
       {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 md:mb-10">
-        {/* Category Tabs - Beautiful Grid Layout for Mobile */}
+        {/* Category Tabs */}
         <div className="w-full sm:w-auto">
-          <div className="grid grid-cols-4 gap-1 sm:flex sm:flex-wrap sm:gap-1 sm:overflow-x-auto scrollbar-hide bg-gray-100 rounded-md p-1">
+          <div className="grid grid-cols-4 gap-1 sm:flex sm:flex-wrap sm:gap-1 bg-gray-100 rounded-md p-1">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -119,12 +128,13 @@ const ProductSection: React.FC = () => {
           <div className="w-8 h-8 sm:w-10 sm:h-10 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
         </div>
       ) : filteredProducts.length === 0 ? (
-        // No Products Found
         <div className="text-center py-16 sm:py-20">
-          <p className="text-gray-600 text-base sm:text-lg font-medium">No products found.</p>
+          <p className="text-gray-600 text-base sm:text-lg font-medium">
+            No products found.
+          </p>
         </div>
       ) : (
-        // Product Grid - Responsive columns
+        /* Product Grid */
         <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
           {filteredProducts.map((product) => (
             <div
@@ -139,18 +149,56 @@ const ProductSection: React.FC = () => {
                   fill
                   className="object-cover"
                 />
+
+                {/* IN STOCK LABEL */}
                 {product.availability === "in-stock" && (
-                  <span className="absolute top-1.5 sm:top-2 left-1.5 sm:left-2 bg-green-600 text-white text-xs font-semibold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">
+                  <span className="absolute top-2 left-2 bg-green-600 text-white text-[10px] sm:text-xs font-semibold px-2 py-1 rounded-md shadow-md">
                     In Stock
                   </span>
                 )}
-                {product.availability === "out-of-stock" && (
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="bg-white text-black text-xs font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-md">
-                      OUT OF STOCK
-                    </span>
-                  </div>
-                )}
+
+                {/* OUT OF STOCK LABEL */}
+{/* Out of Stock Label */}
+{product.availability === "out-of-stock" && (
+  <>
+    {/* MOBILE + TABLET LABEL (bigger size) */}
+    <span
+      className="
+        absolute top-2 left-2
+        bg-red-600 text-white
+        text-xs sm:text-sm font-semibold
+        px-3 py-1.5
+        rounded-md shadow-md z-10
+        block lg:hidden
+      "
+    >
+      Out of Stock
+    </span>
+
+    {/* DESKTOP HOVER OVERLAY */}
+    <div
+      className="
+        absolute inset-0
+        bg-black/40
+        hidden lg:flex
+        items-center justify-center
+        opacity-0 group-hover:opacity-100
+        transition-opacity
+      "
+    >
+      <span
+        className="
+          bg-white text-black
+          text-sm font-semibold
+          px-4 py-1.5 rounded-full shadow-md
+        "
+      >
+        OUT OF STOCK
+      </span>
+    </div>
+  </>
+)}
+
               </div>
 
               {/* Product Info */}
