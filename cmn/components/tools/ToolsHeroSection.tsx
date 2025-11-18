@@ -56,7 +56,7 @@ export default function HeroSection() {
           transition={{ duration: 1.2, delay: 0.5 }}
           className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-bold leading-tight mb-3 sm:mb-4 md:mb-5"
         >
-          Tools that Move <br className="hidden xs:block" />
+          Tools that Move <br/>
           Industries Forward
         </motion.h1>
 

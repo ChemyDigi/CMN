@@ -17,19 +17,19 @@ export default function TimelineSection() {
     {
       year: "2004",
       title: "Partnerships in HVAC & R Sector",
-      desc: "CMN starts distribution of Niche products related to HVAC & R...",
+      desc: "CMN starts distribution of Niche products related to HVAC & R tie up with YUTAS, a Tata Group Company & Carrier, a UTC Group Company in Mumbai (India).",
       side: "right",
     },
     {
       year: "2005",
       title: "Diversification into Engineering Tools",
-      desc: "CMN diversifies into engineering products...",
+      desc: "CMN diversifies into engineering products dealing in premium and mid-tier tools of SNAP ON & BLUE POINT from Snap On Tools Inc USA.",
       side: "left",
     },
     {
       year: "2008",
       title: "Expansion into Key Industries",
-      desc: "CMN starts its Tools sales PAN India...",
+      desc: "CMN starts its Tools sales PAN India to key customers in Aviation, Nuclear Power, Defence Research, Oil & Gas industry etc.",
       side: "right",
     },
     {
@@ -41,25 +41,25 @@ export default function TimelineSection() {
     {
       year: "2011",
       title: "Partnership with YORK",
-      desc: "Begins distribution of YORK Air Conditioners across Western India.",
+      desc: "Begins distribution of YORK Air Conditioners and Air Purifiers across Western India.",
       side: "right",
     },
     {
       year: "2016",
       title: "Regional Presence in Sri Lanka",
-      desc: "Established a distribution office in Sri Lanka...",
+      desc: "Established a distribution office in Sri Lanka, strengthening CMN’s reach in the South Asian region.",
       side: "left",
     },
     {
       year: "2018",
       title: "Partnership with Vance Chemicals",
-      desc: "CMN takes up distribution from Vance Chemicals...",
+      desc: "CMN takes up distribution from Vance Chemicals of Mr McKenic, Germ Killer & Mrs McKenic for India and Sri Lanka.",
       side: "right",
     },
     {
       year: "2018",
       title: "Strategic Alliance with Sagar Asia",
-      desc: "Signs a distribution and sales representation agreement...",
+      desc: "Signs a distribution and sales representation agreement with Sagar Asia for South East Asia and Bangladesh for their brands Litelift, Finet, Euro Star and Unite Giant.",
       side: "left",
     },
   ];

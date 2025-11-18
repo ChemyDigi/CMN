@@ -56,7 +56,7 @@ export default function HeroSection() {
           transition={{ duration: 1.2, delay: 0.5 }}
           className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-bold leading-tight mb-3 sm:mb-4 md:mb-5"
         >
-          Climate &<br className="hidden xs:block" />
+          Climate & <br/>
           Kitchen Excellence
         </motion.h1>
 
@@ -74,7 +74,8 @@ export default function HeroSection() {
             mb-4 sm:mb-5
           "
         >
-          Find the perfect cooling solution for every space, from powerful AC units to keep you comfortable to sophisticated fridges that organize your life.
+          Find the perfect cooling solution for every space, from powerful AC units
+          to keep you comfortable to sophisticated fridges that organize your life.
         </motion.p>
 
         {/* DESKTOP UNDERLINE (Original) */}
