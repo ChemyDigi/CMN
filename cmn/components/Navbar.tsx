@@ -13,7 +13,7 @@ export default function Navbar() {
     <header className="relative w-full">
 
       {/* TOP BLACK BAR */}
-      <div className="w-full h-20 flex items-center justify-between bg-black px-4 sm:px-6 lg:px-10 pl-0">
+      <div className="w-full h-20 flex items-center justify-between bg-black px-4 sm:px-6 lg:px-10 pl-0 relative z-50">
 
         {/* LOGO */}
         <Link href="/" className="flex items-center flex-shrink-0">
@@ -111,9 +111,9 @@ export default function Navbar() {
 
       </div>
 
-      {/* MOBILE MENU */}
+      {/* MOBILE MENU - ABSOLUTE POSITION */}
       {mobileOpen && (
-        <div className="lg:hidden w-full bg-white shadow-xl border-t border-gray-200 animate-slideDownSlow">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-200 animate-slideDownSlow z-40">
           <div className="px-6 py-6 space-y-6 text-black">
 
             <MobileLink href="/home" label="Home" setMobileOpen={setMobileOpen} />
