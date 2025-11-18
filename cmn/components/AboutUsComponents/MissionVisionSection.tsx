@@ -91,15 +91,7 @@ export default function MissionVisionSection() {
               <blockquote className="italic text-lg leading-relaxed md:text-xl text-gray-600 px-6">
                 To build a sustainable and globally trusted network of industrial
                 solutions that empower businesses to grow through innovation,
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                reliability, and excellence while creating a better, more connected
-=======
                 reliability, and excellence — while creating a better, more connected
->>>>>>> Stashed changes
-=======
-                reliability, and excellence — while creating a better, more connected
->>>>>>> Stashed changes
                 future.
               </blockquote>
 
