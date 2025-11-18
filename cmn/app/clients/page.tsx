@@ -1,5 +1,3 @@
-// app/clients/page.tsx
-
 import ClientsHero from "../../components/Clients/ClientsHero";
 import PartnersSection from "../../components/Clients/PartnersSection";
 import TestimonialsSection from "../../components/Clients/TestimonialsSection";
