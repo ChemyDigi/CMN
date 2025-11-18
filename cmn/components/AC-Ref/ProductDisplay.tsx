@@ -15,7 +15,7 @@ interface ProductDisplayProps {
     capacity: string;
     type: string;
     energyRating: string;
-    availability: string; // "in-stock" | "out-of-stock"
+    availability: string;
     mainImage: string;
     subImages: string[];
   };
@@ -25,42 +25,80 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
   const [mainImage, setMainImage] = useState(product.mainImage);
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const [activeTab, setActiveTab] = useState("description");
   const imageRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!imageRef.current) return;
-
     const { left, top, width, height } = imageRef.current.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
-
     setZoomPosition({ x, y });
   };
 
+  // Tab Content
+  const tabContent = {
+    description: (
+      <div className="space-y-4">
+        <p className="text-gray-700 leading-relaxed text-[15px]">{product.description}</p>
+      </div>
+    ),
+    specifications: (
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-y-3 text-[15px]">
+          <p className="text-gray-600 font-medium">Brand</p>
+          <p className="text-gray-900 font-semibold">{product.brand}</p>
+
+          <p className="text-gray-600 font-medium">Warranty</p>
+          <p className="text-gray-900 font-semibold">{product.warranty}</p>
+
+          <p className="text-gray-600 font-medium">Capacity</p>
+          <p className="text-gray-900 font-semibold">{product.capacity}</p>
+
+          <p className="text-gray-600 font-medium">Type</p>
+          <p className="text-gray-900 font-semibold">{product.type}</p>
+
+          <p className="text-gray-600 font-medium">Energy Rating</p>
+          <p className="text-gray-900 font-semibold">{product.energyRating}</p>
+        </div>
+      </div>
+    ),
+    warranty: (
+      <div className="space-y-4">
+        <p className="text-gray-700 leading-relaxed text-[15px]">
+          {product.warranty} — Full terms and conditions apply.
+        </p>
+      </div>
+    ),
+  };
+
   return (
-    <div className="bg-white w-full min-h-screen text-gray-900">
-      {/* Back to Catalog */}
-      <div className="flex items-center gap-2 pt-6 md:pt-8 px-4 sm:px-6 lg:pl-10">
+    <div className="bg-white w-full text-gray-900">
+
+      {/* Back Button */}
+      <div className="flex items-center gap-2 pt-6 px-4 sm:px-6 lg:px-10">
         <Link
           href="/products/ref-ac"
           className="flex items-center text-gray-700 hover:text-black transition-colors"
         >
           <div className="flex items-center justify-center w-8 h-8 rounded-full border-2 border-black mr-2">
-            <ArrowLeft size={16} className="text-black" />
+            <ArrowLeft size={16} />
           </div>
           <span className="text-sm font-medium">Back to catalog</span>
         </Link>
       </div>
 
       {/* Product Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-20 px-4 sm:px-6 lg:px-8 xl:px-20 py-6 sm:py-8 lg:py-12 items-start">
-        {/* Left: Product Images */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 px-4 sm:px-6 lg:px-20 pb-16 pt-8 items-start">
+
+        {/* LEFT SECTION — IMAGES */}
         <div className="flex flex-col items-center w-full">
-          {/* Main Image with Zoom */}
+          
+          {/* Main Image */}
           <div className="w-full flex justify-center relative">
             <div
               ref={imageRef}
-              className="relative w-full max-w-[400px] sm:max-w-[500px] cursor-zoom-in overflow-hidden"
+              className="relative w-full max-w-[450px] sm:max-w-[500px] cursor-zoom-in overflow-hidden rounded-md"
               onMouseMove={handleMouseMove}
               onMouseEnter={() => setIsZoomed(true)}
               onMouseLeave={() => setIsZoomed(false)}
@@ -70,44 +108,41 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
                 alt={product.productName}
                 width={600}
                 height={600}
-                className="object-contain w-full h-auto transition-transform duration-200"
+                className="object-contain w-full h-auto"
                 priority
               />
 
-              {/* Zoomed overlay */}
+              {/* Zoom Window */}
               {isZoomed && (
                 <div
-                  className="absolute inset-0 bg-no-repeat bg-origin-padding"
+                  className="absolute inset-0 bg-no-repeat"
                   style={{
                     backgroundImage: `url(${mainImage})`,
                     backgroundSize: "200%",
                     backgroundPosition: `${zoomPosition.x}% ${zoomPosition.y}%`,
-                    transform: "scale(1.1)",
                   }}
                 />
               )}
             </div>
           </div>
 
-          {/* Sub Images */}
-          {product.subImages && product.subImages.length > 1 && (
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 mt-4 sm:mt-6">
+          {/* Thumbnails */}
+          {product.subImages?.length > 1 && (
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-6 px-2">
               {product.subImages.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setMainImage(img)}
                   className={`transition-all duration-200 ${
-                    mainImage === img
-                      ? "opacity-100"
-                      : "opacity-70 hover:opacity-100"
+                    mainImage === img ? "opacity-100" : "opacity-70 hover:opacity-100"
                   }`}
                 >
                   <Image
                     src={img}
                     alt={`${product.productName} ${i + 1}`}
-                    width={100}
-                    height={100}
-                    className="object-contain w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] md:w-[100px] md:h-[100px]"
+                    width={90}
+                    height={90}
+                    className="object-contain w-[75px] h-[75px] sm:w-[95px] sm:h-[95px] rounded-md border"
                   />
                 </button>
               ))}
@@ -115,16 +150,17 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
           )}
         </div>
 
-        {/* Right: Product Details */}
-        <div className="w-full max-w-full lg:max-w-xl px-2 sm:px-0">
+        {/* RIGHT SECTION — DETAILS */}
+        <div className="w-full max-w-xl space-y-6">
           <p className="text-sm text-gray-500">{product.brand}</p>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-1 leading-snug">
+
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-snug">
             {product.productName}
           </h1>
 
           {/* Stock Badge */}
           <p
-            className={`mt-3 inline-block px-3 py-1 rounded-full text-sm font-semibold ${
+            className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
               product.availability === "in-stock"
                 ? "bg-green-100 text-green-700"
                 : "bg-red-100 text-red-600"
@@ -133,33 +169,35 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
             {product.availability === "in-stock" ? "In Stock" : "Out of Stock"}
           </p>
 
-          {/* Description */}
-          <div className="mt-6 sm:mt-8">
-            <h2 className="text-lg font-semibold mb-2">Description</h2>
-            <p className="text-gray-700 leading-relaxed text-[15px]">
-              {product.description}
-            </p>
-          </div>
+          {/* Tabs Section */}
+          <div className="mt-6">
 
-          {/* Specifications */}
-          <div className="mt-8 sm:mt-10">
-            <h2 className="text-lg font-semibold mb-4">Specifications</h2>
-            <div className="grid grid-cols-2 gap-y-2 text-[15px]">
-              <p className="text-gray-600 font-medium">Brand</p>
-              <p className="text-gray-900 font-semibold">{product.brand}</p>
-
-              <p className="text-gray-600 font-medium">Warranty</p>
-              <p className="text-gray-900 font-semibold">{product.warranty}</p>
-
-              <p className="text-gray-600 font-medium">Capacity</p>
-              <p className="text-gray-900 font-semibold">{product.capacity}</p>
-
-              <p className="text-gray-600 font-medium">Type</p>
-              <p className="text-gray-900 font-semibold">{product.type}</p>
-
-              <p className="text-gray-600 font-medium">Energy Rating</p>
-              <p className="text-gray-900 font-semibold">{product.energyRating}</p>
+            {/* Tab Headers */}
+            <div className="flex border-b border-gray-200 overflow-x-auto">
+              {[
+                { id: "description", label: "Description" },
+                { id: "specifications", label: "Specifications" },
+                { id: "warranty", label: "Warranty" },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex-shrink-0 px-4 py-3 font-medium text-sm transition-colors duration-200 ${
+                    activeTab === tab.id
+                      ? "text-black border-b-2 border-black"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
+
+            {/* Tab Content */}
+            <div className="py-4 min-h-[200px]">
+              {tabContent[activeTab as keyof typeof tabContent]}
+            </div>
+
           </div>
         </div>
       </div>
