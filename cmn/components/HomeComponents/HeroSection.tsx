@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import heroImage from "../../public/images/hero/heroHome.png"
 
 export default function HeroSection() {
   return (
@@ -15,7 +16,7 @@ export default function HeroSection() {
         className="absolute inset-0"
       >
         <Image
-          src="/images/Home/HomeHero.jpg"
+          src={heroImage}
           alt="CMN Distributor Home Hero"
           fill
           className="object-cover"

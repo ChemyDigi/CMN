@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const products = [
+    // Existing 4 products
     {
       id: "samsung-inverter-split-ac-18000btu",
       brand: "Samsung",
@@ -134,6 +135,80 @@ export async function GET() {
           rating: 4
         }
       ]
+    },
+
+    // New 4 products
+    {
+      id: "samsung-9000btu-ac",
+      brand: "Samsung",
+      productName: "Samsung 9,000 BTU AC",
+      availability: "in-stock",
+      description: "Compact inverter AC with fast cooling and smart features.",
+      warranty: "5-Year Compressor Warranty",
+      capacity: "9,000 BTU",
+      type: "Window AC",
+      energyRating: "4 Star",
+      mainImage:
+        "https://media.istockphoto.com/id/1308375457/photo/cleaning-air-conditioner.jpg?s=612x612&w=0&k=20&c=OQD4wICPb1il7sqz6Vx5kDHbeXhTMT4IJCcez7bp1EA=",
+      subImages: [
+        "https://media.istockphoto.com/id/1308375457/photo/cleaning-air-conditioner.jpg?s=612x612&w=0&k=20&c=OQD4wICPb1il7sqz6Vx5kDHbeXhTMT4IJCcez7bp1EA=",
+        "https://media.istockphoto.com/id/2162681544/photo/modern-kitchen-with-front-view-of-refrigerator-and-white-cabinets.jpg?s=2048x2048&w=is&k=20&c=rTOpxdfnXSV7Gl_fE3yIxNBIxbzA82m2NzTCuqhMBxY="
+      ],
+      reviews: []
+    },
+    {
+      id: "lg-15000btu-ac",
+      brand: "LG",
+      productName: "LG 15,000 BTU Split AC",
+      availability: "out-of-stock",
+      description: "Powerful split AC with dual inverter for fast cooling.",
+      warranty: "10-Year Compressor Warranty",
+      capacity: "15,000 BTU",
+      type: "Split AC",
+      energyRating: "5 Star",
+      mainImage:
+        "https://media.istockphoto.com/id/1308375457/photo/cleaning-air-conditioner.jpg?s=612x612&w=0&k=20&c=OQD4wICPb1il7sqz6Vx5kDHbeXhTMT4IJCcez7bp1EA=",
+      subImages: [
+        "https://media.istockphoto.com/id/2162681544/photo/modern-kitchen-with-front-view-of-refrigerator-and-white-cabinets.jpg?s=2048x2048&w=is&k=20&c=rTOpxdfnXSV7Gl_fE3yIxNBIxbzA82m2NzTCuqhMBxY=",
+        "https://media.istockphoto.com/id/1308375457/photo/cleaning-air-conditioner.jpg?s=612x612&w=0&k=20&c=OQD4wICPb1il7sqz6Vx5kDHbeXhTMT4IJCcez7bp1EA="
+      ],
+      reviews: []
+    },
+    {
+      id: "whirlpool-300l-fridge",
+      brand: "Whirlpool",
+      productName: "Whirlpool 300L Single Door Refrigerator",
+      availability: "in-stock",
+      description: "Efficient single-door fridge with inverter technology.",
+      warranty: "1-Year Product Warranty + 10-Year Compressor Warranty",
+      capacity: "300 Litres",
+      type: "Single Door",
+      energyRating: "4 Star",
+      mainImage:
+        "https://media.istockphoto.com/id/2162681544/photo/modern-kitchen-with-front-view-of-refrigerator-and-white-cabinets.jpg?s=2048x2048&w=is&k=20&c=rTOpxdfnXSV7Gl_fE3yIxNBIxbzA82m2NzTCuqhMBxY=",
+      subImages: [
+        "https://media.istockphoto.com/id/2162681544/photo/modern-kitchen-with-front-view-of-refrigerator-and-white-cabinets.jpg?s=2048x2048&w=is&k=20&c=rTOpxdfnXSV7Gl_fE3yIxNBIxbzA82m2NzTCuqhMBxY=",
+        "https://media.istockphoto.com/id/1308375457/photo/cleaning-air-conditioner.jpg?s=612x612&w=0&k=20&c=OQD4wICPb1il7sqz6Vx5kDHbeXhTMT4IJCcez7bp1EA="
+      ],
+      reviews: []
+    },
+    {
+      id: "panasonic-600l-fridge",
+      brand: "Panasonic",
+      productName: "Panasonic 600L Side-by-Side Refrigerator",
+      availability: "in-stock",
+      description: "Large capacity fridge with inverter compressor and smart display.",
+      warranty: "1-Year Comprehensive + 10-Year Compressor Warranty",
+      capacity: "600 Litres",
+      type: "Side-by-Side",
+      energyRating: "5 Star",
+      mainImage:
+        "https://media.istockphoto.com/id/2162681544/photo/modern-kitchen-with-front-view-of-refrigerator-and-white-cabinets.jpg?s=2048x2048&w=is&k=20&c=rTOpxdfnXSV7Gl_fE3yIxNBIxbzA82m2NzTCuqhMBxY=",
+      subImages: [
+        "https://media.istockphoto.com/id/1308375457/photo/cleaning-air-conditioner.jpg?s=612x612&w=0&k=20&c=OQD4wICPb1il7sqz6Vx5kDHbeXhTMT4IJCcez7bp1EA=",
+        "https://media.istockphoto.com/id/2162681544/photo/modern-kitchen-with-front-view-of-refrigerator-and-white-cabinets.jpg?s=2048x2048&w=is&k=20&c=rTOpxdfnXSV7Gl_fE3yIxNBIxbzA82m2NzTCuqhMBxY="
+      ],
+      reviews: []
     }
   ];
 

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-
+import heroImage from "../../public/images/hero/clients.png";
 export default function HeroSection() {
   return (
     <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[75vh] lg:h-[80vh] flex items-center overflow-hidden">
@@ -14,7 +14,7 @@ export default function HeroSection() {
         className="absolute inset-0"
       >
         <Image
-          src="/images/clients-hero-bg.png"
+          src={heroImage}
           alt="CMN Distributor Hero"
           fill
           className="object-cover brightness-50"
