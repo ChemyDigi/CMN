@@ -17,7 +17,7 @@ interface Product {
   id: string;
   brand: string;
   productName: string;
-  availability: string; // "in-stock" | "out-of-stock"
+  availability: string;
   description: string;
   warranty: string;
   material: string;
@@ -28,13 +28,7 @@ interface Product {
   category?: string;
 }
 
-const categories = [
-  "All",
-  "Samsung",
-  "LG",
-  "Panasonic",
-  "Whirlpool",
-];
+const categories = ["All", "Samsung", "LG", "Panasonic", "Whirlpool"];
 
 const ACRefSection: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -62,30 +56,35 @@ const ACRefSection: React.FC = () => {
   }, []);
 
   const filteredProducts = products.filter((product) => {
-    const matchesCategory =
+    const categoryMatch =
       activeCategory === "All" || product.brand === activeCategory;
-    const matchesSearch = product.productName
+
+    const searchMatch = product.productName
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+
+    return categoryMatch && searchMatch;
   });
 
   return (
-    <section className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 bg-white">
+    <section className="w-full bg-white px-4 md:px-8 py-10">
       {/* Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 md:mb-10">
-        {/* Category Tabs - Beautiful Grid Layout for Mobile */}
-        <div className="w-full sm:w-auto">
-          <div className="grid grid-cols-3 gap-1 sm:flex sm:flex-wrap sm:gap-1 sm:overflow-x-auto scrollbar-hide bg-gray-100 rounded-md p-1">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-10">
+
+        {/* Categories */}
+        <div className="w-full md:w-auto">
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide bg-gray-100 rounded-xl p-2">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-2 py-2 sm:px-3 md:px-4 sm:py-2 text-xs font-medium rounded-md transition-all whitespace-nowrap min-h-[40px] flex items-center justify-center ${
-                  activeCategory === cat
-                    ? "bg-black text-white"
-                    : "bg-white text-gray-800 border border-gray-200 hover:bg-gray-50"
-                }`}
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap
+                  ${
+                    activeCategory === cat
+                      ? "bg-black text-white"
+                      : "bg-white text-gray-800 border border-gray-300 hover:bg-gray-200"
+                  }
+                `}
               >
                 {cat}
               </button>
@@ -93,22 +92,22 @@ const ACRefSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Search Box */}
-        <div className="relative flex items-center bg-gray-100 rounded-md px-3 py-2 w-full sm:w-48 md:w-56 lg:w-64">
+        {/* Search */}
+        <div className="relative w-full md:w-64 bg-gray-100 rounded-xl px-4 py-2 flex items-center">
           <input
             type="text"
-            placeholder="Search AC & Refrigerator"
-            className="bg-transparent w-full text-xs sm:text-sm text-gray-800 placeholder-gray-500 focus:outline-none"
             value={searchQuery}
+            placeholder="Search AC & Refrigerators"
             onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-transparent text-sm text-gray-800 placeholder-gray-500 focus:outline-none"
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth={1.5}
+            strokeWidth={2}
             stroke="currentColor"
-            className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700 ml-2"
+            className="w-5 h-5 text-gray-700 ml-2"
           >
             <path
               strokeLinecap="round"
@@ -119,62 +118,69 @@ const ACRefSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Loading State */}
+      {/* Loading */}
       {loading ? (
-        <div className="flex justify-center items-center py-16 sm:py-20">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
+        <div className="flex justify-center items-center py-20">
+          <div className="w-10 h-10 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
         </div>
       ) : filteredProducts.length === 0 ? (
-        <div className="text-center py-16 sm:py-20">
-          <p className="text-gray-600 text-base sm:text-lg font-medium">
-            No AC or Refrigerator products found.
+        <div className="text-center py-20">
+          <p className="text-gray-600 text-lg font-medium">
+            No products found.
           </p>
         </div>
       ) : (
-        // Product Grid
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-          {filteredProducts.map((product) => (
-            <div
-              key={product.id}
-              className="relative bg-white rounded-lg sm:rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden group flex flex-col"
-            >
-              {/* Product Image */}
-              <div className="relative w-full aspect-square flex items-center justify-center">
-                <Image
-                  src={product.mainImage}
-                  alt={product.productName}
-                  fill
-                  className="object-cover"
-                />
-                {product.availability === "in-stock" && (
-                  <span className="absolute top-1.5 sm:top-2 left-1.5 sm:left-2 bg-green-600 text-white text-xs font-semibold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">
-                    In Stock
-                  </span>
-                )}
-                {product.availability === "out-of-stock" && (
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="bg-white text-black text-xs font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-md">
-                      OUT OF STOCK
-                    </span>
-                  </div>
-                )}
-              </div>
+        <>
+          {/* Product Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
 
-              {/* Product Info */}
-              <div className="p-2 sm:p-3 md:p-4 text-center flex-grow flex flex-col justify-end">
-                <h3 className="text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 sm:mb-2 md:mb-3 line-clamp-2 min-h-[2.5rem] sm:min-h-[3rem] flex items-center justify-center">
-                  {product.productName}
-                </h3>
-                <button
-                  onClick={() => router.push(`/products/ref-ac/${product.id}`)}
-                  className="text-black w-full border border-gray-800 rounded-md py-1.5 sm:py-2 text-xs sm:text-sm font-medium hover:bg-black hover:text-white transition-all"
-                >
-                  Read More
-                </button>
+            {filteredProducts.map((product) => (
+              <div
+                key={product.id}
+                className="bg-white p-3 rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100 flex flex-col"
+              >
+                {/* Image */}
+                <div className="relative w-full aspect-square bg-gray-50 rounded-lg overflow-hidden">
+                  <Image
+                    src={product.mainImage}
+                    alt={product.productName}
+                    fill
+                    className="object-cover"
+                  />
+
+                  {/* Stock Badge */}
+                  {product.availability === "in-stock" && (
+                    <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                      In Stock
+                    </span>
+                  )}
+
+                  {product.availability === "out-of-stock" && (
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                      <span className="bg-white text-black text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                        OUT OF STOCK
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Info */}
+                <div className="mt-3 flex flex-col flex-grow text-center">
+                  <h3 className="text-sm font-bold text-gray-900 leading-tight mb-2 line-clamp-2 min-h-[38px]">
+                    {product.productName}
+                  </h3>
+
+                  <button
+                    onClick={() => router.push(`/products/ref-ac/${product.id}`)}
+                    className="mt-auto w-full py-2 border border-black text-black rounded-md text-sm font-semibold hover:bg-black hover:text-white transition-all"
+                  >
+                    Read More
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
     </section>
   );
