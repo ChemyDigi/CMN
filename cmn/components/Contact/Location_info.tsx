@@ -41,7 +41,7 @@ export const Location_info = (): ReactElement => {
       email: "shubhangipatil@cmndistributors.com"
     },
     {
-      country: "SRILANKA",
+      country: "SRI LANKA",
       companyName: "CMN Distributors Lanka PVT Ltd",
       address: [
         "No 103 & 105",
