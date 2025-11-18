@@ -14,7 +14,7 @@ export default function HeroSection() {
         className="absolute inset-0"
       >
         <Image
-          src="/images/products-tools/toolshero.jpg"
+          src="/images/clients-hero-bg.png"
           alt="CMN Distributor Hero"
           fill
           className="object-cover brightness-50"
