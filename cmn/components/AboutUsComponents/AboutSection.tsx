@@ -9,10 +9,11 @@ export default function AboutSection() {
       {/* ABOUT HEADING + CONTENT */}
       <div
         className="
-          max-w-7xl mx-auto 
-          grid md:grid-cols-2 gap-10 items-start
-
-          text-center md:text-left          /* Center mobile/tablet */
+          max-w-7xl mx-auto
+          grid grid-cols-1 md:grid-cols-2 gap-10
+          items-center md:items-start
+          
+          text-center sm:text-center md:text-left
         "
       >
         {/* LEFT TEXT SECTION */}
@@ -21,7 +22,7 @@ export default function AboutSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true }}
-          className="mx-auto md:mx-0"        /* Center block on mobile */
+          className="mx-auto md:mx-0"
         >
           <h2 className="text-2xl md:text-3xl font-bold mb-6 text-black">
             About CMN Distributors
@@ -32,8 +33,8 @@ export default function AboutSection() {
               space-y-4 text-gray-700 leading-relaxed 
               text-sm md:text-base
 
-              text-center md:text-justify      /* Center mobile, justify desktop */
-              mx-auto md:mx-0                  /* Center paragraphs */
+              text-center md:text-justify
+              mx-auto md:mx-0
               max-w-xl md:max-w-none
             "
           >
@@ -67,17 +68,14 @@ export default function AboutSection() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
           viewport={{ once: true }}
-          className="
-            flex justify-center md:justify-end 
-            mt-10 md:mt-0
-          "
+          className="flex justify-center md:justify-end mt-10 md:mt-0"
         >
           <Image
             src="/images/CMN_logo.png"
             alt="CMN Distributors Logo"
             width={350}
             height={350}
-            className="object-contain mx-auto md:mx-0"  /* Center on mobile */
+            className="object-contain mx-auto md:mx-0"
           />
         </motion.div>
       </div>
@@ -90,14 +88,14 @@ export default function AboutSection() {
         viewport={{ once: true }}
         className="
           max-w-7xl mx-auto 
-          grid md:grid-cols-2 gap-10 mt-20
+          grid grid-cols-1 md:grid-cols-2 gap-10 mt-20
           border-t border-gray-200 pt-10
-
-          text-center md:text-left            /* Center heading + text on mobile */
+          
+          text-center sm:text-center md:text-left
         "
       >
         {/* LEFT HEADING */}
-        <div className="mx-auto md:mx-0">       {/* Center block on mobile */}
+        <div className="mx-auto md:mx-0">
           <h3 className="text-xl md:text-5xl font-bold mb-4 text-black leading-snug">
             Multinational Distribution <br />
             Company
@@ -108,8 +106,7 @@ export default function AboutSection() {
         <div
           className="
             space-y-3 text-gray-700 text-sm md:text-base
-
-            mx-auto md:mx-0                   /* Center text */
+            mx-auto md:mx-0
             max-w-md md:max-w-none
             text-center md:text-left
           "
@@ -126,7 +123,7 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
             viewport={{ once: true }}
-            className="mx-auto md:mx-0"        /* Center signature block */
+            className="mx-auto md:mx-0"
           >
             <Image
               src="/images/AboutUs/sign.png"
