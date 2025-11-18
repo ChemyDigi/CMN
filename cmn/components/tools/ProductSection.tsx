@@ -84,11 +84,10 @@ const ProductSection: React.FC = () => {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-2 py-2 sm:px-3 md:px-4 sm:py-2 text-xs font-medium rounded-md transition-all whitespace-nowrap min-h-[40px] flex items-center justify-center ${
-                  activeCategory === cat
-                    ? "bg-black text-white"
-                    : "bg-white text-gray-800 border border-gray-200 hover:bg-gray-50"
-                }`}
+                className={`px-2 py-2 sm:px-3 md:px-4 sm:py-2 text-xs font-medium rounded-md transition-all whitespace-nowrap min-h-[40px] flex items-center justify-center ${activeCategory === cat
+                  ? "bg-black text-white"
+                  : "bg-white text-gray-800 border border-gray-200 hover:bg-gray-50"
+                  }`}
               >
                 {cat}
               </button>
@@ -151,33 +150,65 @@ const ProductSection: React.FC = () => {
                 />
 
                 {/* IN STOCK LABEL */}
-                {product.availability === "in-stock" && (
-                  <span className="absolute top-2 left-2 bg-green-600 text-white text-[10px] sm:text-xs font-semibold px-2 py-1 rounded-md shadow-md">
-                    In Stock
-                  </span>
-                )}
 
-                {/* OUT OF STOCK LABEL */}
-{/* Out of Stock Label */}
-{product.availability === "out-of-stock" && (
-  <>
-    {/* MOBILE + TABLET LABEL (bigger size) */}
-    <span
-      className="
+                {product.availability === "in-stock" && (
+                  <>
+                    {/* 🔴 MOBILE/TABLET VERSION (BIG BADGE) */}
+                    <span
+                      className="
         absolute top-2 left-2
-        bg-red-600 text-white
-        text-xs sm:text-sm font-semibold
-        px-3 py-1.5
+        bg-green-600 text-white
+        text-sm font-semibold
+        px-4 py-2
         rounded-md shadow-md z-10
         block lg:hidden
       "
-    >
-      Out of Stock
-    </span>
+                    >
+                      In Stock
+                    </span>
 
-    {/* DESKTOP HOVER OVERLAY */}
-    <div
-      className="
+                    {/* 🔴 DESKTOP VERSION (SMALL BADGE — YOUR ORIGINAL) */}
+                    <span
+                      className="
+        absolute top-2 left-2
+        bg-green-600 text-white
+        text-xs font-semibold
+        px-2 py-1
+        rounded-md shadow-md z-10
+        hidden lg:block
+      "
+                    >
+                      In Stock
+                    </span>
+
+
+                  </>
+                )}
+ 
+                {/* Out of Stock Label */}
+ 
+                {product.availability === "out-of-stock" && (
+                  <>
+                    {/* 🔴 MOBILE/TABLET VERSION (BIG BADGE) */}
+                    <span
+                      className="
+        absolute top-2 left-2
+        bg-red-600 text-white
+        text-sm font-semibold
+        px-4 py-2
+        rounded-md shadow-md z-10
+        block lg:hidden
+      "
+                    >
+                      Out of Stock
+                    </span>
+
+                    {/* 🔴 DESKTOP VERSION (SMALL BADGE — YOUR ORIGINAL) */}
+                     
+
+                    {/* Desktop Hover Overlay (unchanged) */}
+                    <div
+                      className="
         absolute inset-0
         bg-black/40
         hidden lg:flex
@@ -185,19 +216,20 @@ const ProductSection: React.FC = () => {
         opacity-0 group-hover:opacity-100
         transition-opacity
       "
-    >
-      <span
-        className="
+                    >
+                      <span
+                        className="
           bg-white text-black
           text-sm font-semibold
           px-4 py-1.5 rounded-full shadow-md
         "
-      >
-        OUT OF STOCK
-      </span>
-    </div>
-  </>
-)}
+                      >
+                        OUT OF STOCK
+                      </span>
+                    </div>
+                  </>
+                )}
+
 
               </div>
 
