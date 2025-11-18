@@ -2,7 +2,7 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import { ReactElement } from 'react';
 import { Contact_Form } from '../../components/Contact/Contact_Form';
-import { Contact_Hero } from '../../components/Contact/Contact_Hero';
+import Contact_Hero from '../../components/Contact/Contact_Hero';
 import { Location_info } from '../../components/Contact/Location_info';
 
 const ContactPage = (): ReactElement => {
