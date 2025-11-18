@@ -47,7 +47,7 @@ export default function TimelineSection() {
     {
       year: "2016",
       title: "Regional Presence in Sri Lanka",
-      desc: "Established a distribution office in Sri Lanka, strengthening CMN’s reach in the South Asian region.",
+      desc: "Established a distribution office in Sri Lanka, strengthening CMN's reach in the South Asian region.",
       side: "left",
     },
     {
@@ -67,90 +67,104 @@ export default function TimelineSection() {
   return (
     <section
       ref={ref}
-      className="w-full bg-[#2E2E2E] text-white py-20 overflow-hidden"
+      className="w-full bg-[#2E2E2E] text-white py-20 overflow-hidden relative"
     >
-      <motion.h2
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        viewport={{ once: true }}
-        className="text-3xl md:text-4xl font-bold text-center mb-20"
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
+        style={{
+          backgroundImage: "url('/images/AboutUs/tree-bg.jpg')",
+        }}
       >
-        History Time Line
-      </motion.h2>
+        {/* Overlay with same color as current background */}
+        <div className="absolute inset-0 bg-[#2E2E2E] opacity-60"></div>
+      </div>
 
-      <div className="relative max-w-6xl mx-auto">
+      {/* Content */}
+      <div className="relative z-10">
+        <motion.h2
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="text-3xl md:text-4xl font-bold text-center mb-20"
+        >
+          History Time Line
+        </motion.h2>
 
-        {/* ========== CENTER LINE — HIDE ON MOBILE ========== */}
-        <motion.div
-          style={{ height: lineHeight }}
-          className="
-            hidden md:block               /* HIDE ON MOBILE */
-            absolute top-0 left-1/2 -translate-x-1/2 
-            w-[2px] bg-[#F272A8] origin-top
-          "
-        />
+        <div className="relative max-w-6xl mx-auto">
 
-        <div className="flex flex-col space-y-16">
+          {/* ========== CENTER LINE — HIDE ON MOBILE ========== */}
+          <motion.div
+            style={{ height: lineHeight }}
+            className="
+              hidden md:block               /* HIDE ON MOBILE */
+              absolute top-0 left-1/2 -translate-x-1/2 
+              w-[2px] bg-[#F272A8] origin-top
+            "
+          />
 
-          {timeline.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.7,
-                delay: index * 0.15,
-                ease: "easeOut",
-              }}
-              viewport={{ once: true }}
-              className={`
-                flex flex-col md:flex-row relative
-                md:${item.side === "left" ? "justify-start" : "justify-end"}
-              `}
-            >
+          <div className="flex flex-col space-y-16">
 
-              {/* ========== DOT — HIDE ON MOBILE ========== */}
+            {timeline.map((item, index) => (
               <motion.div
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
+                key={index}
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.3,
+                  duration: 0.7,
                   delay: index * 0.15,
                   ease: "easeOut",
                 }}
-                className="
-                  hidden md:block           /* HIDE ON MOBILE */
-                  absolute left-1/2 -translate-x-1/2
-                  w-5 h-5 bg-[#F272A8] rounded-full border-4 border-[#2E2E2E]
-                "
-              />
-
-              {/* ========== TIMELINE CARD ========== */}
-              <div
+                viewport={{ once: true }}
                 className={`
-                  w-full md:w-1/2 px-8
-
-                  /* DESKTOP & TABLET LEFT/RIGHT */
-                  md:${item.side === "left" ? "pr-16 text-right" : "pl-16 text-left"}
-
-                  /* MOBILE CENTER EVERYTHING */
-                  text-center md:text-inherit
+                  flex flex-col md:flex-row relative
+                  md:${item.side === "left" ? "justify-start" : "justify-end"}
                 `}
               >
-                <p className="text-[#F272A8] font-semibold text-lg mb-2">
-                  {item.year}
-                </p>
-                <h3 className="text-lg md:text-xl font-bold mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  {item.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
 
+                {/* ========== DOT — HIDE ON MOBILE ========== */}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: index * 0.15,
+                    ease: "easeOut",
+                  }}
+                  className="
+                    hidden md:block           /* HIDE ON MOBILE */
+                    absolute left-1/2 -translate-x-1/2
+                    w-5 h-5 bg-[#F272A8] rounded-full border-4 border-[#2E2E2E]
+                  "
+                />
+
+                {/* ========== TIMELINE CARD ========== */}
+                <div
+                  className={`
+                    w-full md:w-1/2 px-8
+
+                    /* DESKTOP & TABLET LEFT/RIGHT */
+                    md:${item.side === "left" ? "pr-16 text-right" : "pl-16 text-left"}
+
+                    /* MOBILE CENTER EVERYTHING */
+                    text-center md:text-inherit
+                  `}
+                >
+                  <p className="text-[#F272A8] font-semibold text-lg mb-2">
+                    {item.year}
+                  </p>
+                  <h3 className="text-lg md:text-xl font-bold mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+
+          </div>
         </div>
       </div>
     </section>
