@@ -184,9 +184,9 @@ const ProductSection: React.FC = () => {
 
                   </>
                 )}
- 
+
                 {/* Out of Stock Label */}
- 
+
                 {product.availability === "out-of-stock" && (
                   <>
                     {/* 🔴 MOBILE/TABLET VERSION (BIG BADGE) */}
@@ -204,7 +204,7 @@ const ProductSection: React.FC = () => {
                     </span>
 
                     {/* 🔴 DESKTOP VERSION (SMALL BADGE — YOUR ORIGINAL) */}
-                     
+
 
                     {/* Desktop Hover Overlay (unchanged) */}
                     <div
