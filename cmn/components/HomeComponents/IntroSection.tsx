@@ -76,14 +76,14 @@ export default function HeroIntroSection() {
           </p>
 
           <p className="text-gray-300 leading-relaxed max-w-xl">
-            We empower industries to be Efficient by Design—building smarter,
+            We empower industries to be Efficient by Design building smarter,
             more agile distribution systems that anticipate challenges before
             they arise. Using AI and predictive analytics, we optimize sourcing,
             logistics, and delivery operations across continents.
           </p>
 
           <p className="text-gray-300 leading-relaxed max-w-xl">
-            This allows our partners to stay ahead of market demand—faster in
+            This allows our partners to stay ahead of market demand faster in
             response, stronger in performance, and deeper in insight.
           </p>
 
