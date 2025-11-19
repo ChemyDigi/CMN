@@ -1,25 +1,46 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
+import {
+  User,
+  Mail,
+  Phone,
+  Globe,
+  MessageSquare,
+} from "lucide-react";
 
 export default function ContactSection() {
-  const [openFields, setOpenFields] = useState<number[]>([]);
+  const [opened, setOpened] = useState<string[]>(["firstName"]); // First field open on load
+  const [values, setValues] = useState<{ [key: string]: string }>({});
 
-  const toggleField = (index: number) => {
-    setOpenFields(prev => 
-      prev.includes(index) 
-        ? prev.filter(i => i !== index)
-        : [...prev, index]
-    );
+  const fields = [
+    { id: "firstName", label: "First Name", type: "text", icon: User },
+    { id: "lastName", label: "Last Name", type: "text", icon: User },
+    { id: "email", label: "Email", type: "email", icon: Mail },
+    { id: "phone", label: "Phone Number", type: "tel", icon: Phone },
+    { id: "country", label: "Country / Region", type: "text", icon: Globe },
+    { id: "message", label: "Message", type: "textarea", icon: MessageSquare },
+  ];
+
+  const toggle = (id: string) => {
+    setOpened(prev => {
+      if (prev.includes(id)) {
+        return values[id] ? prev : prev.filter(f => f !== id);
+      }
+      return [...prev, id];
+    });
   };
 
-  const isFieldOpen = (index: number) => openFields.includes(index);
+  const handleChange = (id: string, val: string) => {
+    setValues(prev => ({ ...prev, [id]: val }));
+  };
 
   return (
     <section className="w-full bg-white text-black px-6 md:px-16 lg:px-24 py-20">
-      <div className="flex flex-col lg:flex-row gap-16">
+      <div className="flex flex-col lg:flex-row gap-16 lg:gap-28">
+
         {/* LEFT TEXT */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
@@ -27,64 +48,80 @@ export default function ContactSection() {
           transition={{ duration: 0.6 }}
           className="max-w-md"
         >
-          <h1 className="text-7xl font-bold leading-tight mb-6">Keep in<br />touch</h1>
-          <p className="text-sm leading-relaxed">
-            sjhsgfghaghgaggdjsss dajgfd scajdf dsja dsbajd jsbf dbjs fabfj jfaj dfjbd fbd bfd dsb fbds fbd fb edebf eh f d f dshaf d jhs a.
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+            Keep in<br />touch
+          </h1>
+          <p className="text-sm md:text-base leading-relaxed">
+            Send us a message with your questions or concerns, and our team will
+            review it and get back to you as soon as possible with the support
+            or information you need.
           </p>
         </motion.div>
 
-        {/* FORM */}
+        {/* RIGHT FORM */}
         <motion.form
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
-          className="flex-1 max-w-xl space-y-8"
+          className="flex-1 max-w-xl lg:ml-20 space-y-6"
         >
-          {[
-            { label: "Your Name", type: "text" },
-            { label: "Last Name", type: "text" },
-            { label: "Email", type: "email" },
-            { label: "Phone Number", type: "tel" },
-            { label: "Country / Region", type: "text" },
-            { label: "Message", type: "textarea" },
-          ].map((field, i) => (
-            <div key={i} className="group w-full border-b border-gray-300 pb-2">
-              <div 
-                className="flex justify-between items-center cursor-pointer"
-                onClick={() => toggleField(i)}
-              >
-                <label className="text-lg font-medium">{field.label}</label>
-                <div className={`transform transition-transform duration-300 ${isFieldOpen(i) ? 'rotate-180' : ''}`}>
-                  <Image
-                    src={isFieldOpen(i) ? "/images/AboutUs/dropdown.png" : "/images/AboutUs/dropdown.png"}
-                    alt="Dropdown arrow"
-                    width={20}
-                    height={20}
-                    className="w-5 h-5"
-                  />
+          {fields.map(field => {
+            const Icon = field.icon;
+            const isOpen = opened.includes(field.id);
+
+            return (
+              <div key={field.id} className="w-full">
+                {/* LABEL ROW WITH ICON */}
+                <div
+                  className="flex items-center justify-between cursor-pointer"
+                  onClick={() => toggle(field.id)}
+                >
+                  <label className="text-sm font-medium">{field.label}</label>
+                  <Icon size={18} className="text-pink-500" />
                 </div>
+
+                {/* ALWAYS VISIBLE LINE */}
+                <div className="w-full border-b border-gray-300 mt-2"></div>
+
+                {/* EXPANDING INPUT */}
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="overflow-hidden"
+                    >
+                      {field.type === "textarea" ? (
+                        <textarea
+                          rows={4}
+                          className="w-full mt-3 pb-2 text-sm outline-none bg-transparent resize-none"
+                          placeholder={`Enter your ${field.label.toLowerCase()}`}
+                          autoFocus={field.id === "firstName"}
+                          value={values[field.id] || ""}
+                          onChange={e => handleChange(field.id, e.target.value)}
+                        />
+                      ) : (
+                        <input
+                          type={field.type}
+                          className="w-full mt-3 pb-2 text-sm outline-none bg-transparent"
+                          placeholder={`Enter your ${field.label.toLowerCase()}`}
+                          autoFocus={field.id === "firstName"}
+                          value={values[field.id] || ""}
+                          onChange={e => handleChange(field.id, e.target.value)}
+                        />
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <div className={`overflow-hidden transition-all duration-300 ${isFieldOpen(i) ? 'max-h-40' : 'max-h-0'}`}>
-                {field.type === "textarea" ? (
-                  <textarea
-                    className="w-full mt-3 pb-2 border-none outline-none text-base resize-none bg-transparent"
-                    rows={4}
-                    placeholder={`Enter your ${field.label.toLowerCase()}`}
-                  />
-                ) : (
-                  <input
-                    type={field.type}
-                    className="w-full mt-3 pb-2 border-none outline-none text-base bg-transparent"
-                    placeholder={`Enter your ${field.label.toLowerCase()}`}
-                  />
-                )}
-              </div>
-            </div>
-          ))}
+            );
+          })}
 
           <button
             type="submit"
-            className="mt-8 bg-black text-white tracking-wide text-sm px-8 py-3 rounded hover:bg-gray-800 transition-colors"
+            className="mt-6 bg-black text-white text-xs tracking-wide px-8 py-3 rounded hover:bg-gray-800 transition-colors"
           >
             SUBMIT
           </button>
