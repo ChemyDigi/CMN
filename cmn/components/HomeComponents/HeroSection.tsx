@@ -6,7 +6,7 @@ import heroImage from "../../public/images/hero/heroHome.png"
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[90vh] overflow-hidden rounded-br-[120px]">
+    <section className="relative w-full h-screen overflow-hidden rounded-br-[120px]">
 
       {/* Background Image */}
       <motion.div

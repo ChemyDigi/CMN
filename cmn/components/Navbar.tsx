@@ -26,12 +26,8 @@ export default function Navbar() {
           />
         </Link>
 
-<<<<<<< HEAD
 
         {/* DESKTOP NAVBAR */}
-=======
-        {/* DESKTOP NAVBAR - Hidden on tablet and mobile */}
->>>>>>> 16f452b5ffa2b4ee6487271cb5689e0b58efe0d9
         <div className="hidden lg:flex flex-1">
           <nav
             onMouseLeave={() => setActiveMenu(null)}
@@ -105,16 +101,11 @@ export default function Navbar() {
           </nav>
         </div>
 
-<<<<<<< HEAD
         {/* MOBILE MENU BUTTON */}
         <button
           className="lg:hidden block text-white ml-4 pr-4 sm:pr-6"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
-=======
-        {/* MOBILE MENU BUTTON - Show on tablet (md) and mobile, hide on desktop (lg) */}
-        <button className="lg:hidden block text-white ml-4" onClick={() => setMobileOpen(!mobileOpen)}>
->>>>>>> 16f452b5ffa2b4ee6487271cb5689e0b58efe0d9
           <div className="space-y-1 transition-all">
             <span className="block w-6 h-0.5 bg-white"></span>
             <span className="block w-6 h-0.5 bg-white"></span>
