@@ -7,7 +7,7 @@ import { ArrowUpRight } from "lucide-react";
 export default function HeroIntroSection() {
   return (
     <section className="relative w-full bg-black text-white py-28 px-6 md:px-16 lg:px-24 overflow-hidden">
-      
+
       {/* BACKGROUND IMAGE */}
       <div className="absolute inset-0">
         <Image
@@ -89,16 +89,17 @@ export default function HeroIntroSection() {
 
           {/* CTA BUTTON */}
           <Link
-            href="#"
+            href="/services/cmn"
             className="
-              inline-flex items-center gap-2 px-6 py-3 
-              bg-[#F272A8] text-white font-medium rounded-md shadow-lg 
-              hover:bg-[#f45c98] transition
-            "
+    inline-flex items-center gap-2 px-6 py-3 
+    bg-[#F272A8] text-white font-medium rounded-md shadow-lg 
+    hover:bg-[#f45c98] transition
+  "
           >
             Here’s How
             <ArrowUpRight size={20} />
           </Link>
+
         </div>
       </div>
     </section>

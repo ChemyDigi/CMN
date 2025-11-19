@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import heroImage from "../../public/images/hero/heroHome.png"
+import Link from "next/link";
 
 export default function HeroSection() {
   return (
@@ -61,14 +62,18 @@ export default function HeroSection() {
             Offices in Singapore, India & Sri Lanka
           </motion.p>
 
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.9 }}
-            className="px-6 py-3 bg-[#F272A8] text-white font-medium rounded-md shadow-lg hover:bg-[#f45c98] transition"
-          >
-            Contact Us
-          </motion.button>
+ 
+<Link href="/contact">
+  <motion.button
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1.2, delay: 0.9 }}
+    className="px-6 py-3 bg-[#F272A8] text-white font-medium rounded-md shadow-lg hover:bg-[#f45c98] transition"
+  >
+    Contact Us
+  </motion.button>
+</Link>
+
 
         </div>
       </div>
