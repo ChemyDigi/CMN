@@ -5,7 +5,7 @@ import heroImage from "../../public/images/hero/toolsHero.png";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[100dvh] flex items-center overflow-hidden">
+    <section className="relative w-full min-h-screen flex items-center overflow-hidden pt-20"> {/* Added pt-20 for navbar and items-center for vertical centering */}
 
       {/* Background Image */}
       <motion.div

@@ -5,7 +5,7 @@ import heroImage from "../../public/images/hero/heroContact.png";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[100dvh] flex items-center overflow-hidden">
+    <section className="relative w-full min-h-screen flex items-center overflow-hidden pt-20"> {/* Added pt-20 for navbar and items-center for vertical centering */}
 
       {/* Background Image */}
       <motion.div
@@ -57,8 +57,9 @@ export default function HeroSection() {
           transition={{ duration: 1.2, delay: 0.5 }}
           className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-bold leading-tight mb-3 sm:mb-4 md:mb-5"
         >
-          You're more resilient <br/>
-          when you know what's coming
+          You're more resilient<br/>
+          when you know what's<br/>
+          coming
         </motion.h1>
 
         {/* DESCRIPTION */}
@@ -76,8 +77,8 @@ export default function HeroSection() {
           "
         >
           Managing risk across complex aviation supply networks is challenging
-          but CMN Distributors makes it seamless, reliable, and future-ready.
-          Our intelligent distribution platform gives you real time visibility and control
+          but CMN Distributors makes it seamless, reliable, and future-ready. Our
+          intelligent distribution platform gives you real time visibility and control
           over every stage of your supply chain.
         </motion.p>
 

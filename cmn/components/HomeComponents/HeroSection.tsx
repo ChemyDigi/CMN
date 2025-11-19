@@ -1,13 +1,12 @@
 "use client";
-
 import Image from "next/image";
 import { motion } from "framer-motion";
-import heroImage from "../../public/images/hero/heroHome.png"
+import heroImage from "../../public/images/hero/heroHome.png";
 import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-screen overflow-hidden rounded-br-[120px]">
+    <section className="relative w-full min-h-screen flex items-center overflow-hidden pt-20">
 
       {/* Background Image */}
       <motion.div
@@ -18,64 +17,103 @@ export default function HeroSection() {
       >
         <Image
           src={heroImage}
-          alt="CMN Distributor Home Hero"
+          alt="CMN Distributor Hero"
           fill
-          className="object-cover"
+          className="object-cover brightness-50"
           priority
         />
-
-        <div className="absolute inset-0 bg-linear-to-r from-black via-black/70 to-transparent" />
       </motion.div>
 
-      {/* Content */}
-      <div className="relative z-10 h-full flex items-center px-6 sm:px-12 md:px-16 lg:pl-[120px] 
-                      text-center md:text-left      /* NEW */
-                      ">
-        <div className="max-w-full mx-auto md:mx-0 flex flex-col items-center md:items-start"> {/* NEW */}
-          
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.2 }}
-            className="text-sm text-white/80 mb-3"
-          >
-            CMN Distributors
-          </motion.p>
+      {/* CONTENT */}
+      <div
+        className="
+          relative z-10 text-white max-w-4xl w-full
 
-          <motion.h1
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.4 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-snug max-w-full"
-          >
-            Powering Industries with <br />
-            Precision Tools & Trusted <br />
-            Solutions
-          </motion.h1>
+          /* Mobile & Tablet: Center aligned */
+          px-4 xs:px-6 sm:px-8 md:px-12
+          mx-auto
+          text-center
 
-          <motion.p
+          /* Desktop: Left aligned with original padding */
+          lg:pl-[180px] xl:pl-[230px]
+          lg:mx-0
+          lg:text-left
+          lg:px-0
+        "
+      >
+        {/* SMALL HEADING */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.3 }}
+          className="text-xs sm:text-sm md:text-base mb-2 sm:mb-3 opacity-80"
+        >
+          CMN Distributors
+        </motion.p>
+
+        {/* MAIN TITLE */}
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.5 }}
+          className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-bold leading-tight mb-3 sm:mb-4 md:mb-5"
+        >
+          Powering Industries with<br/>
+          Precision Tools & Trusted<br/>
+          Solutions
+        </motion.h1>
+
+        {/* DESCRIPTION */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.8 }}
+          className="
+            text-sm xs:text-base sm:text-lg md:text-lg
+            max-w-xs xs:max-w-sm sm:max-w-md md:max-w-xl
+            text-gray-200
+            mx-auto
+            lg:mx-0
+            mb-6 sm:mb-8
+          "
+        >
+          Offices in Singapore, India & Sri Lanka
+        </motion.p>
+
+        {/* CONTACT BUTTON - RESPONSIVE */}
+        <Link href="/contact">
+          <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.7 }}
-            className="text-lg text-white/80 mt-4 mb-6"
+            transition={{ duration: 1.2, delay: 0.9 }}
+            className="
+              /* Base styles */
+              bg-[#F272A8] text-white font-medium rounded-md shadow-lg 
+              hover:bg-[#f45c98] transition-all duration-300
+              
+              /* Mobile: Smaller padding and text */
+              px-4 py-2 text-sm
+              
+              /* Small mobile: Slightly larger */
+              xs:px-5 xs:py-2.5 xs:text-base
+              
+              /* Tablet: Medium size */
+              sm:px-6 sm:py-3 sm:text-lg
+              
+              /* Desktop: Larger size */
+              md:px-8 md:py-3.5
+              
+              /* Hover effects */
+              hover:scale-105 hover:shadow-xl
+              
+              /* Focus state for accessibility */
+              focus:outline-none focus:ring-2 focus:ring-[#F272A8] focus:ring-offset-2 focus:ring-offset-transparent
+            "
           >
-            Offices in Singapore, India & Sri Lanka
-          </motion.p>
+            Contact Us
+          </motion.button>
+        </Link>
 
- 
-<Link href="/contact">
-  <motion.button
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 1.2, delay: 0.9 }}
-    className="px-6 py-3 bg-[#F272A8] text-white font-medium rounded-md shadow-lg hover:bg-[#f45c98] transition"
-  >
-    Contact Us
-  </motion.button>
-</Link>
-
-
-        </div>
       </div>
     </section>
   );

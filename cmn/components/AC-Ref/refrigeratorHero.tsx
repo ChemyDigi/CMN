@@ -5,7 +5,7 @@ import heroImage from "../../public/images/hero/heroAC.png";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[100dvh] flex items-center overflow-hidden">
+    <section className="relative w-full min-h-screen flex items-center overflow-hidden pt-20"> {/* Added pt-20 for navbar and items-center for vertical centering */}
 
       {/* Background Image */}
       <motion.div
@@ -57,7 +57,7 @@ export default function HeroSection() {
           transition={{ duration: 1.2, delay: 0.5 }}
           className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-bold leading-tight mb-3 sm:mb-4 md:mb-5"
         >
-          Climate & <br/>
+          Climate &<br/>
           Kitchen Excellence
         </motion.h1>
 
