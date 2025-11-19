@@ -10,13 +10,13 @@ export default function Navbar() {
   const [mobileDropdown, setMobileDropdown] = useState<"solutions" | "products" | null>(null);
 
   return (
-    <header className="relative w-full">
+    <header className="fixed top-0 left-0 w-full z-50">
 
       {/* TOP BLACK BAR */}
-      <div className="w-full h-20 flex items-center justify-between bg-black px-4 sm:px-6 lg:px-10 pl-0 relative z-50">
+      <div className="w-full h-20 flex items-center justify-between bg-black pl-4 sm:pl-6 lg:pl-10 pr-0 relative z-50 position-fixed">
 
         {/* LOGO */}
-        <Link href="/" className="flex items-center flex-shrink-0">
+        <Link href="/" className="flex items-center flex-shrink-0 pl-4 sm:pl-6 lg:pl-10">
           <Image
             src="/images/CMN_logo.png"
             alt="Company Logo"
@@ -25,6 +25,7 @@ export default function Navbar() {
             className="object-contain"
           />
         </Link>
+
 
         {/* DESKTOP NAVBAR */}
         <div className="hidden lg:flex flex-1">
@@ -101,7 +102,10 @@ export default function Navbar() {
         </div>
 
         {/* MOBILE MENU BUTTON */}
-        <button className="lg:hidden block text-white ml-4" onClick={() => setMobileOpen(!mobileOpen)}>
+        <button
+          className="lg:hidden block text-white ml-4 pr-4 sm:pr-6"
+          onClick={() => setMobileOpen(!mobileOpen)}
+        >
           <div className="space-y-1 transition-all">
             <span className="block w-6 h-0.5 bg-white"></span>
             <span className="block w-6 h-0.5 bg-white"></span>
