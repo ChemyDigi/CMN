@@ -75,22 +75,22 @@ const ProductSection: React.FC = () => {
       {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 md:mb-10">
         {/* Category Tabs */}
-        <div className="w-full sm:w-auto">
-          <div className="grid grid-cols-4 gap-1 sm:flex sm:flex-wrap sm:gap-1 bg-gray-100 rounded-md p-1">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-2 py-2 sm:px-3 md:px-4 sm:py-2 text-xs font-medium rounded-md transition-all whitespace-nowrap min-h-[40px] flex items-center justify-center ${activeCategory === cat
-                  ? "bg-black text-white"
-                  : "bg-white text-gray-800 border border-gray-200 hover:bg-gray-50"
-                  }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
+<div className="flex flex-wrap items-center gap-3">
+  {categories.map((cat) => (
+    <button
+      key={cat}
+      onClick={() => setActiveCategory(cat)}
+      className={`
+        px-5 py-2 rounded-full text-sm font-medium transition-all
+        ${activeCategory === cat
+          ? "bg-black text-white shadow-sm"
+          : "bg-gray-200 text-gray-800 hover:bg-gray-300"}
+      `}
+    >
+      {cat}
+    </button>
+  ))}
+</div>
 
         {/* Search Box */}
         <div className="relative flex items-center bg-gray-100 rounded-md px-3 py-2 w-full sm:w-48 md:w-56 lg:w-64">
