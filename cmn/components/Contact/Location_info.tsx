@@ -34,8 +34,8 @@ export const Location_info = (): ReactElement => {
       address: [
         "# 1, Mehta Industrial Estate",
         "Off J P Road No 2 Goregaon East",
-        "Mumbai – 400063",
-        "Maharshtra– India"
+        "Mumbai - 400063",
+        "Maharshtra - India"
       ],
       phone: "(+91) 9920785241",
       email: "shubhangipatil@cmndistributors.com"
