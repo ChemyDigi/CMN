@@ -176,7 +176,7 @@ export default function SimilarProducts() {
                     className="object-cover"
                   />
                   {/* Availability Badge */}
-                  {product.availability && (
+                  {/* {product.availability && (
                     <span className={`absolute top-2 left-2 text-[8px] sm:text-[9px] font-semibold px-1.5 py-0.5 rounded ${
                       product.availability === "in-stock" 
                         ? "bg-green-600 text-white" 
@@ -184,7 +184,7 @@ export default function SimilarProducts() {
                     }`}>
                       {product.availability === "in-stock" ? "In Stock" : "Out of Stock"}
                     </span>
-                  )}
+                  )} */}
                 </div>
 
                 <div className="p-2 sm:p-3 flex flex-col flex-1 justify-between">
