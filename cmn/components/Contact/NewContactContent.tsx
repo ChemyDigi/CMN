@@ -45,6 +45,7 @@ export default function ContactSection() {
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
           className="max-w-md"
         >
@@ -62,6 +63,7 @@ export default function ContactSection() {
         <motion.form
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
           className="flex-1 max-w-xl lg:ml-20 space-y-6"
         >
@@ -132,6 +134,7 @@ export default function ContactSection() {
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
         className="w-full border-t border-gray-300 mt-20 pt-16 grid md:grid-cols-3 gap-12"
       >
@@ -142,8 +145,7 @@ export default function ContactSection() {
           <p className="text-sm mt-2 leading-relaxed">
             #1, Mehta Industrial Estate<br />
             Off J P Road No 2 goregaon East<br />
-            Mumbai - 400063<br />
-            Maharashtra - India
+            Mumbai - 400063, Maharashtra - India
           </p>
           <p className="text-sm mt-4">(+91) 9920785241</p>
           <p className="text-sm">shubhangi@cmndistributors.com</p>
@@ -176,8 +178,7 @@ export default function ContactSection() {
           <p className="text-sm mt-2 leading-relaxed">
             No 103 & 105<br />
             Kesbawa Road,<br />
-            Boralesgamuwa 10290<br />
-            Sri Lanka
+            Boralesgamuwa 10290, Sri Lanka
           </p>
           <p className="text-sm mt-4">+94 (76) 359 7171</p>
           <p className="text-sm">hasitha@cmndistributors.com</p>
