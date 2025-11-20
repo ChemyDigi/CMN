@@ -152,7 +152,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
 
         {/* RIGHT SECTION — DETAILS */}
         <div className="w-full max-w-xl space-y-6">
-          <p className="text-sm text-gray-500">{product.brand}</p>
+          <p className="text-sm text-[#F272A8] font-bold">{product.brand}</p>
 
           <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-snug">
             {product.productName}
