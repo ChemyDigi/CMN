@@ -48,28 +48,36 @@ export default function WhyChooseUsSection() {
       </div>
 
       {/* Grid */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 mt-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
         {features.map((item, index) => (
-          <div key={index} className="flex flex-col items-center text-center">
+          <div 
+            key={index} 
+            className="flex flex-col items-center text-center group cursor-pointer transition-all duration-500 ease-in-out"
+          >
             
-            {/* ICON CIRCLE */}
-            <div className="w-28 h-28 flex items-center justify-center rounded-full border-2 border-white mb-4">
+            {/* ICON CIRCLE with enhanced hover effects */}
+            <div className="w-28 h-28 flex items-center justify-center rounded-full border-2 border-white mb-4 group-hover:border-[#F272A8] group-hover:bg-[#F272A8] group-hover:scale-110 group-hover:shadow-2xl group-hover:shadow-[#F272A8]/20 transition-all duration-500 ease-in-out">
               <Image
                 src={item.icon}
                 alt={item.title}
                 width={50}
                 height={50}
-                className="object-contain"
+                className="object-contain group-hover:scale-110 group-hover:brightness-0 group-hover:invert transition-all duration-500 ease-in-out"
               />
             </div>
 
-            {/* TITLE */}
-            <h3 className="text-[#F272A8] text-sm font-semibold tracking-wide mb-1">
+            {/* TITLE with hover effect */}
+            <h3 className="text-[#F272A8] text-sm font-semibold tracking-wide mb-1 group-hover:text-white group-hover:scale-105 transition-all duration-300 ease-in-out">
               {item.title}
             </h3>
 
-            {/* DESCRIPTION */}
-            <p className="text-gray-300 text-sm">{item.desc}</p>
+            {/* DESCRIPTION with hover effect */}
+            <p className="text-gray-300 text-sm group-hover:text-white group-hover:scale-105 transition-all duration-300 ease-in-out max-w-xs">
+              {item.desc}
+            </p>
+
+            {/* Subtle bottom border effect on hover */}
+            <div className="w-0 group-hover:w-12 h-0.5 bg-[#F272A8] mt-3 transition-all duration-500 ease-in-out"></div>
           </div>
         ))}
       </div>
