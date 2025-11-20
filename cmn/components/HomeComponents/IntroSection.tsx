@@ -3,8 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView, easeOut } from "framer-motion";
 import { useRef } from "react";
 
 export default function HeroIntroSection() {
@@ -17,58 +16,49 @@ export default function HeroIntroSection() {
       opacity: 1,
       transition: {
         staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
+        delayChildren: 0.3,
+      },
+    },
   };
 
   const itemVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 30 
-    },
-    visible: { 
-      opacity: 1, 
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
       y: 0,
       transition: {
         duration: 0.6,
-        ease: "easeOut"
-      }
-    }
+        ease: easeOut,
+      },
+    },
   };
 
   const imageVariants = {
-    hidden: { 
-      opacity: 0, 
-      scale: 0.8 
-    },
-    visible: { 
-      opacity: 1, 
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
       scale: 1,
       transition: {
         duration: 0.8,
-        ease: "easeOut"
-      }
-    }
+        ease: easeOut,
+      },
+    },
   };
 
   const decorativeVariants = {
-    hidden: { 
-      opacity: 0, 
-      x: -50 
-    },
-    visible: { 
-      opacity: 1, 
+    hidden: { opacity: 0, x: -50 },
+    visible: {
+      opacity: 1,
       x: 0,
       transition: {
         duration: 0.8,
-        ease: "easeOut"
-      }
-    }
+        ease: easeOut,
+      },
+    },
   };
 
   return (
-    <section 
+    <section
       ref={containerRef}
       className="relative w-full bg-black text-white py-28 px-6 md:px-16 lg:px-24 overflow-hidden"
     >
@@ -89,12 +79,7 @@ export default function HeroIntroSection() {
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         variants={containerVariants}
-        className="
-          relative z-10 max-w-7xl mx-auto 
-          grid grid-cols-1 lg:grid-cols-2 gap-16
-          items-center 
-          text-center lg:text-left
-        "
+        className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center text-center lg:text-left"
       >
         {/* LEFT DECORATIVE AREA – HIDE ON MOBILE/TABLET */}
         <div className="relative hidden lg:block">
@@ -130,11 +115,11 @@ export default function HeroIntroSection() {
         </div>
 
         {/* RIGHT CONTENT – CENTERED ON MOBILE */}
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           className="space-y-6 flex flex-col items-center lg:items-start"
         >
-          <motion.h2 
+          <motion.h2
             variants={itemVariants}
             className="text-3xl md:text-4xl font-bold leading-snug"
           >
@@ -142,7 +127,7 @@ export default function HeroIntroSection() {
             Intelligent Supply Chain Solutions
           </motion.h2>
 
-          <motion.p 
+          <motion.p
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl"
           >
@@ -152,7 +137,7 @@ export default function HeroIntroSection() {
             reliability, efficiency, and scalability.
           </motion.p>
 
-          <motion.p 
+          <motion.p
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl"
           >
@@ -162,7 +147,7 @@ export default function HeroIntroSection() {
             logistics, and delivery operations across continents.
           </motion.p>
 
-          <motion.p 
+          <motion.p
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl"
           >
@@ -178,11 +163,7 @@ export default function HeroIntroSection() {
           >
             <Link
               href="/services/cmn"
-              className="
-                inline-flex items-center gap-2 px-6 py-3 
-                bg-[#F272A8] text-white font-medium rounded-md shadow-lg 
-                hover:bg-[#f45c98] transition
-              "
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#F272A8] text-white font-medium rounded-md shadow-lg hover:bg-[#f45c98] transition"
             >
               Here's How
               <ArrowUpRight size={20} />

@@ -150,7 +150,7 @@ const ProductSection: React.FC = () => {
                 {product.availability === "in-stock" && (
                   <>
                     {/* 🔴 MOBILE/TABLET VERSION (BIG BADGE) */}
-                    <span
+                    {/* <span
                       className="
                         absolute top-2 left-2
                         bg-green-600 text-white
@@ -161,10 +161,10 @@ const ProductSection: React.FC = () => {
                       "
                     >
                       In Stock
-                    </span>
+                    </span> */}
 
                     {/* 🔴 DESKTOP VERSION (SMALL BADGE) */}
-                    <span
+                    {/* <span
                       className="
                         absolute top-2 left-2
                         bg-green-600 text-white
@@ -175,7 +175,7 @@ const ProductSection: React.FC = () => {
                       "
                     >
                       In Stock
-                    </span>
+                    </span> */}
                   </>
                 )}
 
@@ -183,7 +183,7 @@ const ProductSection: React.FC = () => {
                 {product.availability === "out-of-stock" && (
                   <>
                     {/* 🔴 MOBILE/TABLET VERSION (BIG BADGE) */}
-                    <span
+                    {/* <span
                       className="
                         absolute top-2 left-2
                         bg-red-600 text-white
@@ -194,10 +194,10 @@ const ProductSection: React.FC = () => {
                       "
                     >
                       Out of Stock
-                    </span>
+                    </span> */}
 
                     {/* Desktop Hover Overlay */}
-                    <div
+                    {/* <div
                       className="
                         absolute inset-0
                         bg-black/40
@@ -216,7 +216,7 @@ const ProductSection: React.FC = () => {
                       >
                         OUT OF STOCK
                       </span>
-                    </div>
+                    </div> */}
                   </>
                 )}
               </div>
