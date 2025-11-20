@@ -1,9 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import React from "react";
 
-export default function WhyChooseUsSection() {
-  const features = [
+interface FeatureItem {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+export default function WhyChooseUsSection(): React.ReactElement {
+  const features: FeatureItem[] = [
     {
       icon: "/images/Home/network.png",
       title: "NETWORK",
@@ -49,7 +56,7 @@ export default function WhyChooseUsSection() {
 
       {/* Grid */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-        {features.map((item, index) => (
+        {features.map((item: FeatureItem, index: number) => (
           <div 
             key={index} 
             className="flex flex-col items-center text-center group cursor-pointer transition-all duration-500 ease-in-out"
