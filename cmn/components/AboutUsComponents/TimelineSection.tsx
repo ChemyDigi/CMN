@@ -74,7 +74,7 @@ export default function TimelineSection() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
         style={{
-          backgroundImage: "url(${treeBg.src})",
+          backgroundImage: `url(${treeBg.src})`,
         }}
       >
         {/* Overlay with same color as current background */}
