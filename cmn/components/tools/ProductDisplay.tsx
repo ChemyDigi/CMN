@@ -72,8 +72,8 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
 
   return (
     <div className="bg-white w-full text-gray-900">
-      {/* Back Button */}
-      <div className="flex items-center gap-2 pt-6 px-4 sm:px-6 lg:px-10">
+      {/* Back Button - Increased top padding */}
+      <div className="flex items-center gap-2 pt-28 px-4 sm:px-6 lg:px-10"> {/* Changed pt-6 to pt-28 */}
         <Link
           href="/products/tools"
           className="flex items-center text-gray-700 hover:text-black transition-colors"
