@@ -78,22 +78,22 @@ const ProductSection: React.FC = () => {
       {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 md:mb-10">
         {/* Category Tabs */}
-<div className="flex flex-wrap items-center gap-3">
-  {categories.map((cat) => (
-    <button
-      key={cat}
-      onClick={() => setActiveCategory(cat)}
-      className={`
-        px-5 py-2 rounded-full text-sm font-medium transition-all
-        ${activeCategory === cat
-          ? "bg-black text-white shadow-sm"
-          : "bg-gray-200 text-gray-800 hover:bg-gray-300"}
-      `}
-    >
-      {cat}
-    </button>
-  ))}
-</div>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`
+                px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all flex-shrink-0
+                ${activeCategory === cat
+                  ? "bg-black text-white shadow-sm"
+                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"}
+              `}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
 
         {/* Search Box */}
         <div className="relative flex items-center bg-gray-100 rounded-md px-3 py-2 w-full sm:w-48 md:w-56 lg:w-64">
@@ -133,8 +133,8 @@ const ProductSection: React.FC = () => {
           </p>
         </div>
       ) : (
-        /* Product Grid */
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+        /* Product Grid - ALWAYS 4 columns */
+        <div className="grid grid-cols-1 min-[480px]:grid-cols-2 min-[768px]:grid-cols-3 min-[1024px]:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
@@ -150,87 +150,78 @@ const ProductSection: React.FC = () => {
                 />
 
                 {/* IN STOCK LABEL */}
-
                 {product.availability === "in-stock" && (
                   <>
                     {/* 🔴 MOBILE/TABLET VERSION (BIG BADGE) */}
                     <span
                       className="
-        absolute top-2 left-2
-        bg-green-600 text-white
-        text-sm font-semibold
-        px-4 py-2
-        rounded-md shadow-md z-10
-        block lg:hidden
-      "
+                        absolute top-2 left-2
+                        bg-green-600 text-white
+                        text-sm font-semibold
+                        px-4 py-2
+                        rounded-md shadow-md z-10
+                        block lg:hidden
+                      "
                     >
                       In Stock
                     </span>
 
-                    {/* 🔴 DESKTOP VERSION (SMALL BADGE — YOUR ORIGINAL) */}
+                    {/* 🔴 DESKTOP VERSION (SMALL BADGE) */}
                     <span
                       className="
-        absolute top-2 left-2
-        bg-green-600 text-white
-        text-xs font-semibold
-        px-2 py-1
-        rounded-md shadow-md z-10
-        hidden lg:block
-      "
+                        absolute top-2 left-2
+                        bg-green-600 text-white
+                        text-xs font-semibold
+                        px-2 py-1
+                        rounded-md shadow-md z-10
+                        hidden lg:block
+                      "
                     >
                       In Stock
                     </span>
-
-
                   </>
                 )}
 
                 {/* Out of Stock Label */}
-
                 {product.availability === "out-of-stock" && (
                   <>
                     {/* 🔴 MOBILE/TABLET VERSION (BIG BADGE) */}
                     <span
                       className="
-        absolute top-2 left-2
-        bg-red-600 text-white
-        text-sm font-semibold
-        px-4 py-2
-        rounded-md shadow-md z-10
-        block lg:hidden
-      "
+                        absolute top-2 left-2
+                        bg-red-600 text-white
+                        text-sm font-semibold
+                        px-4 py-2
+                        rounded-md shadow-md z-10
+                        block lg:hidden
+                      "
                     >
                       Out of Stock
                     </span>
 
-                    {/* 🔴 DESKTOP VERSION (SMALL BADGE — YOUR ORIGINAL) */}
-
-
-                    {/* Desktop Hover Overlay (unchanged) */}
+                    {/* Desktop Hover Overlay */}
                     <div
                       className="
-        absolute inset-0
-        bg-black/40
-        hidden lg:flex
-        items-center justify-center
-        opacity-0 group-hover:opacity-100
-        transition-opacity
-      "
+                        absolute inset-0
+                        bg-black/40
+                        hidden lg:flex
+                        items-center justify-center
+                        opacity-0 group-hover:opacity-100
+                        transition-opacity
+                      "
                     >
                       <span
                         className="
-          bg-white text-black
-          text-sm font-semibold
-          px-4 py-1.5 rounded-full shadow-md
-        "
+                          bg-white text-black
+                          text-sm font-semibold
+                          px-4 py-1.5 rounded-full shadow-md
+                        "
                       >
                         OUT OF STOCK
                       </span>
                     </div>
                   </>
                 )}
-
-
               </div>
 
               {/* Product Info */}
