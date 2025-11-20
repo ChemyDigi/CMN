@@ -1,6 +1,6 @@
-import ProductSection from "@/components/tools/ProductSection";
+import ProductSection from "@/components/Tools/ProductSection";
 import HeroCarousel from "@/components/GeneralHeroCarousel";
-import ToolsHeroSection from "@/components/tools/ToolsHeroSection";
+import ToolsHeroSection from "@/components/Tools/ToolsHeroSection";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
