@@ -80,36 +80,39 @@ export default function HeroSection() {
           tools, equipment, and industrial products across continents.
         </motion.p>
 
-        {/* DESKTOP UNDERLINE (Original) */}
+        {/* DESKTOP UNDERLINE - Matches description width */}
         <motion.div
           initial={{ width: 0, opacity: 0 }}
-          animate={{ width: "320px", opacity: 1 }}
+          animate={{ width: "100%", opacity: 1 }}
           transition={{ duration: 2, delay: 1 }}
           className="
             mt-4 md:mt-6 h-[2px] bg-[#F272A8] rounded
             hidden lg:block
+            max-w-xl
           "
         />
 
-        {/* TABLET UNDERLINE (Medium screens) */}
+        {/* TABLET UNDERLINE - Matches description width */}
         <motion.div
           initial={{ width: 0, opacity: 0 }}
-          animate={{ width: "200px", opacity: 1 }}
+          animate={{ width: "100%", opacity: 1 }}
           transition={{ duration: 1.8, delay: 1 }}
           className="
             mt-4 md:mt-6 h-[2px] bg-[#F272A8] rounded
             hidden md:block lg:hidden mx-auto
+            max-w-md
           "
         />
 
-        {/* MOBILE UNDERLINE (Small screens) */}
+        {/* MOBILE UNDERLINE - Matches description width */}
         <motion.div
           initial={{ width: 0, opacity: 0 }}
-          animate={{ width: "120px", opacity: 1 }}
+          animate={{ width: "100%", opacity: 1 }}
           transition={{ duration: 1.8, delay: 1 }}
           className="
             mt-4 h-[2px] bg-[#F272A8] rounded 
             block md:hidden mx-auto
+            max-w-xs xs:max-w-sm
           "
         />
       </div>
