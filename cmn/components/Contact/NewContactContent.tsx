@@ -10,8 +10,8 @@ import {
   Globe,
   MessageSquare,
 } from "lucide-react";
-import facebookIcon from "@/public/images/AboutUs/facebook.png";
-import instagramIcon from "@/public/images/AboutUs/instagram.png";
+import facebookIcon from "@/public/images/AboutUS/facebook.png";
+import instagramIcon from "@/public/images/AboutUS/instagram.png";
 
 export default function ContactSection() {
   const [opened, setOpened] = useState<string[]>(["firstName"]); // First field open on load
