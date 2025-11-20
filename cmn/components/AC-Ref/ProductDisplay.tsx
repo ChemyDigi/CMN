@@ -25,7 +25,6 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
   const [mainImage, setMainImage] = useState(product.mainImage);
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
-  const [activeTab, setActiveTab] = useState("description");
   const imageRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -36,47 +35,11 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
     setZoomPosition({ x, y });
   };
 
-  // Tab Content
-  const tabContent = {
-    description: (
-      <div className="space-y-4">
-        <p className="text-gray-700 leading-relaxed text-[15px]">{product.description}</p>
-      </div>
-    ),
-    specifications: (
-      <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-y-3 text-[15px]">
-          <p className="text-gray-600 font-medium">Brand</p>
-          <p className="text-gray-900 font-semibold">{product.brand}</p>
-
-          <p className="text-gray-600 font-medium">Warranty</p>
-          <p className="text-gray-900 font-semibold">{product.warranty}</p>
-
-          <p className="text-gray-600 font-medium">Capacity</p>
-          <p className="text-gray-900 font-semibold">{product.capacity}</p>
-
-          <p className="text-gray-600 font-medium">Type</p>
-          <p className="text-gray-900 font-semibold">{product.type}</p>
-
-          <p className="text-gray-600 font-medium">Energy Rating</p>
-          <p className="text-gray-900 font-semibold">{product.energyRating}</p>
-        </div>
-      </div>
-    ),
-    warranty: (
-      <div className="space-y-4">
-        <p className="text-gray-700 leading-relaxed text-[15px]">
-          {product.warranty} — Full terms and conditions apply.
-        </p>
-      </div>
-    ),
-  };
-
   return (
     <div className="bg-white w-full text-gray-900">
 
       {/* Back Button */}
-      <div className="flex items-center gap-2 pt-28 px-4 sm:px-6 lg:px-10"> {/* Changed pt-6 to pt-28 */}
+      <div className="flex items-center gap-2 pt-28 px-4 sm:px-6 lg:px-10">
         <Link
           href="/products/ref-ac"
           className="flex items-center text-gray-700 hover:text-black transition-colors"
@@ -158,46 +121,49 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
             {product.productName}
           </h1>
 
-          {/* Stock Badge */}
-          {/* <p
-            className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
-              product.availability === "in-stock"
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-600"
-            }`}
-          >
-            {product.availability === "in-stock" ? "In Stock" : "Out of Stock"}
-          </p> */}
-
-          {/* Tabs Section */}
-          <div className="mt-6">
-
-            {/* Tab Headers */}
-            <div className="flex border-b border-gray-200 overflow-x-auto">
-              {[
-                { id: "description", label: "Description" },
-                { id: "specifications", label: "Specifications" },
-                { id: "warranty", label: "Warranty" },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex-shrink-0 px-4 py-3 font-medium text-sm transition-colors duration-200 ${
-                    activeTab === tab.id
-                      ? "text-black border-b-2 border-black"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+          {/* All Content Displayed as Continuous List */}
+          <div className="space-y-6 mt-6">
+            {/* Description */}
+            <div className="space-y-3">
+              <p className="text-gray-700 leading-relaxed text-[15px]">
+                {product.description}
+              </p>
             </div>
 
-            {/* Tab Content */}
-            <div className="py-4 min-h-[200px]">
-              {tabContent[activeTab as keyof typeof tabContent]}
+            {/* Specifications List */}
+            <div className="space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2">
+                <p className="text-gray-600 font-medium text-[15px] min-w-[100px]">Brand:</p>
+                <p className="text-gray-900 font-semibold text-[15px]">{product.brand}</p>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2">
+                <p className="text-gray-600 font-medium text-[15px] min-w-[100px]">Warranty:</p>
+                <p className="text-gray-900 font-semibold text-[15px]">{product.warranty}</p>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2">
+                <p className="text-gray-600 font-medium text-[15px] min-w-[100px]">Capacity:</p>
+                <p className="text-gray-900 font-semibold text-[15px]">{product.capacity}</p>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2">
+                <p className="text-gray-600 font-medium text-[15px] min-w-[100px]">Type:</p>
+                <p className="text-gray-900 font-semibold text-[15px]">{product.type}</p>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2">
+                <p className="text-gray-600 font-medium text-[15px] min-w-[100px]">Energy Rating:</p>
+                <p className="text-gray-900 font-semibold text-[15px]">{product.energyRating}</p>
+              </div>
             </div>
 
+            {/* Warranty Details */}
+            <div className="space-y-3">
+              <p className="text-gray-700 leading-relaxed text-[15px]">
+                {product.warranty} — Full terms and conditions apply.
+              </p>
+            </div>
           </div>
         </div>
       </div>
