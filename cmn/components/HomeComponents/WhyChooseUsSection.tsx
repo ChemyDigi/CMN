@@ -12,7 +12,7 @@ interface FeatureItem {
 export default function WhyChooseUsSection(): React.ReactElement {
   const features: FeatureItem[] = [
     {
-      icon: "/images/Home/network.png",
+      icon: "/images/Home/Network.png",
       title: "NETWORK",
       desc: "Experts in Retail & Distribution network",
     },
