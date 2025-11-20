@@ -10,7 +10,7 @@ export default function Home() {
     <main>
       <Navbar />
       <RefAcHeroSection />
-      <HeroCarousel page="RefAC" />
+      {/* <HeroCarousel page="RefAC" /> */}
      <ProductSection/>
      <Footer />
     </main>

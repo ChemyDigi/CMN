@@ -9,9 +9,9 @@ export default function Home() {
     <main>
       <Navbar />
       <ToolsHeroSection />
-      <HeroCarousel 
+      {/* <HeroCarousel 
         page="products" 
-      />
+      /> */}
       <ProductSection />
       <Footer />
     </main>
