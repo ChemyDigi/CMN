@@ -126,14 +126,7 @@ export default function SimilarProducts() {
     setCurrentIndex((prev) => (prev + 1) % products.length);
   };
 
-  // Auto-play (optional - remove if not needed)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleNext();
-    }, 5000); // Change slide every 5 seconds
-
-    return () => clearInterval(interval);
-  }, [products.length]);
+  // REMOVED: Auto-play interval that was causing the jumping effect
 
   if (products.length === 0) return null;
 
