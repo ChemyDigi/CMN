@@ -2,11 +2,6 @@
 
 import { useState, useEffect } from "react";
 
-interface CarouselImage {
-  src: string;
-  alt: string;
-}
-
 interface HeroText {
   title: string;
   description: string;
@@ -14,27 +9,17 @@ interface HeroText {
 
 interface CarouselData {
   heroText: HeroText;
-  images: CarouselImage[];
 }
 
 interface DynamicHeroCarouselProps {
   page: keyof typeof import('../data/carousel-data.json');
-  autoAdvance?: boolean;
-  autoAdvanceInterval?: number;
-  showArrows?: boolean;
-  showDots?: boolean;
   className?: string;
 }
 
 const DynamicHeroCarousel = ({
   page,
-  autoAdvance = true,
-  autoAdvanceInterval = 5000,
-  showArrows = true,
-  showDots = true,
   className = "",
 }: DynamicHeroCarouselProps) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const [carouselData, setCarouselData] = useState<CarouselData | null>(null);
 
   // Load carousel data based on page
@@ -51,35 +36,6 @@ const DynamicHeroCarousel = ({
     loadCarouselData();
   }, [page]);
 
-  const scrollPrev = () => {
-    if (!carouselData) return;
-    setSelectedIndex((prev) => 
-      prev === 0 ? carouselData.images.length - 1 : prev - 1
-    );
-  };
-
-  const scrollNext = () => {
-    if (!carouselData) return;
-    setSelectedIndex((prev) => 
-      prev === carouselData.images.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const scrollTo = (index: number) => {
-    setSelectedIndex(index);
-  };
-
-  // Auto-advance carousel
-  useEffect(() => {
-    if (!autoAdvance || !carouselData) return;
-
-    const interval = setInterval(() => {
-      scrollNext();
-    }, autoAdvanceInterval);
-
-    return () => clearInterval(interval);
-  }, [autoAdvance, autoAdvanceInterval, carouselData]);
-
   // Show loading state
   if (!carouselData) {
     return (
@@ -90,7 +46,6 @@ const DynamicHeroCarousel = ({
             <div className="mx-auto h-4 w-1/2 bg-gray-300 rounded"></div>
           </div>
         </div>
-        <div className="relative w-full aspect-[16/9] bg-gray-200"></div>
       </section>
     );
   }
@@ -105,82 +60,6 @@ const DynamicHeroCarousel = ({
         <p className="mx-auto max-w-3xl text-sm text-black md:text-base">
           {carouselData.heroText.description}
         </p>
-      </div>
-
-      {/* Carousel Section */}
-      <div className="relative w-full">
-        <div className="overflow-hidden">
-          <div 
-            className="flex transition-transform duration-300 ease-in-out" 
-            style={{ transform: `translateX(-${selectedIndex * 100}%)` }}
-          >
-            {carouselData.images.map((image, index) => (
-              <div key={index} className="min-w-0 flex-[0_0_100%]">
-                <div className="relative aspect-[16/9] w-full md:aspect-[21/9]">
-                  <img
-                    src={image.src} 
-                    alt={image.alt}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Navigation Arrows */}
-        {showArrows && (
-          <>
-            <button
-              onClick={scrollPrev}
-              className="absolute left-4 top-1/2 flex h-16 w-16 -translate-y-1/2 items-center justify-center"
-              aria-label="Previous slide"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
-                viewBox="0 0 24 24"
-                fill="white"
-              >
-                <path d="M15 18L9 12L15 6L15 18Z" />
-              </svg>
-            </button>
-            <button
-              onClick={scrollNext}
-              className="absolute right-4 top-1/2 flex h-16 w-16 -translate-y-1/2 items-center justify-center"
-              aria-label="Next slide"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="white"
-              >
-                <path d="M9 18L15 12L9 6L9 18Z" />
-              </svg>
-            </button>
-          </>
-        )}
-
-        {/* Dots Navigation */}
-        {showDots && (
-          <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
-            {carouselData.images.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => scrollTo(index)}
-                className={`h-2 w-2 rounded-full transition-all ${
-                  index === selectedIndex
-                    ? "w-8 bg-background"
-                    : "bg-background/50 hover:bg-background/70"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-        )}
       </div>
     </section>
   );
