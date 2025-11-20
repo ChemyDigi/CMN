@@ -126,14 +126,7 @@ export default function SimilarProducts() {
     setCurrentIndex((prev) => (prev + 1) % products.length);
   };
 
-  // Auto-play (optional - remove if not needed)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleNext();
-    }, 5000); // Change slide every 5 seconds
-
-    return () => clearInterval(interval);
-  }, [products.length]);
+  // REMOVED: Auto-play interval that was causing the jumping effect
 
   if (products.length === 0) return null;
 
@@ -182,16 +175,7 @@ export default function SimilarProducts() {
                     sizes="(max-width: 480px) 100vw, (max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     className="object-cover"
                   />
-                  {/* Availability Badge */}
-                  {product.availability && (
-                    <span className={`absolute top-2 left-2 text-[8px] sm:text-[9px] font-semibold px-1.5 py-0.5 rounded ${
-                      product.availability === "in-stock" 
-                        ? "bg-green-600 text-white" 
-                        : "bg-red-600 text-white"
-                    }`}>
-                      {product.availability === "in-stock" ? "In Stock" : "Out of Stock"}
-                    </span>
-                  )}
+                  
                 </div>
 
                 <div className="p-2 sm:p-3 flex flex-col flex-1 justify-between">

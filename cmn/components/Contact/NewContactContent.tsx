@@ -10,6 +10,8 @@ import {
   Globe,
   MessageSquare,
 } from "lucide-react";
+import facebookIcon from "@/public/images/AboutUS/facebook.png";
+import instagramIcon from "@/public/images/AboutUS/instagram.png";
 
 export default function ContactSection() {
   const [opened, setOpened] = useState<string[]>(["firstName"]); // First field open on load
@@ -45,6 +47,7 @@ export default function ContactSection() {
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
           className="max-w-md"
         >
@@ -62,6 +65,7 @@ export default function ContactSection() {
         <motion.form
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
           className="flex-1 max-w-xl lg:ml-20 space-y-6"
         >
@@ -132,107 +136,117 @@ export default function ContactSection() {
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
-        className="w-full border-t border-gray-300 mt-20 pt-16 grid md:grid-cols-3 gap-12"
+        className="
+          w-full border-t border-gray-300 mt-20 pt-16 
+          flex justify-center
+        "
       >
-        {/* India */}
-        <div>
-          <h2 className="text-2xl font-semibold mb-2">India</h2>
-          <p className="font-semibold text-sm">CMN Distributors PVT LTD</p>
-          <p className="text-sm mt-2 leading-relaxed">
-            #1, Mehta Industrial Estate<br />
-            Off J P Road No 2 goregaon East<br />
-            Mumbai - 400063<br />
-            Maharashtra - India
-          </p>
-          <p className="text-sm mt-4">(+91) 9920785241</p>
-          <p className="text-sm">shubhangi@cmndistributors.com</p>
-          <div className="flex gap-4 mt-4">
-            <a href="#" className="hover:opacity-80 transition-opacity">
-              <Image
-                src="/images/AboutUs/facebook.png"
-                alt="Facebook"
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-            </a>
-            <a href="#" className="hover:opacity-80 transition-opacity">
-              <Image
-                src="/images/AboutUs/instagram.png"
-                alt="Instagram"
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-            </a>
+        <div
+          className="
+            w-full max-w-6xl 
+            grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 
+            gap-12 text-center md:text-left
+          "
+        >
+          {/* India */}
+          <div className="flex flex-col items-center md:items-start">
+            <h2 className="text-2xl font-semibold mb-2">India</h2>
+            <p className="font-semibold text-sm">CMN Distributors PVT LTD</p>
+            <p className="text-sm mt-2 leading-relaxed">
+              #1, Mehta Industrial Estate<br />
+              Off J P Road No 2 goregaon East<br />
+              Mumbai - 400063, Maharashtra - India
+            </p>
+            <p className="text-sm mt-4">(+91) 9920785241</p>
+            <p className="text-sm">shubhangi@cmndistributors.com</p>
+            <div className="flex gap-4 mt-4">
+              <a href="#" className="hover:opacity-80 transition-opacity">
+                <Image
+                  src={facebookIcon}
+                  alt="Facebook"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6"
+                />
+              </a>
+              <a href="#" className="hover:opacity-80 transition-opacity">
+                <Image
+                  src={instagramIcon}
+                  alt="Instagram"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6"
+                />
+              </a>
+            </div>
           </div>
-        </div>
 
-        {/* Sri Lanka */}
-        <div>
-          <h2 className="text-2xl font-semibold mb-2">Sri Lanka</h2>
-          <p className="font-semibold text-sm">CMN Distributors Lanka PVT LTD</p>
-          <p className="text-sm mt-2 leading-relaxed">
-            No 103 & 105<br />
-            Kesbawa Road,<br />
-            Boralesgamuwa 10290<br />
-            Sri Lanka
-          </p>
-          <p className="text-sm mt-4">+94 (76) 359 7171</p>
-          <p className="text-sm">hasitha@cmndistributors.com</p>
-          <div className="flex gap-4 mt-4">
-            <a href="#" className="hover:opacity-80 transition-opacity">
-              <Image
-                src="/images/AboutUs/facebook.png"
-                alt="Facebook"
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-            </a>
-            <a href="#" className="hover:opacity-80 transition-opacity">
-              <Image
-                src="/images/AboutUs/instagram.png"
-                alt="Instagram"
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-            </a>
+          {/* Sri Lanka */}
+          <div className="flex flex-col items-center md:items-start">
+            <h2 className="text-2xl font-semibold mb-2">Sri Lanka</h2>
+            <p className="font-semibold text-sm">CMN Distributors Lanka PVT LTD</p>
+            <p className="text-sm mt-2 leading-relaxed">
+              No 103 & 105<br />
+              Kesbawa Road,<br />
+              Boralesgamuwa 10290, Sri Lanka
+            </p>
+            <p className="text-sm mt-4">+94 (76) 359 7171</p>
+            <p className="text-sm">hasitha@cmndistributors.com</p>
+            <div className="flex gap-4 mt-4">
+              <a href="#" className="hover:opacity-80 transition-opacity">
+                <Image
+                  src={facebookIcon}
+                  alt="Facebook"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6"
+                />
+              </a>
+              <a href="#" className="hover:opacity-80 transition-opacity">
+                <Image
+                  src={instagramIcon}
+                  alt="Instagram"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6"
+                />
+              </a>
+            </div>
           </div>
-        </div>
 
-        {/* Singapore */}
-        <div>
-          <h2 className="text-2xl font-semibold mb-2">Singapore</h2>
-          <p className="font-semibold text-sm">CMN Distributors PVT LTD</p>
-          <p className="text-sm mt-2 leading-relaxed">
-            362, Upper Paya Lebar Road#05-07<br />
-            Da Jin Factory Building,<br />
-            Singapore, 534963
-          </p>
-          <p className="text-sm mt-4">+65 96914182</p>
-          <p className="text-sm">amitmalik@cmndistributors.com</p>
-          <div className="flex gap-4 mt-4">
-            <a href="#" className="hover:opacity-80 transition-opacity">
-              <Image
-                src="/images/AboutUs/facebook.png"
-                alt="Facebook"
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-            </a>
-            <a href="#" className="hover:opacity-80 transition-opacity">
-              <Image
-                src="/images/AboutUs/instagram.png"
-                alt="Instagram"
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-            </a>
+          {/* Singapore */}
+          <div className="flex flex-col items-center md:items-start">
+            <h2 className="text-2xl font-semibold mb-2">Singapore</h2>
+            <p className="font-semibold text-sm">CMN Distributors PVT LTD</p>
+            <p className="text-sm mt-2 leading-relaxed">
+              362, Upper Paya Lebar Road#05-07<br />
+              Da Jin Factory Building,<br />
+              Singapore, 534963
+            </p>
+            <p className="text-sm mt-4">+65 96914182</p>
+            <p className="text-sm">amitmalik@cmndistributors.com</p>
+            <div className="flex gap-4 mt-4">
+              <a href="#" className="hover:opacity-80 transition-opacity">
+                <Image
+                  src={facebookIcon}
+                  alt="Facebook"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6"
+                />
+              </a>
+              <a href="#" className="hover:opacity-80 transition-opacity">
+                <Image
+                  src={instagramIcon}
+                  alt="Instagram"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6"
+                />
+              </a>
+            </div>
           </div>
         </div>
       </motion.div>

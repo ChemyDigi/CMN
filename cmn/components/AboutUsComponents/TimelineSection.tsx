@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import treeBg from "@/public/images/AboutUs/tree-bg.jpg";
 
 export default function TimelineSection() {
   const ref = useRef(null);
@@ -73,7 +74,7 @@ export default function TimelineSection() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
         style={{
-          backgroundImage: "url('/images/AboutUs/tree-bg.jpg')",
+          backgroundImage: `url(${treeBg.src})`,
         }}
       >
         {/* Overlay with same color as current background */}
