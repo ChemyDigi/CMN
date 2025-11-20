@@ -162,8 +162,11 @@ export default function MissionVisionSection() {
                 reliability, and excellence while creating a better, more connected
                 future.
               </blockquote>
+<span className="text-gray-400 text-7xl absolute right-0 bottom-0 translate-y-6">
+  ”
+</span>
 
-              <span className="text-gray-400 text-7xl absolute right-0 bottom-0">”</span>
+
             </div>
           </motion.div>
         </div>
