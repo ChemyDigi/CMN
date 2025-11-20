@@ -138,7 +138,7 @@ export default function Footer() {
       {/* Social Icons */}
       <div className="mt-4 flex justify-center gap-6 relative z-10">
         <Link
-          href="https://www.instagram.com/freedemuae/?hl=en"
+          href="https://www.instagram.com/cmndistributors/?hl=en"
           aria-label="Instagram"
           target="blank"
           className="hover:text-[#F272A8]"

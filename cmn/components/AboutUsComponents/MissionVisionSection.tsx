@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import mission from "../../public/images/AboutUS/mission.png";
-import vision from "../../public/images/AboutUS/vision2.png";
+import mission from "../../public/images/AboutUS/NewMission.png";
+import vision from "../../public/images/AboutUS/NewVision.png";
 import { BadgeCheck, UsersRound, Award, Leaf } from "lucide-react";
 
 /* ---------------- COUNT-UP NUMBER COMPONENT ---------------- */
