@@ -157,7 +157,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
           </h1>
 
           {/* Stock Badge */}
-          <p
+          {/* <p
             className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
               product.availability === "in-stock"
                 ? "bg-green-100 text-green-700"
@@ -165,7 +165,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
             }`}
           >
             {product.availability === "in-stock" ? "In Stock" : "Out of Stock"}
-          </p>
+          </p> */}
 
           {/* Tabs Section */}
           <div className="mt-6">
