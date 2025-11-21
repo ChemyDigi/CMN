@@ -72,7 +72,7 @@ export default function TimelineSection() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
         style={{
-          backgroundImage: `url('/images/AboutUs/tree.jpg')`,
+          backgroundImage: `url('/images/AboutUS/tree.jpg')`,
         }}
       >
         {/* Dark overlay */}
