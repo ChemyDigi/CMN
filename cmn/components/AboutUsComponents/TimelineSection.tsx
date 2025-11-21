@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import treeBg from "@/public/images/AboutUs/tree-bg.jpg";
 
 export default function TimelineSection() {
   const ref = useRef(null);
@@ -11,7 +10,6 @@ export default function TimelineSection() {
     offset: ["start 200px", "end end"],
   });
 
-  // Stretch line only for desktop/tablet
   const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   const timeline = [
@@ -70,14 +68,14 @@ export default function TimelineSection() {
       ref={ref}
       className="w-full bg-[#2E2E2E] text-white py-20 overflow-hidden relative"
     >
-      {/* Background Image with Overlay */}
-      <div 
+      {/* Background Image */}
+      <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
         style={{
-          backgroundImage: `url(${treeBg.src})`,
+          backgroundImage: `url('/images/AboutUs/tree-bg.jpg')`,
         }}
       >
-        {/* Overlay with same color as current background */}
+        {/* Dark overlay */}
         <div className="absolute inset-0 bg-[#2E2E2E] opacity-60"></div>
       </div>
 
@@ -95,18 +93,17 @@ export default function TimelineSection() {
 
         <div className="relative max-w-6xl mx-auto">
 
-          {/* ========== CENTER LINE — HIDE ON MOBILE ========== */}
+          {/* Center Line (Desktop Only) */}
           <motion.div
             style={{ height: lineHeight }}
             className="
-              hidden md:block               /* HIDE ON MOBILE */
+              hidden md:block
               absolute top-0 left-1/2 -translate-x-1/2 
               w-[2px] bg-[#F272A8] origin-top
             "
           />
 
           <div className="flex flex-col space-y-16">
-
             {timeline.map((item, index) => (
               <motion.div
                 key={index}
@@ -120,11 +117,12 @@ export default function TimelineSection() {
                 viewport={{ once: true }}
                 className={`
                   flex flex-col md:flex-row relative
-                  md:${item.side === "left" ? "justify-start" : "justify-end"}
+                  md:${
+                    item.side === "left" ? "justify-start" : "justify-end"
+                  }
                 `}
               >
-
-                {/* ========== DOT — HIDE ON MOBILE ========== */}
+                {/* Dot (Desktop Only) */}
                 <motion.div
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
@@ -134,21 +132,21 @@ export default function TimelineSection() {
                     ease: "easeOut",
                   }}
                   className="
-                    hidden md:block           /* HIDE ON MOBILE */
+                    hidden md:block
                     absolute left-1/2 -translate-x-1/2
                     w-5 h-5 bg-[#F272A8] rounded-full border-4 border-[#2E2E2E]
                   "
                 />
 
-                {/* ========== TIMELINE CARD ========== */}
+                {/* Timeline Card */}
                 <div
                   className={`
                     w-full md:w-1/2 px-8
-
-                    /* DESKTOP & TABLET LEFT/RIGHT */
-                    md:${item.side === "left" ? "pr-16 text-right" : "pl-16 text-left"}
-
-                    /* MOBILE CENTER EVERYTHING */
+                    md:${
+                      item.side === "left"
+                        ? "pr-16 text-right"
+                        : "pl-16 text-left"
+                    }
                     text-center md:text-inherit
                   `}
                 >
@@ -164,8 +162,8 @@ export default function TimelineSection() {
                 </div>
               </motion.div>
             ))}
-
           </div>
+
         </div>
       </div>
     </section>
