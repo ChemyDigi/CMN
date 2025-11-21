@@ -4,6 +4,7 @@ import HeroSection from "../../components/HomeComponents/HeroSection";
 import LogoSlider from "../../components/HomeComponents/LogoSlider";
 import IntroSection from "../../components/HomeComponents/IntroSection";
 import WhyChooseUs from "../../components/HomeComponents/WhyChooseUsSection";
+import FeaturedProducts from "../../components/HomeComponents/FeaturedProducts";
 export default function AboutPage() {
   return (
     <main className="flex flex-col overflow-x-hidden w-full">
@@ -12,6 +13,7 @@ export default function AboutPage() {
       <LogoSlider />
       <IntroSection />
       <WhyChooseUs />
+      <FeaturedProducts/>
       <Footer />
     </main>
   );
