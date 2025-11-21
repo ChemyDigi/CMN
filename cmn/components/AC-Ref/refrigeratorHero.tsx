@@ -34,7 +34,7 @@ export default function HeroSection() {
           text-center
 
           /* Desktop: Left aligned with original padding */
-          lg:pl-[180px] xl:pl-[230px]
+          lg:pl-[180px] xl:pl-[120px]
           lg:mx-0
           lg:text-left
           lg:px-0
@@ -45,7 +45,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.3 }}
-          className="text-xs sm:text-sm md:text-base mb-2 sm:mb-3 opacity-80"
+          className="text-xs sm:text-sm md:text-base mb-2 sm:mb-3 opacity-80 text-[#F272A8] font-bold"
         >
           Refrigerators & Air Conditioners
         </motion.p>

@@ -48,7 +48,7 @@ export default function WhyChooseUsSection(): React.ReactElement {
       
       {/* Title (CENTERED NOW) */}
       <div className="max-w-6xl mx-auto mb-12 text-center">
-        <p className="text-gray-400 text-sm mb-2">Why Choose Us</p>
+        <p className=" text-sm mb-2 text-[#F272A8] f">Why Choose Us</p>
         <h2 className="text-3xl md:text-4xl font-semibold leading-snug">
           Delivering Quality, Reliability & <br /> Service You Can Trust
         </h2>
