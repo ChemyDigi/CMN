@@ -2,9 +2,9 @@
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
-import ProductDisplay from "@/components/tools/ProductDisplay";
-import ProductReviews from "@/components/tools/ReviewSection";
-import SimilarProducts from "@/components/tools/SimilarProducts";
+import ProductDisplay from "@/components/Tools/ProductDisplay";
+import ProductReviews from "@/components/Tools/ReviewSection";
+import SimilarProducts from "@/components/Tools/SimilarProducts";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 interface PageProps {
