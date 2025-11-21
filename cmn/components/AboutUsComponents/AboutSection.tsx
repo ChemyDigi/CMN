@@ -126,7 +126,7 @@ export default function AboutSection() {
             className="mx-auto md:mx-0"
           >
             <Image
-              src="/images/AboutUs/sign.png"
+              src="/images/AboutUS/sign.png"
               alt="CEO Signature"
               width={100}
               height={50}
