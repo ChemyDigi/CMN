@@ -2,6 +2,7 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import HeroSection from "../../components/HomeComponents/HeroSection";
 import LogoSlider from "../../components/HomeComponents/LogoSlider";
+import AboutUsSection from "@/components/HomeComponents/aboutUs";
 import IntroSection from "../../components/HomeComponents/IntroSection";
 import WhyChooseUs from "../../components/HomeComponents/WhyChooseUsSection";
 import FeaturedProducts from "../../components/HomeComponents/FeaturedProducts";
@@ -11,6 +12,7 @@ export default function AboutPage() {
       <Navbar />
       <HeroSection />
       <LogoSlider />
+      <AboutUsSection />
       <IntroSection />
       <WhyChooseUs />
       <FeaturedProducts/>
