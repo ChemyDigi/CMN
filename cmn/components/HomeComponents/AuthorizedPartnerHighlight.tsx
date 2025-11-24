@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import React from "react";
-
+import Link from "next/link";
 
 
 export default function AuthorizedPartnerHighlight(): React.ReactElement {
@@ -55,17 +55,19 @@ export default function AuthorizedPartnerHighlight(): React.ReactElement {
                     technical support, and unparalleled service excellence.
                   </p>
 
+                  <Link href="https://www.carrier.com/commercial/en/us/products/" target="_blank">
                   <motion.button
-                    whileHover={{ 
-                      scale: 1.05,
-                      backgroundColor: "#e55a9c"
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                    className="bg-[#F272A8] hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-[#F272A8]/20"
-                  >
+                  whileHover={{ 
+                    scale: 1.05,
+                    backgroundColor: "#e55a9c"
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                className="bg-[#F272A8] hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-[#F272A8]/20"
+                >
                     Explore Carrier Products
-                  </motion.button>
+                    </motion.button>
+                    </Link>
                 </motion.div>
               </div>
 
@@ -86,14 +88,14 @@ export default function AuthorizedPartnerHighlight(): React.ReactElement {
                     <div className="w-48 h-48 md:w-56 md:h-56 flex items-center justify-center">
                       {/* Carrier Logo Placeholder */}
                       <div className="text-center">
-                        <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 bg-gradient-to-br from-gray-300 to-gray-100 rounded-lg flex items-center justify-center">
+                        <div className="w-200 h-200 md:w-24 md:h-24 mx-auto mb-4 bg-gradient-to-br from-gray-300 to-gray-100 rounded-lg flex items-center justify-center">
                           <Image
-  src="/images/carrier-corp-logo.avif"
-  alt="Carrier Logo"
-  width={120}
-  height={120}
-  className="object-contain"
- />
+                          src="/images/carrier-corp-logo.avif"
+                          alt="Carrier Logo"
+                          width={1200}
+                          height={1200}
+                          className="object-contain"
+                          />
 
 
                         </div>
