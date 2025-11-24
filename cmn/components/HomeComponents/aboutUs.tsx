@@ -52,53 +52,56 @@ export default function AboutUsSection(): React.ReactElement {
       </div>
 
       {/* Our Story Section */}
-      <div className="max-w-7xl mx-auto mb-28 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div className="space-y-6">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 animate-on-scroll opacity-0 translate-x-[-20px] transition-all duration-700">
-            Our Story
-          </h2>
-          
-          <p className="text-gray-600 text-lg leading-relaxed animate-on-scroll opacity-0 translate-x-[-20px] transition-all duration-700 delay-100">
-            Founded in 2004, CMN Distributors Pvt Ltd started as a professionally managed company 
-            engaged in distribution of premium tools & equipment for various industries, beginning 
-            with HVAC & R sector partnerships.
-          </p>
-          
-          <p className="text-gray-600 text-lg leading-relaxed animate-on-scroll opacity-0 translate-x-[-20px] transition-all duration-700 delay-200">
-            Today, we proudly serve key sectors including Aviation, Nuclear Power, Defence Research, 
-            Oil & Gas, and Heavy Engineering Industry across three countries, leveraging our extensive 
-            network and technical expertise.
-          </p>
-          
-          <p className="text-gray-600 text-lg leading-relaxed animate-on-scroll opacity-0 translate-x-[-20px] transition-all duration-700 delay-300">
-            Our journey is marked by strategic expansions, valuable partnerships, and an unwavering 
-            commitment to delivering energy-saving, productivity-enhancing, and environment-friendly 
-            solutions.
-          </p>
+<div className="max-w-7xl mx-auto my-28 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
-          {/* CEO Signature */}
-          <div className="mt-8 pt-6 border-t border-gray-200 animate-on-scroll opacity-0 translate-y-4 transition-all duration-700 delay-400">
-            <Image
-              src="/images/AboutUS/sign.png"
-              alt="CEO Signature"
-              width={120}
-              height={60}
-              className="object-contain mb-2"
-            />
-            <p className="font-semibold text-gray-900">Richard Donovan</p>
-            <p className="text-sm text-gray-600">CEO FOUNDER</p>
-          </div>
-        </div>
-        
-        <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl animate-on-scroll opacity-0 translate-x-[20px] transition-all duration-700">
-          <Image
-            src="/images/AboutUS/mission.png"
-            alt="CMN Distributors Office"
-            fill
-            className="object-cover"
-          />
-        </div>
-      </div>
+  {/* Left Section */}
+  <div className="space-y-6">
+    <h2 className="text-3xl md:text-4xl font-bold mb-6">
+      Our Story
+    </h2>
+
+    <p className="text-gray-600 text-lg leading-relaxed">
+      Founded in 2004, CMN Distributors Pvt Ltd started as a professionally managed company
+      engaged in distribution of premium tools & equipment for various industries, beginning
+      with HVAC & R sector partnerships.
+    </p>
+
+    <p className="text-gray-600 text-lg leading-relaxed">
+      Today, we proudly serve key sectors including Aviation, Nuclear Power, Defence Research,
+      Oil & Gas, and Heavy Engineering Industry across three countries, leveraging our extensive
+      network and technical expertise.
+    </p>
+
+    <p className="text-gray-600 text-lg leading-relaxed">
+      Our journey is marked by strategic expansions, valuable partnerships, and an unwavering
+      commitment to delivering energy-saving, productivity-enhancing, and environment-friendly
+      solutions.
+    </p>
+
+    {/* CEO Signature */}
+    <div className="mt-8 pt-6 border-t border-gray-200">
+      <Image
+        src="/images/AboutUS/sign.png"
+        alt="CEO Signature"
+        width={120}
+        height={60}
+        className="object-contain mb-2"
+      />
+      <p className="font-semibold text-gray-900">Richard Donovan</p>
+      <p className="text-sm text-gray-600">CEO & Founder</p>
+    </div>
+  </div>
+
+  {/* Right Section: Image */}
+  <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
+    <Image
+      src="/images/aboutHome.jpg"
+      alt="CMN Distributors Office"
+      fill
+      className="object-cover"
+    />
+  </div>
+</div>
 
       {/* Team Section */}
       <div className="max-w-7xl mx-auto mb-28">
