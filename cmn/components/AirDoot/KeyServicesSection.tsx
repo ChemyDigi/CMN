@@ -1,21 +1,7 @@
 "use client";
-
-import { useRef } from "react";
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 export default function KeyServicesSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const scrollAmount = 350;
-    scrollRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-  };
-
   const services = [
     {
       title: "Proactive Maintenance Plans",
@@ -37,83 +23,64 @@ export default function KeyServicesSection() {
       desc: "Reduce power consumption with modern upgrades that increase system lifespan.",
       img: "/images/AirDoot/2.png",
     },
-    {
-      title: "Smart Monitoring Solutions",
-      desc: "Advanced IoT sensors and dashboards to track performance in real-time.",
-      img: "/images/AirDoot/1.png",
-    },
   ];
 
   return (
-    <section className="w-full bg-[#f4f4f4] text-black px-6 md:px-16 lg:px-24 py-24">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-
-        {/* LEFT SIDE TEXT - Made heading bigger */}
-        <div className="w-full">
-          <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-6xl font-bold leading-tight">
-            Key Services <br /> to Highlight
-          </h2>
-          <p className="mt-6 text-lg max-w-md text-black/70">
-            AirDoot, a flagship service of CMN Distribution, is a revolutionary platform that uses cutting-edge technology to simplify and streamline air-conditioning and refrigeration services for every need.
-          </p>
+    <section className="relative w-full bg-white">
+      {/* Combined Header Section */}
+      <div className="container mx-auto px-4 py-12 text-center sm:px-6 md:px-8 lg:py-16 xl:px-12">
+        {/* Logo */}
+        <div className="mb-4 flex justify-center">
+          <Image
+            src="/images/AirDoot/logo.png" 
+            alt="AirDoot Logo"
+            width={200} 
+            height={80} 
+            className="h-12 w-auto sm:h-16 md:h-20 lg:h-24" 
+          />
         </div>
 
-        {/* RIGHT SIDE SCROLL SECTION */}
-        <div className="relative w-full">
-          {/* BUTTON LEFT */}
-          <button
-            onClick={() => scroll("left")}
-            className="absolute -left-6 md:-left-10 top-1/2 -translate-y-1/2 z-20 bg-white shadow-lg h-10 w-10 flex items-center justify-center rounded-full"
-          >
-            <span className="text-xl">‹</span>
-          </button>
+        <p className="mx-auto text-sm text-gray-600 sm:max-w-md sm:text-base md:max-w-xl md:text-lg lg:max-w-2xl lg:text-xl mb-8">
+          Going Beyond Repairs: Our Value-Added Services
+        </p>
 
-          {/* SCROLLABLE CARDS */}
-          <div
-            ref={scrollRef}
-            className="flex gap-6 overflow-x-auto scroll-smooth no-scrollbar pr-6"
-          >
-            {services.map((s, i) => (
-              <motion.div
-                key={i}
-                initial="rest"
-                whileHover="hover"
-                animate="rest"
-                transition={{ duration: 0.25 }}
-                className="relative min-w-[260px] md:min-w-[320px] h-[420px] rounded-lg overflow-hidden shadow-lg flex-shrink-0 group cursor-pointer"
-                >
-                <Image
-                    src={s.img}
-                    alt={s.title}
+        {/* Main Heading */}
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+          Comprehensive HVAC-R Solutions
+        </h1>
+      </div>
+
+      {/* Services Grid */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+          {services.map((service, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 group cursor-pointer"
+            >
+              <div className="flex items-start gap-4">
+                {/* Service Image */}
+                <div className="flex-shrink-0 w-16 h-16 relative rounded-lg overflow-hidden bg-gray-100">
+                  <Image
+                    src={service.img}
+                    alt={service.title}
                     fill
-                    className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
-
-                <div className="absolute bottom-6 px-6 text-white">
-                    <h3 className="text-xl font-semibold">{s.title}</h3>
-                    <motion.p 
-                    variants={{
-                        rest: { opacity: 0, height: 0 },
-                        hover: { opacity: 1, height: "auto" }
-                    }}
-                    transition={{ duration: 0.3 }}
-                    className="text-sm mt-3 leading-relaxed overflow-hidden"
-                    >
-                    {s.desc}
-                    </motion.p>
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
                 </div>
-                </motion.div>
-            ))}
-          </div>
 
-          {/* BUTTON RIGHT */}
-          <button
-            onClick={() => scroll("right")}
-            className="absolute -right-6 md:-right-10 top-1/2 -translate-y-1/2 z-20 bg-white shadow-lg h-10 w-10 flex items-center justify-center rounded-full"
-          >
-            <span className="text-xl">›</span>
-          </button>
+                {/* Content */}
+                <div className="flex-1">
+                  <h3 className="font-semibold text-gray-900 text-lg mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {service.desc}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
