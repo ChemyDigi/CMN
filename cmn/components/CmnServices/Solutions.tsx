@@ -1,68 +1,93 @@
 "use client";
 
 import Image from "next/image";
-import image1 from "../../public/images/cmnServices/1.webp"
+import { BarChart3, Smartphone, Settings, Shield, Wrench, Factory } from "lucide-react";
+import image from "../../public/images/cmnServices/install.png";
 
-export default function BusinessSolutions() {
+export default function FeaturesSection() {
+  const features = [
+    {
+      icon: <BarChart3 size={26} />,
+      title: "AC Installation & System Setup",
+      desc: "Professional installation with accurate mounting, safe connections, and full system testing for reliable long-term cooling.",
+    },
+    {
+      icon: <Smartphone size={26} />,
+      title: "AC Commissioning & Initial Calibration",
+      desc: "We perform airflow balancing, electrical checks, and refrigerant validation to ensure peak efficiency from day one.",
+    },
+    {
+      icon: <Settings size={26} />,
+      title: "Routine Servicing & Performance Checks",
+      desc: "Includes coil cleaning, filter replacement, drainage clearing, and performance testing to reduce energy usage.",
+    },
+    {
+      icon: <Shield size={26} />,
+      title: "Breakdown Repair & Troubleshooting",
+      desc: "Quick diagnosis and repair for compressor faults, electrical failures, cooling issues, and gas leaks.",
+    },
+    {
+      icon: <Wrench size={26} />,
+      title: "Annual Maintenance Contracts (AMC)",
+      desc: "Scheduled cleaning, inspections, and preventive repairs for smooth year-round AC performance.",
+    },
+    {
+      icon: <Factory size={26} />,
+      title: "System Upgrades & Efficiency Enhancements",
+      desc: "Improve cooling efficiency with component upgrades, airflow optimization, and smart system enhancements.",
+    },
+  ];
+
   return (
-    <section className="w-full bg-white text-[#3a3a3a] py-20">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+    <section className="w-full py-20 bg-white text-black">
+      <div className="max-w-7xl mx-auto px-6 text-center">
+        <h2 className="text-3xl md:text-4xl font-semibold mb-3">
+          Core Services Designed for Performance & Reliability
+        </h2>
+        <p className="text-gray-600 max-w-2xl mx-auto mb-16">
+          Explore our essential service offerings built to ensure long-lasting performance, improved efficiency, and dependable operation across all environments.
+        </p>
 
-        {/* LEFT CONTENT */}
-        <div>
-          <h1 className="text-[52px] leading-[1.1] font-light md:text-[42px]">
-            Business <br /> solutions for
-          </h1>
+        {/* Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
 
-          <h2 className="text-[52px] leading-[1.1] font-light md:text-[52px] mt-2 text-[#f271a8]">
-            Manufacturing <br /> Operations
-          </h2>
-
-          <p className="mt-6 max-w-xl leading-relaxed text-black">
-            For Virya Energy, the energy transition must be adapted to each
-            reality. Our “fit for purpose” approach reflects our commitment
-            to developing customized solutions that exactly meet everyone’s
-            needs. By simplifying access to renewable energy, we are building
-            a path towards a sustainable future.
-          </p>
-
-          <button className="mt-8 px-8 py-3 bg-[#D3D3D3] text-[#3a3a3a] rounded-full hover:bg-black]transition">
-            Learn more
-          </button>
-        </div>
-
-        {/* RIGHT IMAGE + FLOATING LABELS */}
-        <div className="relative flex justify-center">
-
-          {/* MAIN IMAGE */}
-          <div className="rounded-2xl overflow-hidden shadow-lg">
-            <Image
-              src={image1}
-              alt="Manufacturing Operator"
-              width={650}
-              height={650}
-              className="object-cover"
-            />
+          {/* Left 3 features */}
+          <div className="flex flex-col gap-8 md:pr-10">
+            {features.slice(0, 3).map((f, i) => (
+              <div
+                key={i}
+                className="p-6 bg-gray-100 rounded-xl text-left shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:bg-white hover:scale-[1.03]"
+              >
+                <div className="mb-3 text-[#F272A8]">{f.icon}</div>
+                <h3 className="font-semibold text-lg mb-1">{f.title}</h3>
+                <p className="text-gray-600 text-sm">{f.desc}</p>
+              </div>
+            ))}
           </div>
 
-          {/* FLOATING TAGS */}
-          <span className="absolute top-6 left-[-10px] px-5 py-2 bg-[#D3D3D3] rounded-xl text-sm shadow">
-            Energy Cost Reduction
-          </span>
+          {/* Center Image */}
+          <Image
+            src={image}
+            alt="AC service illustration"
+            width={520}
+            className="h-[650px] rounded-xl object-cover shadow-lg"
+          />
 
-          <span className="absolute top-[80px] right-[-20px] px-5 py-2 bg-[#D3D3D3] rounded-xl text-sm shadow">
-            Regulatory Compliance
-          </span>
+          {/* Right 3 features */}
+          <div className="flex flex-col gap-8 md:pl-10">
+            {features.slice(3, 6).map((f, i) => (
+              <div
+                key={i}
+                className="p-6 bg-gray-100 rounded-xl text-left shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:bg-white hover:scale-[1.03]"
+              >
+                <div className="mb-3 text-[#F272A8]">{f.icon}</div>
+                <h3 className="font-semibold text-lg mb-1">{f.title}</h3>
+                <p className="text-gray-600 text-sm">{f.desc}</p>
+              </div>
+            ))}
+          </div>
 
-          <span className="absolute bottom-[130px] left-[-10px] px-5 py-2 bg-[#D3D3D3] rounded-xl text-sm shadow">
-            Energy Resilience
-          </span>
-
-          <span className="absolute bottom-[40px] right-[-20px] px-5 py-2 bg-[#D3D3D3] rounded-xl text-sm shadow">
-            Energy Independence
-          </span>
         </div>
-
       </div>
     </section>
   );
