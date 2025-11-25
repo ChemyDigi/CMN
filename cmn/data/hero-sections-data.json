@@ -1,0 +1,38 @@
+{
+  "tools": {
+    "backgroundImage": "/images/product_sample.jpg",
+    "eyebrowText": "Tools and Equipment",
+    "title": "Tools That Move Industries Forward",
+    "description": "From heavy duty equipment to everyday essentials, we provide solutions that empower progress and define quality in every field. Our equipment combines craftsmanship and innovation to deliver power, precision, and performance you can depend on, every day.",
+    "alignment": "left",
+    "overlayOpacity": 60,
+    "animationEnabled": true
+  },
+  "construction": {
+    "backgroundImage": "/images/construction-hero-bg.jpg",
+    "eyebrowText": "Construction Solutions",
+    "title": "Building the Future with Precision",
+    "description": "Professional-grade construction equipment designed for durability and efficiency on any job site. Trust in tools that withstand the test of time and terrain.",
+    "alignment": "left",
+    "overlayOpacity": 50,
+    "animationEnabled": true
+  },
+  "industrial": {
+    "backgroundImage": "/images/industrial-hero-bg.jpg",
+    "eyebrowText": "Industrial Equipment",
+    "title": "Powering Industrial Excellence",
+    "description": "Heavy-duty industrial tools and machinery engineered for maximum performance in the most demanding environments. Where innovation meets reliability.",
+    "alignment": "center",
+    "overlayOpacity": 70,
+    "animationEnabled": true
+  },
+  "safety": {
+    "backgroundImage": "/images/safety-hero-bg.jpg",
+    "eyebrowText": "Safety Gear",
+    "title": "Protecting What Matters Most",
+    "description": "Advanced safety equipment and protective gear designed to keep professionals safe while maintaining comfort and mobility on the job.",
+    "alignment": "left",
+    "overlayOpacity": 40,
+    "animationEnabled": false
+  }
+}
