@@ -45,18 +45,20 @@ export default function FeaturesSection() {
           Core Services Designed for Performance & Reliability
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto mb-16">
-          Explore our essential service offerings built to ensure long-lasting performance, improved efficiency, and dependable operation across all environments.
+          Explore our essential service offerings built to ensure long-lasting performance,
+          improved efficiency, and dependable operation across all environments.
         </p>
 
-        {/* Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+        {/* GRID LAYOUT */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
 
-          {/* Left 3 features */}
-          <div className="flex flex-col gap-8 md:pr-10">
+          {/* LEFT FEATURES */}
+          <div className="flex flex-col gap-8">
             {features.slice(0, 3).map((f, i) => (
               <div
                 key={i}
-                className="p-6 bg-gray-100 rounded-xl text-left shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:bg-white hover:scale-[1.03]"
+                className="p-6 bg-gray-100 rounded-xl text-left shadow-md 
+                transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:bg-white hover:scale-[1.03]"
               >
                 <div className="mb-3 text-[#F272A8]">{f.icon}</div>
                 <h3 className="font-semibold text-lg mb-1">{f.title}</h3>
@@ -65,20 +67,23 @@ export default function FeaturesSection() {
             ))}
           </div>
 
-          {/* Center Image */}
-          <Image
-            src={image}
-            alt="AC service illustration"
-            width={520}
-            className="h-[650px] rounded-xl object-cover shadow-lg"
-          />
+          {/* CENTER IMAGE — hidden on mobile/tablet */}
+          <div className="hidden lg:flex justify-center">
+            <Image
+              src={image}
+              alt="AC service illustration"
+              width={520}
+              className="h-[650px] rounded-xl object-cover shadow-lg"
+            />
+          </div>
 
-          {/* Right 3 features */}
-          <div className="flex flex-col gap-8 md:pl-10">
+          {/* RIGHT FEATURES */}
+          <div className="flex flex-col gap-8">
             {features.slice(3, 6).map((f, i) => (
               <div
                 key={i}
-                className="p-6 bg-gray-100 rounded-xl text-left shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:bg-white hover:scale-[1.03]"
+                className="p-6 bg-gray-100 rounded-xl text-left shadow-md 
+                transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:bg-white hover:scale-[1.03]"
               >
                 <div className="mb-3 text-[#F272A8]">{f.icon}</div>
                 <h3 className="font-semibold text-lg mb-1">{f.title}</h3>
