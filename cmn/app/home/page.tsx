@@ -5,7 +5,8 @@ import LogoSlider from "../../components/HomeComponents/LogoSlider";
 import IntroSection from "../../components/HomeComponents/IntroSection";
 import WhyChooseUs from "../../components/HomeComponents/WhyChooseUsSection";
 import FeaturedProducts from "../../components/HomeComponents/FeaturedProducts";
-import AuthorizedCarrierDistributor from "../../components/HomeComponents/AuthorizedCarrierDistributor"
+import AuthorizedCarrierDistributor from "../../components/HomeComponents/AuthorizedCarrierDistributor";
+import AirDoot from "@/components/HomeComponents/AirDoot";
 
 
 export default function AboutPage() {
@@ -18,6 +19,7 @@ export default function AboutPage() {
       <FeaturedProducts/>
       <IntroSection />
       <AuthorizedCarrierDistributor/>
+      <AirDoot />
       <Footer />
     </main>
   );
