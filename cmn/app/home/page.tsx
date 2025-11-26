@@ -17,7 +17,7 @@ export default function AboutPage() {
       <WhyChooseUs />
       <FeaturedProducts/>
       <IntroSection />
-      {/* <AuthorizedCarrierDistributor/> */}
+      <AuthorizedCarrierDistributor/>
       <AirDoot />
       <Footer />
     </main>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useInView, easeOut } from "framer-motion";
 import { useRef } from "react";
-import ACImgae from "../../public/images/Home/AC-airdoot2.png"
+
 export default function HeroIntroSection() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
@@ -26,7 +26,10 @@ export default function HeroIntroSection() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: easeOut },
+      transition: {
+        duration: 0.6,
+        ease: easeOut,
+      },
     },
   };
 
@@ -35,7 +38,10 @@ export default function HeroIntroSection() {
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.8, ease: easeOut },
+      transition: {
+        duration: 0.8,
+        ease: easeOut,
+      },
     },
   };
 
@@ -44,7 +50,10 @@ export default function HeroIntroSection() {
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.8, ease: easeOut },
+      transition: {
+        duration: 0.8,
+        ease: easeOut,
+      },
     },
   };
 
@@ -57,14 +66,14 @@ export default function HeroIntroSection() {
       <div className="absolute inset-0">
         {/* Background image */}
         <Image
-          src={"/images/Home/HomeIntro.jpg"}
+          src="/images/Home/HomeIntro.jpg"
           alt="Background texture"
           fill
           className="object-cover opacity-20"
           priority
         />
 
-        {/* WHITE DECORATIVE SHAPE (MOVED HERE) */}
+        {/* WHITE DECORATIVE SHAPE - HIDDEN ON TABLET */}
         <motion.div
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -79,6 +88,7 @@ export default function HeroIntroSection() {
             h-[400px] md:h-[500px] lg:h-[360px]
             overflow-hidden
             z-20
+            hidden lg:block
           "
         />
 
@@ -93,7 +103,7 @@ export default function HeroIntroSection() {
         variants={containerVariants}
         className="relative z-30 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start text-center lg:text-left"
       >
-        {/* LEFT CONTENT */}
+        {/* LEFT CONTENT - AIRDOOT CONTENT */}
         <motion.div
           variants={containerVariants}
           className="space-y-6 flex flex-col items-center lg:items-start"
@@ -106,37 +116,57 @@ export default function HeroIntroSection() {
             Running Smoothly
           </motion.h2>
 
-          <motion.p variants={itemVariants} className="text-gray-300 leading-relaxed max-w-xl">
+          <motion.p
+            variants={itemVariants}
+            className="text-gray-300 leading-relaxed max-w-xl"
+          >
             Your comfort is our ultimate priority, and our commitment to you
-            doesn't end once the installation is complete...
+            doesn't end once the installation is complete. That's why we offer a
+            comprehensive suite of friendly and reliable after-installation services
+            designed to give you complete peace of mind.
           </motion.p>
 
-          <motion.p variants={itemVariants} className="text-gray-300 leading-relaxed max-w-xl">
-            Whether your AC system needs a seasonal tune-up...
+          <motion.p
+            variants={itemVariants}
+            className="text-gray-300 leading-relaxed max-w-xl"
+          >
+            Whether your AC system needs a seasonal tune-up to ensure peak efficiency, 
+            a thorough deep cleaning to maintain your indoor air quality, or you simply 
+            need expert guidance on its operation, our dedicated team is always ready to assist.
           </motion.p>
 
-          <motion.p variants={itemVariants} className="text-gray-300 leading-relaxed max-w-xl">
-            We believe that world-class AC care should be easy...
+          <motion.p
+            variants={itemVariants}
+            className="text-gray-300 leading-relaxed max-w-xl"
+          >
+            We believe that world-class AC care should be easy and completely
+            worry-free, so you can enjoy a perfectly comfortable home for years to
+            come.
           </motion.p>
 
-          <motion.div variants={itemVariants} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          {/* CTA BUTTON */}
+          <motion.div
+            variants={itemVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <Link
-              href="/services/ac"
+              href="/services/airdoot"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[#F272A8] text-white font-medium rounded-md shadow-lg hover:bg-[#f45c98] transition"
             >
-              Explore More <ArrowUpRight size={20} />
+              Explore More
+              <ArrowUpRight size={20} />
             </Link>
           </motion.div>
         </motion.div>
 
-        {/* RIGHT IMAGE */}
+        {/* RIGHT IMAGE - HIDDEN ON TABLET AND MOBILE */}
         <div className="relative hidden lg:block">
           <motion.div
             variants={imageVariants}
-            className="absolute top-0 right-0 z-40 drop-shadow-xl"
-          >
+            className="absolute -top-20 -right-10 z-40 drop-shadow-xl"          >
             <Image
-              src={ACImgae}
+              src="/images/Home/AC-airdoot2.png"
               alt="AC Unit"
               width={500}
               height={500}
