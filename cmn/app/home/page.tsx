@@ -6,9 +6,13 @@ import IntroSection from "../../components/HomeComponents/IntroSection";
 import WhyChooseUs from "../../components/HomeComponents/WhyChooseUsSection";
 import FeaturedProducts from "../../components/HomeComponents/FeaturedProducts";
 import AuthorizedCarrierDistributor from "../../components/HomeComponents/AuthorizedCarrierDistributor";
+<<<<<<< Updated upstream
 import AirDoot from "@/components/HomeComponents/AirDoot";
 
 
+=======
+ 
+>>>>>>> Stashed changes
 export default function AboutPage() {
   return (
     <main className="flex flex-col overflow-x-hidden w-full">
