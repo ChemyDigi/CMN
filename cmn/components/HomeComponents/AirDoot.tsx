@@ -66,7 +66,7 @@ export default function HeroIntroSection() {
       <div className="absolute inset-0">
         {/* Background image */}
         <Image
-          src="/images/Home/HomeIntro.jpg"
+          src="/images/Home/ac-bg.jpg"
           alt="Background texture"
           fill
           className="object-cover opacity-20"
@@ -160,16 +160,17 @@ export default function HeroIntroSection() {
           </motion.div>
         </motion.div>
 
-        {/* RIGHT IMAGE - HIDDEN ON TABLET AND MOBILE */}
+        {/* RIGHT IMAGE - HIDDEN ON TABLET AND MOBILE - LARGER SIZE */}
         <div className="relative hidden lg:block">
           <motion.div
             variants={imageVariants}
-            className="absolute -top-20 -right-10 z-40 drop-shadow-xl"          >
+            className="absolute -top-24 -right-5 z-40 drop-shadow-2xl"
+          >
             <Image
               src="/images/Home/AC-airdoot2.png"
               alt="AC Unit"
-              width={500}
-              height={500}
+              width={650} 
+              height={650} 
               className="object-contain"
               priority
             />
