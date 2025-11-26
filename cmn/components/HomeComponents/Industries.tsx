@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { JSX, useState } from "react";
 
 type Industry = {
   name: string;
@@ -172,6 +172,7 @@ function Pill({
 }: {
   item: Industry;
   hovered: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setHovered: any;
   align: "left" | "right" | "center";
   outer?: boolean;
