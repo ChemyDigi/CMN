@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useInView, easeOut } from "framer-motion";
 import { useRef } from "react";
-
+import ACImgae from "../../public/images/Home/AC-airdoot2.png"
 export default function HeroIntroSection() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
@@ -57,7 +57,7 @@ export default function HeroIntroSection() {
       <div className="absolute inset-0">
         {/* Background image */}
         <Image
-          src="/images/Home/HomeIntro.jpg"
+          src={"/images/Home/HomeIntro.jpg"}
           alt="Background texture"
           fill
           className="object-cover opacity-20"
@@ -136,7 +136,7 @@ export default function HeroIntroSection() {
             className="absolute top-0 right-0 z-40 drop-shadow-xl"
           >
             <Image
-              src="/images/AC/AC1.png"
+              src={ACImgae}
               alt="AC Unit"
               width={500}
               height={500}
