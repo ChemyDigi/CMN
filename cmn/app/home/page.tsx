@@ -7,9 +7,13 @@ import WhyChooseUs from "../../components/HomeComponents/WhyChooseUsSection";
 import FeaturedProducts from "../../components/HomeComponents/FeaturedProducts";
 import AuthorizedCarrierDistributor from "../../components/HomeComponents/AuthorizedCarrierDistributor";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import AirDoot from "@/components/HomeComponents/AirDoot";
 
 
+=======
+ 
+>>>>>>> Stashed changes
 =======
  
 >>>>>>> Stashed changes
