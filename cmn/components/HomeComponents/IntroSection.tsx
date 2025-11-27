@@ -163,11 +163,11 @@ export default function HeroIntroSection() {
           >
             <Link
               href="/services/cmn"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#F272A8] text-white font-medium rounded-md shadow-lg hover:bg-[#f45c98] transition"
+              className="inline-flex items-center gap-2 bg-[#F272A8] hover:bg-pink-600 text-white font-medium px-8 py-3 rounded-full transition-all duration-300"
             >
               Here's How
-              <ArrowUpRight size={20} />
             </Link>
+
           </motion.div>
         </motion.div>
       </motion.div>
