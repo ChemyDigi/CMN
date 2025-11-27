@@ -14,16 +14,17 @@ export default function WorldwideImpact() {
 
                 {/* LEFT TEXT SECTION */}
                 <div className="space-y-6">
-                    <h1 className="text-6xl font-semibold leading-tight text-white">
-                        Worldwide
-                        <span className="block text-[#f271a8]">impact</span>
-                    </h1>
+<h1 className="text-6xl font-semibold leading-tight text-white">
+  Engineering Excellence
+  <span className="block text-[#f271a8]">Worldwide</span>
+</h1>
 
-                    <p className="text-xl leading-relaxed text-white">
-                        Serving industries across{" "}
-                        <span className="font-semibold text-white">3</span> strategic Asian
-                        regions
-                    </p>
+<p className="text-xl leading-relaxed text-white">
+  Serving the world’s most demanding{" "}
+  <span className="font-semibold text-white">engineering environments</span>
+</p>
+
+
 
 
 
