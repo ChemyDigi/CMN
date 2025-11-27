@@ -84,26 +84,8 @@ export default function HeroSection() {
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 1.2, delay: 0.9 }}
-    className="
-      bg-[#F272A8]
-      text-white font-semibold
-      rounded-lg shadow-md
-      hover:bg-[#f45c98]
-      transition-all duration-300
-
-      px-4 py-2 text-sm
-      xs:px-5 xs:py-2.5 xs:text-base
-      sm:px-6 sm:py-3 sm:text-lg
-      md:px-8 md:py-3.5 md:text-lg
-
-      hover:scale-[1.06] hover:shadow-xl
-
-      focus:outline-none 
-      focus:ring-2 
-      focus:ring-[#F272A8] 
-      focus:ring-offset-2
-    "
-  >
+    className="inline-flex items-center gap-2 bg-[#F272A8] hover:bg-pink-600 text-white font-medium px-8 py-3 rounded-full transition-all duration-300"
+            >
     Contact Us
   </motion.button>
 </Link>

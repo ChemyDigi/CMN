@@ -7,15 +7,17 @@ import WhyChooseUs from "../../components/HomeComponents/WhyChooseUsSection";
 import FeaturedProducts from "../../components/HomeComponents/FeaturedProducts";
 import AuthorizedCarrierDistributor from "../../components/HomeComponents/AuthorizedCarrierDistributor";
 import AirDoot from "@/components/HomeComponents/AirDoot";
-
+import AboutCmn from "@/components/HomeComponents/AboutCmn";
 export default function AboutPage() {
   return (
     <main className="flex flex-col overflow-x-hidden w-full">
       <Navbar />
       <HeroSection />
-      <LogoSlider />
+      <AboutCmn/>
+      
       <WhyChooseUs />
       <FeaturedProducts/>
+      <LogoSlider />
       <IntroSection />
       <AuthorizedCarrierDistributor/>
       <AirDoot />
