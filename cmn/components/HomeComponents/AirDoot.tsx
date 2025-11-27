@@ -112,7 +112,7 @@ export default function HeroIntroSection() {
             variants={itemVariants}
             className="text-3xl md:text-4xl font-bold leading-snug"
           >
-            AirDoot: Keep Your AC Healthy, and <br />
+           Keep Your AC Healthy, and <br />
             Running Smoothly
           </motion.h2>
 
