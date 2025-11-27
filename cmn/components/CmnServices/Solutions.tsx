@@ -62,7 +62,7 @@ export default function FeaturesSection() {
               >
                 <div className="mb-3 text-[#F272A8]">{f.icon}</div>
                 <h3 className="font-semibold text-lg mb-1">{f.title}</h3>
-                <p className="text-gray-600 text-sm">{f.desc}</p>
+                <p className="text-gray-600 text-sm text-justify">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -87,7 +87,7 @@ export default function FeaturesSection() {
               >
                 <div className="mb-3 text-[#F272A8]">{f.icon}</div>
                 <h3 className="font-semibold text-lg mb-1">{f.title}</h3>
-                <p className="text-gray-600 text-sm">{f.desc}</p>
+                <p className="text-gray-600 text-sm text-justify">{f.desc}</p>
               </div>
             ))}
           </div>
