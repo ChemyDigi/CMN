@@ -87,7 +87,7 @@ export default function AuthorizedCarrierDistributor() {
   };
 
   return (
-    <section ref={ref} className="w-full bg-[#f7f7f7] py-16 md:py-20">
+    <section ref={ref} className="w-full bg-white py-16 md:py-20">
       <motion.div
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
