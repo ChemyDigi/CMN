@@ -46,7 +46,7 @@ export default function Navbar() {
               </li>
 
               <li className="hover:text-[#F272A8] cursor-pointer" onMouseEnter={() => setActiveMenu("solutions")}>
-                Solutions
+                Services
               </li>
 
               <li className="hover:text-[#F272A8] cursor-pointer" onMouseEnter={() => setActiveMenu("products")}>
@@ -80,8 +80,8 @@ export default function Navbar() {
                   <div className="w-1/2 border-l pl-6 lg:pl-10 text-sm space-y-4 animate-dropdownSmooth">
                     {activeMenu === "solutions" && (
                       <>
-                        <p className="font-bold text-gray-700 underline">Solutions</p>
-                        <Link href="/services/cmn" className="block text-gray-500 hover:text-[#F272A8]">CMN Solutions</Link>
+                        <p className="font-bold text-gray-700 underline">Services</p>
+                        <Link href="/services/cmn" className="block text-gray-500 hover:text-[#F272A8]">CMN Services</Link>
                         <Link href="/services/airdoot" className="block text-gray-500 hover:text-[#F272A8]">AirDoot</Link>
                       </>
                     )}
