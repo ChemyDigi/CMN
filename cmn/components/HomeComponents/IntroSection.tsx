@@ -129,7 +129,7 @@ export default function HeroIntroSection() {
 
           <motion.p
             variants={itemVariants}
-            className="text-gray-300 leading-relaxed max-w-xl"
+            className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
             CMD Distributors is transforming the distribution landscape through
             data driven intelligence and automation. Leveraging a vast global
@@ -139,7 +139,7 @@ export default function HeroIntroSection() {
 
           <motion.p
             variants={itemVariants}
-            className="text-gray-300 leading-relaxed max-w-xl"
+            className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
             We empower industries to be Efficient by Design building smarter,
             more agile distribution systems that anticipate challenges before
@@ -149,7 +149,7 @@ export default function HeroIntroSection() {
 
           <motion.p
             variants={itemVariants}
-            className="text-gray-300 leading-relaxed max-w-xl"
+            className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
             This allows our partners to stay ahead of market demand faster in
             response, stronger in performance, and deeper in insight.

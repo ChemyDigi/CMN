@@ -118,7 +118,7 @@ export default function HeroIntroSection() {
 
           <motion.p
             variants={itemVariants}
-            className="text-gray-300 leading-relaxed max-w-xl"
+            className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
             Your comfort is our ultimate priority, and our commitment to you
             doesn't end once the installation is complete. That's why we offer a
@@ -128,7 +128,7 @@ export default function HeroIntroSection() {
 
           <motion.p
             variants={itemVariants}
-            className="text-gray-300 leading-relaxed max-w-xl"
+            className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
             Whether your AC system needs a seasonal tune-up to ensure peak efficiency, 
             a thorough deep cleaning to maintain your indoor air quality, or you simply 
@@ -137,7 +137,7 @@ export default function HeroIntroSection() {
 
           <motion.p
             variants={itemVariants}
-            className="text-gray-300 leading-relaxed max-w-xl"
+            className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
             We believe that world-class AC care should be easy and completely
             worry-free, so you can enjoy a perfectly comfortable home for years to
