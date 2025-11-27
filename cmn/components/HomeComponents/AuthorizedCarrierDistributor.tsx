@@ -120,12 +120,12 @@ export default function AuthorizedCarrierDistributor() {
           <div className="flex-1">
             <motion.h2
               variants={itemVariants}
-              className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight tracking-tight"
+              className="text-3xl md:text-4xl lg:text-4xl font-bold text-gray-900 leading-tight tracking-tight"
             >
               Authorized Carrier <br />
               <motion.span 
                 variants={itemVariants}
-                className="text-[#00008b]"
+                className="text-[#152c73]"
               >
                 Distributor
               </motion.span>
