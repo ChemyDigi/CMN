@@ -5,6 +5,11 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useInView, easeOut } from "framer-motion";
 import { useRef } from "react";
+<<<<<<< Updated upstream
+=======
+import ACImgae from "../../public/images/Home/AC-airdoot2.png";
+import airdoot from "../../public/images/Home/airdoor.png"
+>>>>>>> Stashed changes
 
 export default function HeroIntroSection() {
   const containerRef = useRef(null);
@@ -73,12 +78,17 @@ export default function HeroIntroSection() {
           priority
         />
 
+<<<<<<< Updated upstream
         {/* WHITE DECORATIVE SHAPE - HIDDEN ON TABLET */}
+=======
+        {/* WHITE DECORATIVE SHAPE — only visible on large screens */}
+>>>>>>> Stashed changes
         <motion.div
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={decorativeVariants}
           className="
+            hidden lg:block
             absolute
             top-0
             right-0
@@ -91,6 +101,28 @@ export default function HeroIntroSection() {
             hidden lg:block
           "
         />
+
+        {/* IMAGE ON TOP OF WHITE SHAPE — new added */}
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={imageVariants}
+          className="
+            hidden lg:block
+            absolute
+            top-10
+            right-10
+            z-[25]
+          "
+        >
+          <Image
+            src={airdoot}  // ⭐ Replace with your image path
+            alt="Decorative Top Image"
+            width={250}
+            height={250}
+            className="object-contain"
+          />
+        </motion.div>
 
         {/* Black overlay */}
         <div className="absolute inset-0 bg-black/50 z-10" />
@@ -151,6 +183,7 @@ export default function HeroIntroSection() {
             whileTap={{ scale: 0.95 }}
           >
             <Link
+<<<<<<< Updated upstream
               href="/services/airdoot"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[#F272A8] text-white font-medium rounded-md shadow-lg hover:bg-[#f45c98] transition"
             >
@@ -161,6 +194,18 @@ export default function HeroIntroSection() {
         </motion.div>
 
         {/* RIGHT IMAGE - HIDDEN ON TABLET AND MOBILE - LARGER SIZE */}
+=======
+  href="/services/ac"
+  className="inline-flex items-center gap-2 bg-[#F272A8] hover:bg-pink-600 text-white font-medium px-8 py-3 rounded-full transition-all duration-300"
+>
+  Explore More 
+</Link>
+
+          </motion.div>
+        </motion.div>
+
+        {/* RIGHT IMAGE — only visible on large screens */}
+>>>>>>> Stashed changes
         <div className="relative hidden lg:block">
           <motion.div
             variants={imageVariants}
