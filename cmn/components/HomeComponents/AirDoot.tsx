@@ -155,7 +155,7 @@ export default function HeroIntroSection() {
               className="inline-flex items-center gap-2 bg-[#F272A8] hover:bg-pink-600 text-white font-medium px-8 py-3 rounded-full transition-all duration-300"
             >
               Explore More
-              <ArrowUpRight size={20} />
+              
             </Link>
           </motion.div>
         </motion.div>
