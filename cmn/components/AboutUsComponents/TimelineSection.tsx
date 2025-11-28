@@ -91,13 +91,11 @@ export default function TimelineSection() {
           History Time Line
         </motion.h2>
 
-        <div className="relative max-w-6xl mx-auto">
-
-          {/* Center Line (Desktop Only) */}
+        {/* DESKTOP TIMELINE - Original untouched */}
+        <div className="hidden md:block relative max-w-6xl mx-auto">
           <motion.div
             style={{ height: lineHeight }}
             className="
-              hidden md:block
               absolute top-0 left-1/2 -translate-x-1/2 
               w-[2px] bg-[#F272A8] origin-top
             "
@@ -116,13 +114,11 @@ export default function TimelineSection() {
                 }}
                 viewport={{ once: true }}
                 className={`
-                  flex flex-col md:flex-row relative
-                  md:${
-                    item.side === "left" ? "justify-start" : "justify-end"
-                  }
+                  flex flex-row relative
+                  ${item.side === "left" ? "justify-start" : "justify-end"}
                 `}
               >
-                {/* Dot (Desktop Only) */}
+                {/* Dot */}
                 <motion.div
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
@@ -132,7 +128,6 @@ export default function TimelineSection() {
                     ease: "easeOut",
                   }}
                   className="
-                    hidden md:block
                     absolute left-1/2 -translate-x-1/2
                     w-5 h-5 bg-[#F272A8] rounded-full border-4 border-[#2E2E2E]
                   "
@@ -141,13 +136,12 @@ export default function TimelineSection() {
                 {/* Timeline Card */}
                 <div
                   className={`
-                    w-full md:w-1/2 px-8
-                    md:${
+                    w-1/2 px-8
+                    ${
                       item.side === "left"
                         ? "pr-16 text-right"
                         : "pl-16 text-left"
                     }
-                    text-center md:text-inherit
                   `}
                 >
                   <p className="text-[#F272A8] font-semibold text-lg mb-2">
@@ -163,7 +157,54 @@ export default function TimelineSection() {
               </motion.div>
             ))}
           </div>
+        </div>
 
+        {/* MOBILE TIMELINE - Left aligned */}
+        <div className="md:hidden relative max-w-2xl mx-auto">
+          <div className="flex flex-col space-y-12">
+            {timeline.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.7,
+                  delay: index * 0.15,
+                  ease: "easeOut",
+                }}
+                viewport={{ once: true }}
+                className="flex flex-col relative"
+              >
+                {/* Mobile Dot */}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: index * 0.15,
+                    ease: "easeOut",
+                  }}
+                  className="
+                    absolute left-4 top-6
+                    w-3 h-3 bg-[#F272A8] rounded-full border-2 border-[#2E2E2E]
+                  "
+                />
+
+                {/* Mobile Timeline Card - Left Aligned */}
+                <div className="w-full pl-16 pr-8 text-left">
+                  <p className="text-[#F272A8] font-semibold text-lg mb-2">
+                    {item.year}
+                  </p>
+                  <h3 className="text-lg font-bold mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
