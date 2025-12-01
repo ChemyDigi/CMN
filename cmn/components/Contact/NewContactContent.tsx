@@ -160,9 +160,14 @@ export default function ContactSection() {
               Mumbai – 400063, Maharshtra- India
             </p>
             <p className="text-sm mt-4">(+91) 9920785241</p>
-            <p className="text-sm">shubhangipatil@cmndistributors.com</p>
+            <a 
+              href="mailto:shubhangipatil@cmndistributors.com" 
+              className="text-sm hover:text-pink-500 transition-colors"
+            >
+              shubhangipatil@cmndistributors.com
+            </a>
             <div className="flex gap-4 mt-4">
-              <a href="https://www.facebook.com/vkr4u/" target="blank" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.facebook.com/vkr4u/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={facebookIcon}
                   alt="Facebook"
@@ -171,7 +176,7 @@ export default function ContactSection() {
                   className="w-6 h-6"
                 />
               </a>
-              <a href="https://www.instagram.com/cmndistributors/" target="blank" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.instagram.com/cmndistributors/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={instagramIcon}
                   alt="Instagram"
@@ -193,9 +198,14 @@ export default function ContactSection() {
               Boralasgamuwa 10290, Sri Lanka
             </p>
             <p className="text-sm mt-4">+94 (76) 359 7171</p>
-            <p className="text-sm">hasitha@cmndistributors.com</p>
+            <a 
+              href="mailto:hasitha@cmndistributors.com" 
+              className="text-sm hover:text-pink-500 transition-colors"
+            >
+              hasitha@cmndistributors.com
+            </a>
             <div className="flex gap-4 mt-4">
-              <a href="https://www.facebook.com/cmndistributorssl/" target="blank" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.facebook.com/cmndistributorssl/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={facebookIcon}
                   alt="Facebook"
@@ -204,7 +214,7 @@ export default function ContactSection() {
                   className="w-6 h-6"
                 />
               </a>
-              <a href="https://www.instagram.com/cmnlanka/" target="blank" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.instagram.com/cmnlanka/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={instagramIcon}
                   alt="Instagram"
@@ -226,9 +236,14 @@ export default function ContactSection() {
               Singapore, 534963
             </p>
             <p className="text-sm mt-4">+6596914182</p>
-            <p className="text-sm">amitmalik@cmndistributors.com</p>
+            <a 
+              href="mailto:amitmalik@cmndistributors.com" 
+              className="text-sm hover:text-pink-500 transition-colors"
+            >
+              amitmalik@cmndistributors.com
+            </a>
             <div className="flex gap-4 mt-4">
-              <a href="https://www.facebook.com/vkr4u/" target="blank" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.facebook.com/vkr4u/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={facebookIcon}
                   alt="Facebook"
@@ -237,7 +252,7 @@ export default function ContactSection() {
                   className="w-6 h-6"
                 />
               </a>
-              <a href="https://www.instagram.com/cmndistributors/" target="blank" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.instagram.com/cmndistributors/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={instagramIcon}
                   alt="Instagram"
