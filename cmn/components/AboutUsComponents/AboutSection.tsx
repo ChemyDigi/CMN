@@ -113,24 +113,7 @@ export default function AboutSection() {
           </p>
 
           {/* SIGNATURE BLOCK */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
-            viewport={{ once: true }}
-            className="text-center md:text-left mt-6"
-          >
-            <Image
-              src="/images/AboutUS/sign.png"
-              alt="CEO Signature"
-              width={100}
-              height={50}
-              className="object-contain mt-2 mx-auto md:mx-0"
-            />
-
-            <p className="font-semibold text-gray-900 mt-2">Richard Donovan</p>
-            <p className="text-sm text-gray-600">CEO FOUNDER</p>
-          </motion.div>
+          
         </div>
       </motion.div>
     </section>

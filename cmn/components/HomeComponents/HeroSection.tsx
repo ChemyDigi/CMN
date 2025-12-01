@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import heroImage from "../../public/images/hero/heroHome.png";
+import heroImage from "../../public/images/hero/homeHero.png";
 import Link from "next/link";
 
 export default function HeroSection() {

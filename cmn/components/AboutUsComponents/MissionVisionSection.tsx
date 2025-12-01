@@ -107,8 +107,8 @@ export default function MissionVisionSection() {
           {[
             { icon: BadgeCheck, number: "35+", title: "Vast Experience" },
             { icon: UsersRound, number: "50+", title: "Professional Team" },
-            { icon: Award, number: "100%", title: "High Finish" },
-            { icon: Leaf, number: "5,000+", title: "Sustainable & Accountable" },
+            { icon: Award, number: "2500+", title: "Customers" },
+            { icon: Leaf, number: "5,000+", title: "Projects Completed" },
           ].map((item, index) => {
             const Icon = item.icon;
             return (
