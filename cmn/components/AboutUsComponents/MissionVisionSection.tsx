@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import mission from "../../public/images/AboutUS/NewMission.png";
-import vision from "../../public/images/AboutUS/NewVision.png";
+import mission from "../../public/images/AboutUS/expertise.png";
+import vision from "../../public/images/AboutUS/strength.png";
 import { BadgeCheck, UsersRound, Award, Leaf } from "lucide-react";
 
 /* ---------------- COUNT-UP NUMBER COMPONENT ---------------- */
@@ -81,17 +81,18 @@ export default function MissionVisionSection() {
             viewport={{ once: true }}
             className="w-full max-w-xl"
           >
-            <h2 className="text-3xl font-semibold mb-6">Our Mission</h2>
+            <h2 className="text-3xl font-semibold mb-6">Our expertise & vision</h2>
 
             <div className="relative">
               <span className="text-gray-400 text-7xl absolute left-0 -top-6">“</span>
 
               <blockquote className="italic text-lg leading-relaxed md:text-xl text-gray-600 px-6">
-                To provide world-class products and services that empower industries
-                through quality, technology, and trust. We aim to continuously expand
-                our global footprint, strengthen relationships with our partners, and
-                uphold the highest standards of professionalism, integrity, and
-                customer satisfaction.
+                CMN is lead and driven by a team of highly experienced 
+                professionals. With distribution channels (of premium tools and equipment) 
+                catering to a plethora of industries such as AVIATION, OIL & GAS, POWER, 
+                DEFENCE, AUTOMOTIVE, CONSTRUCTION, to name a few, streamlining to us at 
+                CMN is paramount. We also specialize in Project Supplies, console-dating 
+                all requirements of our customers, acting as a ONE-STOP SOLUTION.
               </blockquote>
 
               <span className="text-gray-400 text-7xl absolute right-0 bottom-0">”</span>
@@ -151,16 +152,18 @@ export default function MissionVisionSection() {
             viewport={{ once: true }}
             className="w-full max-w-xl"
           >
-            <h2 className="text-3xl font-semibold mb-6">Our Vision</h2>
+            <h2 className="text-3xl font-semibold mb-6">Our Strength</h2>
 
             <div className="relative">
               <span className="text-gray-400 text-7xl absolute left-0 -top-6">“</span>
 
               <blockquote className="italic text-lg leading-relaxed md:text-xl text-gray-600 px-6">
-                To build a sustainable and globally trusted network of industrial
-                solutions that empower businesses to grow through innovation,
-                reliability, and excellence while creating a better, more connected
-                future.
+                Our biggest strength is our customers, they trust us and 
+                believe in us as our motto is customer service, which is 
+                reflected in our name CMN that stands for “CALL ME NOW” 
+                We specialize in application-based sales and put in lot of 
+                efforts in customer education and training. Key accounts 
+                handling – providing them one stop solution comes naturally to us.
               </blockquote>
 <span className="text-gray-400 text-7xl absolute right-0 bottom-0 translate-y-6">
   ”
