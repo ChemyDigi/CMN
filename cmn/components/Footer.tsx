@@ -57,8 +57,8 @@ export default function Footer() {
             >
               <li className="hover:text-[#F272A8]"><Link href="/">Home</Link></li>
               <li className="hover:text-[#F272A8]"><Link href="/about">About</Link></li>
-              <li className="hover:text-[#F272A8]"><Link href="/products">Products</Link></li>
-              <li className="hover:text-[#F272A8]"><Link href="/services">Services</Link></li>
+              {/* <li className="hover:text-[#F272A8]"><Link href="/products">Products</Link></li>
+              <li className="hover:text-[#F272A8]"><Link href="/services">Services</Link></li> */}
               <li className="hover:text-[#F272A8]"><Link href="/clients">Clients</Link></li>
             </ul>
           </div>
