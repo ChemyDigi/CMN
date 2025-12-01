@@ -61,10 +61,21 @@ export default function Navbar() {
             {/* CONTACT BUTTON */}
             <Link
               href="/contact"
-              className="bg-[#202020] text-white px-5 py-2 rounded-md text-xs sm:text-sm font-semibold hover:bg-gray-900 transition whitespace-nowrap"
+              className="
+    bg-[#202020]
+    hover:bg-[#3a3a3a]        /* Hover color change */
+    text-white
+    px-5 py-2
+    rounded-md
+    text-xs sm:text-sm
+    font-semibold
+    transition-colors duration-300   /* Smooth transition */
+    whitespace-nowrap
+  "
             >
               CONTACT
             </Link>
+
 
             {/* DROPDOWN */}
             {activeMenu && (
