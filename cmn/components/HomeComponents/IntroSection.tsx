@@ -131,28 +131,30 @@ export default function HeroIntroSection() {
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
-            CMD Distributors is transforming the distribution landscape through
-            data driven intelligence and automation. Leveraging a vast global
-            network and cutting-edge technology, we're setting new standards for
-            reliability, efficiency, and scalability.
+            CMN Distributors Pvt Ltd (“CMN”) is a professionally managed 
+            company specializing in the distribution of premium tools and 
+            equipment for a broad range of industries. Its core operation 
+            focuses on providing reliable, high quality products that enhance 
+            efficiency and operational performance.
           </motion.p>
 
           <motion.p
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
-            We empower industries to be Efficient by Design building smarter,
-            more agile distribution systems that anticipate challenges before
-            they arise. Using AI and predictive analytics, we optimize sourcing,
-            logistics, and delivery operations across continents.
+            Beyond industrial tools, CMN serves the Refrigeration, 
+            Air Conditioning, and Ventilation sector by supplying 
+            essential niche products and specialized components for 
+            modern climate control systems.
           </motion.p>
 
           <motion.p
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
-            This allows our partners to stay ahead of market demand faster in
-            response, stronger in performance, and deeper in insight.
+            CMN also provides advanced Air Quality Treatment 
+            solutions, enabling clients to achieve cleaner, 
+            safer, and compliant indoor spaces.
           </motion.p>
 
           {/* CTA BUTTON */}

@@ -120,28 +120,29 @@ export default function HeroIntroSection() {
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
-            Your comfort is our ultimate priority, and our commitment to you
-            doesn't end once the installation is complete. That's why we offer a
-            comprehensive suite of friendly and reliable after-installation services
-            designed to give you complete peace of mind.
+            AirDoot is an innovative online platform that solves 
+            service challenges for Air Conditioning & Refrigeration 
+            products using technology. It serves both residential and 
+            commercial users with a complete digital solution.
           </motion.p>
 
           <motion.p
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
-            Whether your AC system needs a seasonal tune-up to ensure peak efficiency, 
-            a thorough deep cleaning to maintain your indoor air quality, or you simply 
-            need expert guidance on its operation, our dedicated team is always ready to assist.
+            As part of CMN, the platform operates across Singapore 
+            and India. It brings together customers, service providers, 
+            and suppliers into one efficient ecosystem.
           </motion.p>
 
           <motion.p
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
-            We believe that world-class AC care should be easy and completely
-            worry-free, so you can enjoy a perfectly comfortable home for years to
-            come.
+            Through its web and mobile app, customers can 
+            easily book and track services. This integrated model 
+            ensures transparency and streamlines the entire service process 
+            for all stakeholders.
           </motion.p>
 
           {/* CTA BUTTON */}
