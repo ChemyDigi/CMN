@@ -162,7 +162,7 @@ export default function ContactSection() {
             <p className="text-sm mt-4">(+91) 9920785241</p>
             <p className="text-sm">shubhangi@cmndistributors.com</p>
             <div className="flex gap-4 mt-4">
-              <a href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.facebook.com/vkr4u/" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={facebookIcon}
                   alt="Facebook"
@@ -171,7 +171,7 @@ export default function ContactSection() {
                   className="w-6 h-6"
                 />
               </a>
-              <a href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.instagram.com/cmndistributors/" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={instagramIcon}
                   alt="Instagram"
@@ -195,7 +195,7 @@ export default function ContactSection() {
             <p className="text-sm mt-4">+94 (76) 359 7171</p>
             <p className="text-sm">hasitha@cmndistributors.com</p>
             <div className="flex gap-4 mt-4">
-              <a href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.facebook.com/cmndistributorssl/" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={facebookIcon}
                   alt="Facebook"
@@ -204,7 +204,7 @@ export default function ContactSection() {
                   className="w-6 h-6"
                 />
               </a>
-              <a href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.instagram.com/cmnlanka/" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={instagramIcon}
                   alt="Instagram"
@@ -228,7 +228,7 @@ export default function ContactSection() {
             <p className="text-sm mt-4">+65 96914182</p>
             <p className="text-sm">amitmalik@cmndistributors.com</p>
             <div className="flex gap-4 mt-4">
-              <a href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.facebook.com/vkr4u/" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={facebookIcon}
                   alt="Facebook"
@@ -237,7 +237,7 @@ export default function ContactSection() {
                   className="w-6 h-6"
                 />
               </a>
-              <a href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.instagram.com/cmndistributors/" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={instagramIcon}
                   alt="Instagram"

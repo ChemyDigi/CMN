@@ -11,7 +11,7 @@ const categories = [
   {
     title: "Tools & Equipment",
     description:
-      "Professional grade tools and equipment for all your AC installation and maintenance needs. From precision instruments to heavy-duty machinery.",
+      "Professional grade tools and equipment for all your AC installation and maintenance needs. From precision instruments to heavy duty machinery.",
     image: toolsbg,
     link: "/products/tools",
     buttonText: "Explore Tools",
@@ -19,7 +19,7 @@ const categories = [
   {
     title: "AC & Refrigerators",
     description:
-      "Complete range of air conditioning units and refrigeration systems. Energy-efficient solutions for residential and commercial applications.",
+      "Complete range of air conditioning units and refrigeration systems. Energy efficient solutions for residential and commercial applications.",
     image: refbg,
     link: "/products/ref-ac",
     buttonText: "Explore Tools",
