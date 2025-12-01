@@ -46,7 +46,7 @@ export default function Navbar() {
               </li>
 
               <li className="hover:text-[#F272A8] cursor-pointer" onMouseEnter={() => setActiveMenu("solutions")}>
-                Services
+                Solutions
               </li>
 
               <li className="hover:text-[#F272A8] cursor-pointer" onMouseEnter={() => setActiveMenu("products")}>
