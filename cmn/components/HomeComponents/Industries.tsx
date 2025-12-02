@@ -264,14 +264,3 @@ function Pill({
     </div>
   );
 }
-
-/* ------------------- FADE-IN ANIMATION ------------------- */
-const style = document.createElement("style");
-style.innerHTML = `
-  @keyframes fadeInTop { 
-    from { opacity: 0; transform: translateY(-12px); } 
-    to { opacity: 1; transform: translateY(0); } 
-  }
-  .animate-fadeInTop { animation: fadeInTop 300ms ease-out forwards; }
-`;
-document.head.appendChild(style);
