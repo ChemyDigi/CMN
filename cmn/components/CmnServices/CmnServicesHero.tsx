@@ -1,12 +1,11 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import heroImage from "../../public/images/hero/homeHero.png";
-import Link from "next/link";
+import heroImage from "../../public/images/hero/heroAC.png";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full min-h-screen flex items-center overflow-hidden pt-20">
+    <section className="relative w-full min-h-screen flex items-center overflow-hidden pt-20"> {/* Added pt-20 for navbar and items-center for vertical centering */}
 
       {/* Background Image */}
       <motion.div
@@ -35,7 +34,7 @@ export default function HeroSection() {
           text-center
 
           /* Desktop: Left aligned with original padding */
-          lg:pl-[180px] xl:pl-[110px]
+          lg:pl-[180px] xl:pl-[120px]
           lg:mx-0
           lg:text-left
           lg:px-0
@@ -48,7 +47,7 @@ export default function HeroSection() {
           transition={{ duration: 1.2, delay: 0.3 }}
           className="text-xs sm:text-sm md:text-base mb-2 sm:mb-3 opacity-80 text-[#F272A8] font-bold"
         >
-          CMN Distributors
+          CMN Solutions
         </motion.p>
 
         {/* MAIN TITLE */}
@@ -58,8 +57,8 @@ export default function HeroSection() {
           transition={{ duration: 1.2, delay: 0.5 }}
           className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-bold leading-tight mb-3 sm:mb-4 md:mb-5"
         >
-          Powering Industries with<br />
-          Precision Tools & Trusted Solutions
+          CMN Solutions for <br/>
+          Modern Industry
         </motion.h1>
 
         {/* DESCRIPTION */}
@@ -73,25 +72,47 @@ export default function HeroSection() {
             text-gray-200
             mx-auto
             lg:mx-0
-            mb-6 sm:mb-8
+            mb-4 sm:mb-5
           "
         >
-          Offices in Singapore, India & Sri Lanka
+          Delivering reliable tools, HVAC & R technologies, and engineering solutions that enhance productivity, safety, and performance across multiple sectors.
         </motion.p>
 
-        <Link href="/contact">
-  <motion.button
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 1.2, delay: 0.9 }}
-    className="inline-flex items-center gap-2 bg-[#F272A8] hover:bg-pink-600 text-white font-medium px-8 py-3 rounded-full transition-all duration-300"
-            >
-    Contact Us
-  </motion.button>
-</Link>
+        {/* DESKTOP UNDERLINE - Matches description width */}
+        <motion.div
+          initial={{ width: 0, opacity: 0 }}
+          animate={{ width: "100%", opacity: 1 }}
+          transition={{ duration: 2, delay: 1 }}
+          className="
+            mt-4 md:mt-6 h-[2px] bg-[#F272A8] rounded
+            hidden lg:block
+            max-w-xl
+          "
+        />
 
+        {/* TABLET UNDERLINE - Matches description width */}
+        <motion.div
+          initial={{ width: 0, opacity: 0 }}
+          animate={{ width: "100%", opacity: 1 }}
+          transition={{ duration: 1.8, delay: 1 }}
+          className="
+            mt-4 md:mt-6 h-[2px] bg-[#F272A8] rounded
+            hidden md:block lg:hidden mx-auto
+            max-w-md
+          "
+        />
 
-
+        {/* MOBILE UNDERLINE - Matches description width */}
+        <motion.div
+          initial={{ width: 0, opacity: 0 }}
+          animate={{ width: "100%", opacity: 1 }}
+          transition={{ duration: 1.8, delay: 1 }}
+          className="
+            mt-4 h-[2px] bg-[#F272A8] rounded 
+            block md:hidden mx-auto
+            max-w-xs xs:max-w-sm
+          "
+        />
       </div>
     </section>
   );

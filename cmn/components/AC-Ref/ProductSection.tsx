@@ -36,11 +36,19 @@ const categories = [
   "Whirlpool",
 ];
 
+const typeOptions = [
+  { value: "all", label: "All" },
+  { value: "ac", label: "AC" },
+  { value: "refrigerator", label: "Refrigerators" },
+];
+
 const ProductSection: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [selectedType, setSelectedType] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
+  const [typeDropdownOpen, setTypeDropdownOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -67,29 +75,102 @@ const ProductSection: React.FC = () => {
     const matchesSearch = product.productName
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    
+    // Filter by type (AC or Refrigerator)
+    let matchesType = true;
+    if (selectedType === "ac") {
+      matchesType = product.productName.toLowerCase().includes("ac") || 
+                   product.productName.toLowerCase().includes("air conditioner") ||
+                   product.productName.toLowerCase().includes("air conditioning");
+    } else if (selectedType === "refrigerator") {
+      matchesType = product.productName.toLowerCase().includes("refrigerator") ||
+                   product.productName.toLowerCase().includes("fridge") ||
+                   product.productName.toLowerCase().includes("refrigeration");
+    }
+    
+    return matchesCategory && matchesSearch && matchesType;
   });
+
+  const selectedTypeLabel = typeOptions.find(opt => opt.value === selectedType)?.label || "All";
 
   return (
     <section className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 bg-white">
       {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 md:mb-10">
-        {/* Category Tabs */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-          {categories.map((cat) => (
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full">
+          {/* AC/Refrigerators Dropdown */}
+          <div className="relative">
             <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`
-                px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all flex-shrink-0
-                ${activeCategory === cat
-                  ? "bg-black text-white shadow-sm"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"}
-              `}
+              onClick={() => setTypeDropdownOpen(!typeDropdownOpen)}
+              className="
+                flex items-center justify-between
+                px-3 sm:px-4 py-1.5 sm:py-2
+                bg-gray-200 text-black 
+                rounded-full text-xs sm:text-sm font-medium 
+                hover:bg-gray-300 transition-all
+                w-full sm:w-auto
+              "
             >
-              {cat}
+              <span>{selectedTypeLabel}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className={`w-3 h-3 ml-2 transition-transform ${typeDropdownOpen ? 'rotate-180' : ''}`}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
             </button>
-          ))}
+            
+            {typeDropdownOpen && (
+              <div className="
+                absolute top-full left-0 mt-1
+                bg-white rounded-lg shadow-lg
+                border border-gray-200
+                z-10 min-w-[140px]
+              ">
+                {typeOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => {
+                      setSelectedType(option.value);
+                      setTypeDropdownOpen(false);
+                    }}
+                    className={`
+                      w-full text-left
+                      px-3 sm:px-4 py-2
+                      text-xs sm:text-sm text-black
+                      transition-colors
+                      hover:bg-gray-100
+                      ${selectedType === option.value ? 'bg-gray-100 font-medium' : ''}
+                    `}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Category Tabs */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-1">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`
+                  px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all flex-shrink-0
+                  ${activeCategory === cat
+                    ? "bg-black text-white shadow-sm"
+                    : "bg-gray-200 text-black hover:bg-gray-300"}
+                `}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Search Box */}
@@ -97,7 +178,7 @@ const ProductSection: React.FC = () => {
           <input
             type="text"
             placeholder="Search Products"
-            className="bg-transparent w-full text-xs sm:text-sm text-gray-800 placeholder-gray-500 focus:outline-none"
+            className="bg-transparent w-full text-xs sm:text-sm text-black placeholder-gray-500 focus:outline-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -145,80 +226,6 @@ const ProductSection: React.FC = () => {
                   fill
                   className="object-cover"
                 />
-
-                {/* IN STOCK LABEL */}
-                {product.availability === "in-stock" && (
-                  <>
-                    {/* 🔴 MOBILE/TABLET VERSION (BIG BADGE) */}
-                    {/* <span
-                      className="
-                        absolute top-2 left-2
-                        bg-green-600 text-white
-                        text-sm font-semibold
-                        px-4 py-2
-                        rounded-md shadow-md z-10
-                        block lg:hidden
-                      "
-                    >
-                      In Stock
-                    </span> */}
-
-                    {/* 🔴 DESKTOP VERSION (SMALL BADGE) */}
-                    {/* <span
-                      className="
-                        absolute top-2 left-2
-                        bg-green-600 text-white
-                        text-xs font-semibold
-                        px-2 py-1
-                        rounded-md shadow-md z-10
-                        hidden lg:block
-                      "
-                    >
-                      In Stock
-                    </span> */}
-                  </>
-                )}
-
-                {/* Out of Stock Label */}
-                {product.availability === "out-of-stock" && (
-                  <>
-                    {/* 🔴 MOBILE/TABLET VERSION (BIG BADGE) */}
-                    {/* <span
-                      className="
-                        absolute top-2 left-2
-                        bg-red-600 text-white
-                        text-sm font-semibold
-                        px-4 py-2
-                        rounded-md shadow-md z-10
-                        block lg:hidden
-                      "
-                    >
-                      Out of Stock
-                    </span> */}
-
-                    {/* Desktop Hover Overlay */}
-                    {/* <div
-                      className="
-                        absolute inset-0
-                        bg-black/40
-                        hidden lg:flex
-                        items-center justify-center
-                        opacity-0 group-hover:opacity-100
-                        transition-opacity
-                      "
-                    >
-                      <span
-                        className="
-                          bg-white text-black
-                          text-sm font-semibold
-                          px-4 py-1.5 rounded-full shadow-md
-                        "
-                      >
-                        OUT OF STOCK
-                      </span>
-                    </div> */}
-                  </>
-                )}
               </div>
 
               {/* Product Info */}

@@ -155,14 +155,19 @@ export default function ContactSection() {
             <h2 className="text-2xl font-semibold mb-2">India</h2>
             <p className="font-semibold text-sm">CMN Distributors PVT LTD</p>
             <p className="text-sm mt-2 leading-relaxed">
-              #1, Mehta Industrial Estate<br />
-              Off J P Road No 2 goregaon East<br />
-              Mumbai - 400063, Maharashtra - India
+              # 1, Mehta Industrial Estate<br />
+              Off J P Road No 2 Goregaon East<br />
+              Mumbai – 400063, Maharshtra- India
             </p>
             <p className="text-sm mt-4">(+91) 9920785241</p>
-            <p className="text-sm">shubhangi@cmndistributors.com</p>
+            <a 
+              href="mailto:shubhangipatil@cmndistributors.com" 
+              className="text-sm hover:text-pink-500 transition-colors"
+            >
+              shubhangipatil@cmndistributors.com
+            </a>
             <div className="flex gap-4 mt-4">
-              <a href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.facebook.com/vkr4u/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={facebookIcon}
                   alt="Facebook"
@@ -171,7 +176,7 @@ export default function ContactSection() {
                   className="w-6 h-6"
                 />
               </a>
-              <a href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.instagram.com/cmndistributors/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={instagramIcon}
                   alt="Instagram"
@@ -190,12 +195,17 @@ export default function ContactSection() {
             <p className="text-sm mt-2 leading-relaxed">
               No 103 & 105<br />
               Kesbawa Road,<br />
-              Boralesgamuwa 10290, Sri Lanka
+              Boralasgamuwa 10290, Sri Lanka
             </p>
             <p className="text-sm mt-4">+94 (76) 359 7171</p>
-            <p className="text-sm">hasitha@cmndistributors.com</p>
+            <a 
+              href="mailto:hasitha@cmndistributors.com" 
+              className="text-sm hover:text-pink-500 transition-colors"
+            >
+              hasitha@cmndistributors.com
+            </a>
             <div className="flex gap-4 mt-4">
-              <a href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.facebook.com/cmndistributorssl/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={facebookIcon}
                   alt="Facebook"
@@ -204,7 +214,7 @@ export default function ContactSection() {
                   className="w-6 h-6"
                 />
               </a>
-              <a href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.instagram.com/cmnlanka/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={instagramIcon}
                   alt="Instagram"
@@ -221,14 +231,19 @@ export default function ContactSection() {
             <h2 className="text-2xl font-semibold mb-2">Singapore</h2>
             <p className="font-semibold text-sm">CMN Distributors PVT LTD</p>
             <p className="text-sm mt-2 leading-relaxed">
-              362, Upper Paya Lebar Road#05-07<br />
+              362, Upper Paya Lebar, Road#05-07<br />
               Da Jin Factory Building,<br />
               Singapore, 534963
             </p>
-            <p className="text-sm mt-4">+65 96914182</p>
-            <p className="text-sm">amitmalik@cmndistributors.com</p>
+            <p className="text-sm mt-4">+6596914182</p>
+            <a 
+              href="mailto:amitmalik@cmndistributors.com" 
+              className="text-sm hover:text-pink-500 transition-colors"
+            >
+              amitmalik@cmndistributors.com
+            </a>
             <div className="flex gap-4 mt-4">
-              <a href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.facebook.com/vkr4u/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={facebookIcon}
                   alt="Facebook"
@@ -237,7 +252,7 @@ export default function ContactSection() {
                   className="w-6 h-6"
                 />
               </a>
-              <a href="#" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.instagram.com/cmndistributors/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <Image
                   src={instagramIcon}
                   alt="Instagram"
