@@ -56,7 +56,7 @@ export default function AuthorizedCarrierDistributor() {
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         variants={containerVariants}
-        className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16"
+        className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 px-6 md:px-8 lg:px-10 xl:px-12" // Added horizontal padding
       >
 
         {/* LEFT SIDE — ICON + TEXT */}
@@ -113,43 +113,42 @@ export default function AuthorizedCarrierDistributor() {
         />
 
         {/* RIGHT SIDE — TWO LOGOS */}
-<motion.div
-  variants={logoVariants}
-  className="flex items-center justify-center lg:justify-end gap-6 flex-[1]"
->
+        <motion.div
+          variants={logoVariants}
+          className="flex items-center justify-center lg:justify-end gap-6 flex-[1]"
+        >
 
-  {/* CARRIER LOGO */}
-  <motion.div
-    className="flex items-center"
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-  >
-    <Image
-      src={carrierLogo}
-      alt="Carrier Logo"
-      width={220}   // reduced for better alignment
-      height={80}
-      className="object-contain"
-    />
-  </motion.div>
+          {/* CARRIER LOGO */}
+          <motion.div
+            className="flex items-center"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Image
+              src={carrierLogo}
+              alt="Carrier Logo"
+              width={220}   // reduced for better alignment
+              height={80}
+              className="object-contain"
+            />
+          </motion.div>
 
-  {/* TOSHIBA LOGO */}
-  <motion.div
-    className="flex items-center"
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-  >
-    <Image
-      src={toshibaLogo}
-      alt="Toshiba Logo"
-      width={260}  // adjust based on your design
-      height={80}
-      className="object-contain"
-    />
-  </motion.div>
+          {/* TOSHIBA LOGO */}
+          <motion.div
+            className="flex items-center"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Image
+              src={toshibaLogo}
+              alt="Toshiba Logo"
+              width={260}  // adjust based on your design
+              height={80}
+              className="object-contain"
+            />
+          </motion.div>
 
-</motion.div>
-
+        </motion.div>
 
       </motion.div>
     </section>
