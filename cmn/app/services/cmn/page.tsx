@@ -4,6 +4,7 @@ import WorldwideImpact from "@/components/CmnServices/WorldwideImpact";
 import IntroText from "@/components/CmnServices/IntroText";
 import CmnServiceHero from "@/components/CmnServices/CmnServicesHero";
 import Solutions from "@/components/CmnServices/Solutions";
+import AfterSalesServices from "@/components/CmnServices/AfterSalesServices";
 
 export default function CmnServicesPage() {
   return (
@@ -13,7 +14,8 @@ export default function CmnServicesPage() {
         <IntroText/>
         <WorldwideImpact/>
         <Solutions/>
-         <Footer/>
+        <AfterSalesServices/>
+        <Footer/>
       
       
       
