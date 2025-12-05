@@ -24,7 +24,7 @@ export default function WorldwideImpact() {
                         <span className="font-semibold text-white">engineering environments</span>
                     </p>
 
-                    <Link href="/products/tools">
+                    <Link href="#service-ranges">
                         <button
                             className="
                                 px-6 py-3 rounded-full bg-white text-[#554c4a] text-sm sm:text-base
@@ -33,7 +33,7 @@ export default function WorldwideImpact() {
                                 hover:scale-105 hover:-translate-y-1
                             "
                         >
-                            Discover all our Products
+                            View Products
                         </button>
                     </Link>
                 </div>

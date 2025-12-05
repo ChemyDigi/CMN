@@ -5,6 +5,7 @@ import IntroText from "@/components/CmnServices/IntroText";
 import CmnServiceHero from "@/components/CmnServices/CmnServicesHero";
 import Solutions from "@/components/CmnServices/Solutions";
 import AfterSalesServices from "@/components/CmnServices/AfterSalesServices";
+import Rangees from "@/components/CmnServices/ServiceRanges";
 
 export default function CmnServicesPage() {
   return (
@@ -15,6 +16,7 @@ export default function CmnServicesPage() {
         <WorldwideImpact/>
         <Solutions/>
         <AfterSalesServices/>
+        <Rangees/>
         <Footer/>
       
       

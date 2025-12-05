@@ -28,7 +28,7 @@ const categories = [
 
 export default function CategoriesSection() {
   return (
-    <section className="w-full bg-white py-">
+    <section id="featured-products" className="w-full bg-white py-">
 
       {/* HEADER */}
       <div className="max-w-7xl mx-auto px-6">
