@@ -1,213 +1,320 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import Image from "next/image";
-import { FiEye, FiEdit2, FiTrash2, FiSearch, FiFilter } from "react-icons/fi";
-import drill from "../../../public/images/admin/drill.jpg";
-import ac from "../../../public/images/admin/AC.jpeg";
-import ref from "../../../public/images/admin/ref.avif";
+import React, { useState, useEffect } from "react";
+import { FaEdit, FaTrash, FaEye, FaTools, FaSnowflake, FaBox } from "react-icons/fa";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import toast, { Toaster } from "react-hot-toast";
+ 
 
-// SAMPLE DATA WITH IMAGES
-const initialProducts = [
-  {
-    id: 1,
-    name: "Professional Drill Set",
-    brand: "Bosch",
-    category: "Tools",
-    updated: "2025-11-10",
-    image: drill,
-  },
-  {
-    id: 2,
-    name: "Industrial AC Unit",
-    brand: "Daikin",
-    category: "AC Units",
-    updated: "2025-11-08",
-    image: ac,
-  },
-  {
-    id: 3,
-    name: "Commercial Refrigerator",
-    brand: "Samsung",
-    category: "Refrigerators",
-    updated: "2025-11-12",
-    image: ref,
-  },
-  {
-    id: 4,
-    name: "Premium Tool Kit",
-    brand: "Makita",
-    category: "Tools",
-    updated: "2025-11-15",
-    image: drill,
-  },
-  {
-    id: 5,
-    name: "Split AC Unit",
-    brand: "LG",
-    category: "AC Units",
-    updated: "2025-11-14",
-    image: ac,
-  },
-];
+type Product = {
+  id: string;
+  serialId: string;
+  category: string;
+  productName: string;
+  brand: string;
+  description: string;
+  warranty: string;
+  material: string;
+  extraFields: Array<{ id: string; name: string; value: string }>;
+  mainImage: string;
+  subImages: string[];
+  createdAt: any;
+  type: "tool" | "ac-ref"; // To identify which collection it belongs to
+};
 
-const brandOptions = ["All Brands", "Bosch", "Daikin", "Samsung", "Makita", "LG"];
-const categoryOptions = ["All Categories", "Tools", "AC Units", "Refrigerators"];
+export default function ManageProductsDashboard() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<"all" | "tools" | "ac-ref">("all");
+  const [searchTerm, setSearchTerm] = useState("");
 
-export default function ManageProductsPage() {
-  const [search, setSearch] = useState("");
-  const [brand, setBrand] = useState("All Brands");
-  const [category, setCategory] = useState("All Categories");
-  const [products, setProducts] = useState(initialProducts);
+  // Fetch all products from both collections
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const allProducts: Product[] = [];
 
-  const handleView = (id: number) => alert(`Viewing product ID: ${id}`);
-  const handleEdit = (id: number) => alert(`Editing product ID: ${id}`);
-  const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this product?")) {
-      setProducts((prev) => prev.filter((p) => p.id !== id));
+      // Fetch tools
+      const toolsSnapshot = await getDocs(collection(db, "tools"));
+      toolsSnapshot.forEach((doc) => {
+        allProducts.push({
+          id: doc.id,
+          type: "tool",
+          ...doc.data(),
+        } as Product);
+      });
+
+      // Fetch AC/Refrigerators
+      const acRefSnapshot = await getDocs(collection(db, "AC-Ref"));
+      acRefSnapshot.forEach((doc) => {
+        allProducts.push({
+          id: doc.id,
+          type: "ac-ref",
+          ...doc.data(),
+        } as Product);
+      });
+
+      // Sort by creation date (newest first)
+      allProducts.sort((a, b) => {
+        const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt);
+        const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt);
+        return dateB.getTime() - dateA.getTime();
+      });
+
+      setProducts(allProducts);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      toast.error("Failed to load products");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const filteredProducts = useMemo(() => {
-    return products.filter((p) => {
-      const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());
-      const matchesBrand = brand === "All Brands" || p.brand === brand;
-      const matchesCategory = category === "All Categories" || p.category === category;
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
-      return matchesSearch && matchesBrand && matchesCategory;
-    });
-  }, [search, brand, category, products]);
+  // Filter products based on selection
+  const filteredProducts = products.filter((product) => {
+    // Apply type filter
+    if (filter !== "all" && product.type !== filter) return false;
+    
+    // Apply search filter
+    if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
+      return (
+        product.productName.toLowerCase().includes(searchLower) ||
+        product.serialId.toLowerCase().includes(searchLower) ||
+        product.category.toLowerCase().includes(searchLower) ||
+        product.brand.toLowerCase().includes(searchLower)
+      );
+    }
+    
+    return true;
+  });
+
+  // Delete product
+  const handleDelete = async (id: string, type: "tool" | "ac-ref") => {
+    if (!confirm("Are you sure you want to delete this product?")) return;
+
+    try {
+      const collectionName = type === "tool" ? "tools" : "AC-Ref";
+      await deleteDoc(doc(db, collectionName, id));
+      
+      // Remove from state
+      setProducts(products.filter((p) => p.id !== id));
+      
+      toast.success("Product deleted successfully");
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      toast.error("Failed to delete product");
+    }
+  };
+
+  // Get product type icon
+  const getProductTypeIcon = (type: "tool" | "ac-ref") => {
+    switch (type) {
+      case "tool":
+        return <FaTools className="text-blue-500" />;
+      case "ac-ref":
+        return <FaSnowflake className="text-teal-500" />;
+      default:
+        return <FaBox className="text-gray-500" />;
+    }
+  };
+
+  // Get product type label
+  const getProductTypeLabel = (type: "tool" | "ac-ref") => {
+    switch (type) {
+      case "tool":
+        return "Tools & Equipment";
+      case "ac-ref":
+        return "AC & Refrigerator";
+      default:
+        return "Product";
+    }
+  };
+
+  // View product details
+  const handleView = (product: Product) => {
+    // Create a modal or redirect to detailed view
+    alert(`Viewing: ${product.productName}\nType: ${getProductTypeLabel(product.type)}`);
+  };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen text-[14px]">
-      {/* HEADER */}
-      <div className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">Manage Products</h1>
-        <p className="text-gray-600 mt-1">View, edit, and manage all your products</p>
-      </div>
-
-      {/* FILTERS */}
-      <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200 mb-8 text-[13px]">
-        <div className="flex items-center gap-2 mb-3">
-          <FiFilter className="text-[#F272A8]" />
-          <h2 className="font-medium text-gray-800">Filters & Search</h2>
+    <div className="max-w-7xl mx-auto p-4 text-black">
+      <Toaster position="top-right" />
+      
+      {/* Header */}
+      <div className="mb-8">
+        <div className="flex items-center gap-2 mb-1">
+          <div className="w-1.5 h-6 bg-[#F272A8] rounded-full"></div>
+          <h1 className="text-2xl font-bold text-gray-900">Manage Products</h1>
         </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-          {/* SEARCH */}
-          <div className="relative">
-            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="w-full border border-gray-300 bg-gray-50 rounded-md px-10 py-2 text-gray-800 focus:ring-2 focus:ring-[#F272A8]/30"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-
-          {/* BRAND */}
-          <select
-            className="w-full border border-gray-300 bg-gray-50 rounded-md px-4 py-2 text-gray-800 focus:ring-2 focus:ring-[#F272A8]/30"
-            value={brand}
-            onChange={(e) => setBrand(e.target.value)}
-          >
-            {brandOptions.map((b) => (
-              <option key={b} value={b}>
-                {b}
-              </option>
-            ))}
-          </select>
-
-          {/* CATEGORY */}
-          <select
-            className="w-full border border-gray-300 bg-gray-50 rounded-md px-4 py-2 text-gray-800 focus:ring-2 focus:ring-[#F272A8]/30"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            {categoryOptions.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <p className="text-xs text-gray-600 mt-4 border-t pt-3">
-          Showing <span className="text-[#F272A8] font-medium">{filteredProducts.length}</span> of{" "}
-          <span className="font-semibold">{products.length}</span> products
+        <p className="text-gray-600 ml-4 text-xs">
+          Manage all tools, equipment, ACs, and refrigerators in one place
         </p>
       </div>
 
-      {/* PRODUCTS TABLE */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="bg-white p-4 rounded-xl shadow border border-gray-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Total Products</p>
+              <p className="text-2xl font-bold">{products.length}</p>
+            </div>
+            <FaBox className="text-3xl text-gray-400" />
+          </div>
+        </div>
+        <div className="bg-white p-4 rounded-xl shadow border border-gray-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Tools & Equipment</p>
+              <p className="text-2xl font-bold">
+                {products.filter(p => p.type === "tool").length}
+              </p>
+            </div>
+            <FaTools className="text-3xl text-blue-400" />
+          </div>
+        </div>
+        <div className="bg-white p-4 rounded-xl shadow border border-gray-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">AC & Refrigerators</p>
+              <p className="text-2xl font-bold">
+                {products.filter(p => p.type === "ac-ref").length}
+              </p>
+            </div>
+            <FaSnowflake className="text-3xl text-teal-400" />
+          </div>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="bg-white p-6 rounded-xl shadow-lg mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+           
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="border border-gray-300 rounded-lg px-3 py-2 text-sm w-full md:w-64"
+            />
+             
+             
+          </div>
+        </div>
+
+        {/* Products Table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-[13px]">
-            <thead className="bg-gray-100 text-gray-700 border-b">
-              <tr>
-                <th className="p-3 font-semibold">#</th>
-                <th className="p-3 font-semibold">Product</th>
-                <th className="p-3 font-semibold">Brand</th>
-                <th className="p-3 font-semibold">Category</th>
-                <th className="p-3 font-semibold text-center">Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {filteredProducts.map((product, index) => (
-                <tr key={product.id} className="border-t hover:bg-gray-50">
-                  <td className="p-4 text-black">{index + 1}</td>
-
-                  {/* PRODUCT WITH IMAGE */}
-                  <td className="p-4 text-gray-900 font-medium">
-                    <div className="flex items-center gap-3">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        width={60}
-                        height={60}
-                        className="rounded-lg object-cover border h-[60px] w-[60px]"
-                      />
-                      {product.name}
-                    </div>
-                  </td>
-
-                  <td className="p-4 text-black">{product.brand}</td>
-                  <td className="p-4 text-black">{product.category}</td>
-
-                  {/* ACTIONS */}
-                  <td className="p-4 text-center">
-                    <div className="flex items-center justify-center gap-2">
-                      <button
-                        onClick={() => handleView(product.id)}
-                        className="p-2 rounded-md border border-blue-200 text-blue-600 hover:bg-blue-50"
-                      >
-                        <FiEye />
-                      </button>
-                      <button
-                        onClick={() => handleEdit(product.id)}
-                        className="p-2 rounded-md border border-green-200 text-green-600 hover:bg-green-50"
-                      >
-                        <FiEdit2 />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(product.id)}
-                        className="p-2 rounded-md border border-red-200 text-red-600 hover:bg-red-50"
-                      >
-                        <FiTrash2 />
-                      </button>
-                    </div>
-                  </td>
+          {loading ? (
+            <div className="text-center py-8">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#F272A8]"></div>
+              <p className="mt-2 text-gray-600">Loading products...</p>
+            </div>
+          ) : filteredProducts.length === 0 ? (
+            <div className="text-center py-8">
+              <FaBox className="text-4xl text-gray-300 mx-auto mb-2" />
+              <p className="text-gray-600">No products found</p>
+              <p className="text-gray-500 text-sm">Add your first product using the buttons above</p>
+            </div>
+          ) : (
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Brand</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Warranty</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {filteredProducts.length === 0 && (
-            <div className="py-10 text-center text-gray-500 text-sm">No products found</div>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {filteredProducts.map((product) => (
+                  <tr key={product.id} className="hover:bg-gray-50">
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        {product.mainImage ? (
+                          <img
+                            src={product.mainImage}
+                            alt={product.productName}
+                            className="w-12 h-12 object-cover rounded-lg"
+                          />
+                        ) : (
+                          <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center">
+                            {getProductTypeIcon(product.type)}
+                          </div>
+                        )}
+                        <div>
+                          <p className="font-medium text-gray-900">{product.productName}</p>
+                          <p className="text-xs text-gray-500">ID: {product.serialId || "N/A"}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        {product.category}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        {getProductTypeIcon(product.type)}
+                        <span className="text-sm">{getProductTypeLabel(product.type)}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-sm">{product.brand}</td>
+                    <td className="px-4 py-3 text-sm">
+                      {product.warranty || (
+                        <span className="text-gray-400 italic">Not specified</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleView(product)}
+                          className="p-2 text-gray-500 hover:text-blue-500"
+                          title="View"
+                        >
+                          <FaEye />
+                        </button>
+                        <button
+                          onClick={() => {
+                            // Navigate to edit page based on type
+                            const editPath = product.type === "tool" 
+                              ? `/dashboard/edit-tool/${product.id}`
+                              : `/dashboard/edit-ac-ref/${product.id}`;
+                            // You would use router.push(editPath) here
+                            alert(`Edit ${product.productName}`);
+                          }}
+                          className="p-2 text-gray-500 hover:text-green-500"
+                          title="Edit"
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(product.id, product.type)}
+                          className="p-2 text-gray-500 hover:text-red-500"
+                          title="Delete"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
         </div>
       </div>
+
+      {/* Quick Actions */}
+      
     </div>
   );
 }
