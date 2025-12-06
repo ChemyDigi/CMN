@@ -4,7 +4,8 @@ import WorldwideImpact from "@/components/CmnServices/WorldwideImpact";
 import IntroText from "@/components/CmnServices/IntroText";
 import CmnServiceHero from "@/components/CmnServices/CmnServicesHero";
 import Solutions from "@/components/CmnServices/Solutions";
-
+import AfterSalesServices from "@/components/CmnServices/AfterSalesServices";
+import ProductRanges from "@/components/CmnServices/ServiceRanges"
 export default function CmnServicesPage() {
   return (
     <div className="min-h-screen bg-white">
@@ -13,6 +14,8 @@ export default function CmnServicesPage() {
         <IntroText/>
         <WorldwideImpact/>
         <Solutions/>
+        <AfterSalesServices/>
+        <ProductRanges/>
          <Footer/>
       
       
