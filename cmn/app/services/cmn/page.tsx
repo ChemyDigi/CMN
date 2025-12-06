@@ -5,7 +5,9 @@ import IntroText from "@/components/CmnServices/IntroText";
 import CmnServiceHero from "@/components/CmnServices/CmnServicesHero";
 import Solutions from "@/components/CmnServices/Solutions";
 import AfterSalesServices from "@/components/CmnServices/AfterSalesServices";
-import ProductRanges from "@/components/CmnServices/ServiceRanges"
+
+import MegaMenu from "@/components/CmnServices/MegaMenu";
+
 export default function CmnServicesPage() {
   return (
     <div className="min-h-screen bg-white">
@@ -15,7 +17,7 @@ export default function CmnServicesPage() {
         <WorldwideImpact/>
         <Solutions/>
         <AfterSalesServices/>
-        <ProductRanges/>
+        <MegaMenu/>
          <Footer/>
       
       
