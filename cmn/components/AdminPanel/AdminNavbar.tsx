@@ -30,8 +30,9 @@ interface AdminSidebarProps {
 export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarProps) {
   const pathname = usePathname();
 
+  // Dropdown open state
   const [open, setOpen] = useState<Record<SectionKey, boolean>>({
-    products: true,
+    products: false, // closed by default
     brands: false,
     categories: false,
   });
@@ -61,10 +62,10 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
           href="/admin"
           icon={<FaHome />}
           label="Dashboard"
-          active={pathname === "/"}
+          active={pathname === "/admin"}
         />
 
-        {/* PRODUCTS */}
+        {/* Products Dropdown */}
         <SidebarDropdown
           title="Products"
           collapsed={collapsed}
@@ -92,7 +93,7 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
           />
         </SidebarDropdown>
 
-        {/* BRANDS */}
+        {/* Brands Dropdown */}
         <SidebarDropdown
           title="Brands"
           collapsed={collapsed}
@@ -114,7 +115,7 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
           />
         </SidebarDropdown>
 
-        {/* REVIEWS */}
+        {/* Reviews */}
         <SidebarLink
           collapsed={collapsed}
           href="/reviews"
@@ -123,7 +124,7 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
           active={pathname === "/reviews"}
         />
 
-        {/* CATEGORIES */}
+        {/* Categories Dropdown */}
         <SidebarDropdown
           title="Categories"
           collapsed={collapsed}
@@ -145,7 +146,7 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
           />
         </SidebarDropdown>
 
-        {/* SETTINGS */}
+        {/* Settings */}
         <SidebarLink
           collapsed={collapsed}
           href="/settings"
@@ -216,9 +217,7 @@ function SidebarDropdown({
       >
         <span className="text-lg">{icon}</span>
         {!collapsed && <span className="flex-1">{title}</span>}
-        {!collapsed && (
-          <span>{open ? <FaChevronDown /> : <FaChevronRight />}</span>
-        )}
+        {!collapsed && <span>{open ? <FaChevronDown /> : <FaChevronRight />}</span>}
       </button>
 
       {open && !collapsed && <div className="ml-8 mt-2 space-y-2">{children}</div>}
