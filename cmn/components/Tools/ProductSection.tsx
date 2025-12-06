@@ -37,7 +37,7 @@ const ProductSection: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "AC-Ref"));
+        const querySnapshot = await getDocs(collection(db, "tools"));
         const productList = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
