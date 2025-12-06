@@ -81,18 +81,19 @@ export default function AuthorizedCarrierDistributor() {
 
           {/* TEXT BLOCK — wider */}
           <div className="flex-1 pr-2 md:pr-4">
-            <motion.h2 
-              variants={itemVariants} 
-              className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight"
-            >
-              Authorized Distributor for <br />
-              <motion.span 
-                variants={itemVariants} 
-                className="text-[#152c73]"
-              >
-                Carrier & Toshiba
-              </motion.span>
-            </motion.h2>
+           <motion.h2 
+  variants={itemVariants} 
+  className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight"
+>
+  Authorized Distributor for{" "}
+  <motion.span 
+    variants={itemVariants} 
+    className="text-[#152c73]"
+  >
+    Carrier & Toshiba
+  </motion.span>
+</motion.h2>
+
 
             <motion.p 
               variants={itemVariants} 

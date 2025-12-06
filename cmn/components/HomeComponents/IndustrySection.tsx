@@ -21,9 +21,9 @@ export default function IndustrySection() {
   const industryItems = [
     { label: "Manufacturing", icon: Factory },
     { label: "Automobile", icon: Car },
-    { label: "Oil&Gas", icon: Flame },
+    { label: "Oil & Gas", icon: Flame },
     { label: "General Industries", icon: Settings },
-    { label: "HouseHold", icon: Home },
+    { label: "Household", icon: Home },
     { label: "Aviation", icon: Plane },
     { label: "Power", icon: Zap },
     { label: "Construction", icon: Hammer },
