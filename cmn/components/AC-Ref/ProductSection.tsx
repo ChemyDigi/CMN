@@ -6,171 +6,94 @@ import { useRouter } from "next/navigation";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-interface Review {
-  customerName: string;
-  email: string;
-  reviewDescription: string;
-  rating: number;
+interface ExtraField {
+  id: string;
+  name: string;
+  value: string;
 }
 
 interface Product {
   id: string;
+  serialId?: string;
   brand: string;
   productName: string;
-  availability: string;
   description: string;
-  warranty: string;
-  material: string;
-  finish: string;
+  warranty?: string;
+  material?: string;
+  category?: string;
+  extraFields?: ExtraField[];
   mainImage: string;
   subImages: string[];
-  reviews: Review[];
-  category?: string;
 }
-
-const categories = [
-  "All",
-  "Samsung",
-  "LG",
-  "Panasonic",
-  "Whirlpool",
-];
-
-const typeOptions = [
-  { value: "all", label: "All" },
-  { value: "ac", label: "AC" },
-  { value: "refrigerator", label: "Refrigerators" },
-];
 
 const ProductSection: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [selectedType, setSelectedType] = useState("all");
+  const [activeBrand, setActiveBrand] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const [typeDropdownOpen, setTypeDropdownOpen] = useState(false);
   const router = useRouter();
 
+  // Fetch from Firestore → "tools" collection
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "AC&Ref"));
+        const querySnapshot = await getDocs(collection(db, "AC-Ref"));
         const productList = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         })) as Product[];
+
         setProducts(productList);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching tools:", error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchProducts();
   }, []);
 
+  // Build dynamic list of brands from DB
+  const brandList = ["All", ...Array.from(new Set(products.map((p) => p.brand)))];
+
+  // Filtering
   const filteredProducts = products.filter((product) => {
-    const matchesCategory =
-      activeCategory === "All" || product.brand === activeCategory;
+    const matchesBrand =
+      activeBrand === "All" || product.brand === activeBrand;
+
     const matchesSearch = product.productName
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-    
-    // Filter by type (AC or Refrigerator)
-    let matchesType = true;
-    if (selectedType === "ac") {
-      matchesType = product.productName.toLowerCase().includes("ac") || 
-                   product.productName.toLowerCase().includes("air conditioner") ||
-                   product.productName.toLowerCase().includes("air conditioning");
-    } else if (selectedType === "refrigerator") {
-      matchesType = product.productName.toLowerCase().includes("refrigerator") ||
-                   product.productName.toLowerCase().includes("fridge") ||
-                   product.productName.toLowerCase().includes("refrigeration");
-    }
-    
-    return matchesCategory && matchesSearch && matchesType;
-  });
 
-  const selectedTypeLabel = typeOptions.find(opt => opt.value === selectedType)?.label || "All";
+    return matchesBrand && matchesSearch;
+  });
 
   return (
     <section className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 bg-white">
+
       {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 md:mb-10">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full">
-          {/* AC/Refrigerators Dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => setTypeDropdownOpen(!typeDropdownOpen)}
-              className="
-                flex items-center justify-between
-                px-3 sm:px-4 py-1.5 sm:py-2
-                bg-gray-200 text-black 
-                rounded-full text-xs sm:text-sm font-medium 
-                hover:bg-gray-300 transition-all
-                w-full sm:w-auto
-              "
-            >
-              <span>{selectedTypeLabel}</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className={`w-3 h-3 ml-2 transition-transform ${typeDropdownOpen ? 'rotate-180' : ''}`}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-              </svg>
-            </button>
-            
-            {typeDropdownOpen && (
-              <div className="
-                absolute top-full left-0 mt-1
-                bg-white rounded-lg shadow-lg
-                border border-gray-200
-                z-10 min-w-[140px]
-              ">
-                {typeOptions.map((option) => (
-                  <button
-                    key={option.value}
-                    onClick={() => {
-                      setSelectedType(option.value);
-                      setTypeDropdownOpen(false);
-                    }}
-                    className={`
-                      w-full text-left
-                      px-3 sm:px-4 py-2
-                      text-xs sm:text-sm text-black
-                      transition-colors
-                      hover:bg-gray-100
-                      ${selectedType === option.value ? 'bg-gray-100 font-medium' : ''}
-                    `}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
 
-          {/* Category Tabs */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-1">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`
-                  px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all flex-shrink-0
-                  ${activeCategory === cat
+        {/* Dynamic Brand Tabs */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          {brandList.map((brand) => (
+            <button
+              key={brand}
+              onClick={() => setActiveBrand(brand)}
+              className={`
+                px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm 
+                font-medium transition-all flex-shrink-0
+                ${
+                  activeBrand === brand
                     ? "bg-black text-white shadow-sm"
-                    : "bg-gray-200 text-black hover:bg-gray-300"}
-                `}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+                    : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                }
+              `}
+            >
+              {brand}
+            </button>
+          ))}
         </div>
 
         {/* Search Box */}
@@ -178,7 +101,7 @@ const ProductSection: React.FC = () => {
           <input
             type="text"
             placeholder="Search Products"
-            className="bg-transparent w-full text-xs sm:text-sm text-black placeholder-gray-500 focus:outline-none"
+            className="bg-transparent w-full text-xs sm:text-sm text-gray-800 placeholder-gray-500 focus:outline-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -211,7 +134,7 @@ const ProductSection: React.FC = () => {
           </p>
         </div>
       ) : (
-        /* Product Grid - ALWAYS 4 columns */
+        // Product Grid (4 columns)
         <div className="grid grid-cols-1 min-[480px]:grid-cols-2 min-[768px]:grid-cols-3 min-[1024px]:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
           {filteredProducts.map((product) => (
             <div
@@ -233,6 +156,7 @@ const ProductSection: React.FC = () => {
                 <h3 className="text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 sm:mb-2 md:mb-3 line-clamp-2 min-h-[2.5rem] sm:min-h-[3rem] flex items-center justify-center">
                   {product.productName}
                 </h3>
+
                 <button
                   onClick={() => router.push(`/products/ref-ac/${product.id}`)}
                   className="text-black w-full border border-gray-800 rounded-md py-1.5 sm:py-2 text-xs sm:text-sm font-medium hover:bg-black hover:text-white transition-all"
