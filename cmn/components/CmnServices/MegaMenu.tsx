@@ -116,7 +116,7 @@ export default function ServicesRange() {
     >
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-10 gap-6 lg:gap-0">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold max-w-xl leading-tight">
-          Extensive Portfolio of Industrial Tools & Maintenance Equipment.
+          Providing the Right Tools and Equipment for Every Industry 
         </h2>
 
         <a href="/home/#featured-products" className="inline-block">
