@@ -221,7 +221,7 @@ export default function AdminPage() {
           <h2 className="text-lg font-semibold mb-4 text-black">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Link
-              href="/dashboard/add-tool"
+              href="/admin/add-products/tools"
               className="p-4 border border-gray-200 rounded-lg hover:border-[#F272A8] hover:bg-[#ffe3ef]  transition-all hover:scale-[1.02]"
             >
               <div className="flex items-center gap-3">
