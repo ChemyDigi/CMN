@@ -118,10 +118,10 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
         {/* Reviews */}
         <SidebarLink
           collapsed={collapsed}
-          href="/reviews"
+          href="/newsletter"
           icon={<FaStar />}
-          label="Reviews"
-          active={pathname === "/reviews"}
+          label="Newsletter"
+          active={pathname === "/manage-newsletter"}
         />
 
         {/* Categories Dropdown */}

@@ -114,7 +114,7 @@ export default function AdminPage() {
   }, []);
 
   const handleManageProducts = () => {
-    router.push("/dashboard/products");
+    router.push("/admin/manage-products");
   };
 
   const handleViewProduct = (product: Product) => {
@@ -235,7 +235,7 @@ export default function AdminPage() {
               </div>
             </Link>
             <Link
-              href="/dashboard/add-ac-ref"
+              href="/admin/add-products/ref-ac"
               className="p-4 border border-gray-200 rounded-lg hover:border-[#F272A8] hover:bg-[#ffe3ef] transition-all hover:scale-[1.02]"
             >
               <div className="flex items-center gap-3">
