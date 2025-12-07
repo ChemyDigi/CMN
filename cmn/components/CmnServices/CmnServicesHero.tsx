@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import heroImage from "../../public/images/hero/heroAC.png";
+import heroImage from "../../public/images/hero/cmnservices.png";
 
 export default function HeroSection() {
   return (
