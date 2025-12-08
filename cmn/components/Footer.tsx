@@ -3,13 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import SubscriptionPopup from "./Newsletter/SubscriptionPopUp"; // Adjust path as needed
-
-interface SubscriptionData {
-  username: string;
-  email: string;
-  phone: string;
-}
+import SubscribeForm from "./Newsletter/SubscriptionPopUp"; // Changed to your SubscribeForm
+import { X } from "lucide-react"; // For close button
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -21,35 +16,6 @@ export default function Footer() {
     } else {
       alert("Please enter a valid email address first.");
     }
-  };
-
-  const handleSubmitSubscription = async (data: SubscriptionData) => {
-    // Here you would typically send the data to your backend/API
-    console.log("Subscription data:", data);
-    
-    // Example API call:
-    // try {
-    //   const response = await fetch('/api/subscribe', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(data),
-    //   });
-    //   
-    //   if (!response.ok) throw new Error('Subscription failed');
-    //   
-    //   // Success handling
-    //   alert('Subscription successful! Thank you.');
-    //   setShowPopup(false);
-    //   setEmail(''); // Clear the email input
-    // } catch (error) {
-    //   alert('Subscription failed. Please try again.');
-    // }
-    
-    // For now, just simulate success:
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
-    alert('Subscription successful! Thank you.');
-    setShowPopup(false);
-    setEmail(''); // Clear the email input
   };
 
   const validateEmail = (email: string): boolean => {
@@ -208,11 +174,24 @@ export default function Footer() {
 
       {/* Subscription Popup */}
       {showPopup && (
-        <SubscriptionPopup
-          initialEmail={email}
-          onClose={() => setShowPopup(false)}
-          onSubmit={handleSubmitSubscription}
-        />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div 
+            className="relative w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setShowPopup(false)}
+              className="absolute -top-10 right-0 text-white hover:text-[#F272A8] transition-colors z-20"
+              aria-label="Close"
+            >
+              <X size={28} />
+            </button>
+            
+            {/* Your SubscribeForm component - PASS EMAIL AS PROP */}
+            <SubscribeForm initialEmail={email} />
+          </div>
+        </div>
       )}
     </>
   );
