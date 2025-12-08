@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import SubscriptionPopup from "../components/SubscriptionPopUp"; // Adjust path as needed
+import SubscriptionPopup from "./Newsletter/SubscriptionPopUp"; // Adjust path as needed
 
 interface SubscriptionData {
   username: string;

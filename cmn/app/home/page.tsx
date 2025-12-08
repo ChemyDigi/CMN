@@ -13,6 +13,7 @@ export default function AboutPage() {
   return (
     <main className="flex flex-col overflow-x-hidden w-full">
       <Navbar />
+      <Footer />
       <HeroSection />
       <AboutCmn/>
             <WhyChooseUs />
@@ -22,7 +23,7 @@ export default function AboutPage() {
       <AuthorizedCarrierDistributor/>
       <AirDoot />
       <Industry/>
-      <Footer />
+      
     </main>
   );
 }
