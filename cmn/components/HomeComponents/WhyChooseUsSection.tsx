@@ -14,32 +14,33 @@ export default function WhyChooseUsSection(): React.ReactElement {
     {
       icon: "/images/Home/Network.png",
       title: "NETWORK",
-      desc: "Experts in Retail & Distribution network",
+      desc: "A strong and reliable retail and distribution network ensuring seamless product flow across regions.",
+
     },
     {
       icon: "/images/Home/International.png",
       title: "INTERNATIONAL PRESENCE",
-      desc: "Presence in Singapore / Sri Lanka / India",
+      desc: "A steadily expanding footprint with operations in Singapore, Sri Lanka, and India, enabling global sourcing and regional accessibility.",
     },
     {
       icon: "/images/Home/Team.png",
       title: "DEDICATED TEAM",
-      desc: "Technically qualified Execution Team",
+      desc: "A highly skilled and technically qualified team committed to delivering precise, efficient, and reliable execution.",
     },
     {
       icon: "/images/Home/Service.png",
       title: "BEST SERVICE",
-      desc: "Experts in Retail & Distribution network",
+      desc: "Exceptional customer service backed by industry expertise, fast response times, and consistent delivery quality.",
     },
     {
       icon: "/images/Home/Wide.png",
       title: "WIDE NETWORK",
-      desc: "Presence in Singapore / Sri Lanka / India",
+      desc: "A broad and growing network that connects global suppliers with local industries for efficient supply-chain integration.",
     },
     {
       icon: "/images/Home/Cost.png",
       title: "COST EFFICIENT",
-      desc: "Technically qualified Execution Team",
+      desc: "Optimized solutions and streamlined processes designed to minimize operational costs without compromising quality.",
     },
   ];
 

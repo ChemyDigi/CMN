@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import mission from "../../public/images/AboutUS/expertise.png";
 import vision from "../../public/images/AboutUS/strength.png";
 // Updated icons - removed Leaf and added more relevant ones
-import { BadgeCheck, UsersRound, Award, Target, Briefcase, UserCheck, Trophy } from "lucide-react";
+import { Briefcase, Trophy, UserCheck, UsersRound } from "lucide-react";
 
 /* ---------------- COUNT-UP NUMBER COMPONENT ---------------- */
 function CountUpNumber({ endValue }: { endValue: string }) {
@@ -157,7 +157,7 @@ export default function MissionVisionSection() {
             viewport={{ once: true }}
             className="w-full max-w-xl"
           >
-            <h2 className="text-3xl font-semibold mb-6">Our Strength</h2>
+            <h2 className="text-3xl font-semibold mb-6">Our Strength Adjustments</h2>
 
             <div className="relative">
               <span className="text-gray-400 text-7xl absolute left-0 -top-6">"</span>

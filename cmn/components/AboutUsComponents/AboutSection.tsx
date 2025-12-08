@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function AboutSection() {
   return (
@@ -107,9 +107,9 @@ export default function AboutSection() {
           "
         >
           <p>
-            <span className="font-semibold">CMN Distributors Pvt Ltd</span> is a
-            professionally managed company engaged mainly in Distributions of
-            Premium Tools & Equipments for various industries.
+            As a multinational distribution company, we specialize in delivering high-quality industrial tools, equipment, and engineered products across global markets with unmatched reliability.
+            Our strategically positioned presence across regions enables seamless sourcing, efficient logistics, and timely delivery, ensuring customers receive consistent value regardless of location. 
+            With a strong commitment to operational excellence, we bridge international supply chains and empower industries with the products they need to perform at their best.
           </p>
 
           {/* SIGNATURE BLOCK */}

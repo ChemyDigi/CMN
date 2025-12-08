@@ -1,9 +1,8 @@
 "use client";
 
+import { easeOut, motion, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { motion, useInView, easeOut } from "framer-motion";
 import { useRef } from "react";
 
 export default function HeroIntroSection() {
@@ -131,11 +130,8 @@ export default function HeroIntroSection() {
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
-            CMN Distributors Pvt Ltd (“CMN”) is a professionally managed 
-            company specializing in the distribution of premium tools and 
-            equipment for a broad range of industries. Its core operation 
-            focuses on providing reliable, high quality products that enhance 
-            efficiency and operational performance.
+            CMN solutions is a trusted industrial supplier specializing in high quality precision tools, engineering
+		equipment and reliable distribution services designed to support  manufacturing, construction and heavy-industry operations. With a strong commitment to quality, performance, and global sourcing standards, we deliver industry-ready products that help businesses improve efficiency, reduce downtime, and maintain consistent operational excellence. As a customer-focused industrial solutions provider, we combine expert support, fast delivery, and a wide product portfolio to ensure our clients receive dependable, cost-effective solutions tailored to their technical and operational needs.
           </motion.p>
 
           <motion.p
