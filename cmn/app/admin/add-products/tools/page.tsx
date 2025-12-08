@@ -51,7 +51,7 @@ export default function AddToolForm() {
   // Fetch brands from Firestore
   const fetchBrands = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, "brands"));
+      const querySnapshot = await getDocs(collection(db, "brands_tools"));
       const brandList = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         name: doc.data().name,
@@ -81,7 +81,7 @@ export default function AddToolForm() {
     }
 
     try {
-      const docRef = await addDoc(collection(db, "brands"), {
+      const docRef = await addDoc(collection(db, "brands_tools"), {
         name: newBrandName.trim(),
         createdAt: new Date(),
       });
@@ -100,7 +100,7 @@ export default function AddToolForm() {
     if (!confirm(`Are you sure you want to delete "${brandName}"?`)) return;
 
     try {
-      await deleteDoc(doc(db, "brands", brandId));
+      await deleteDoc(doc(db, "brands_tools", brandId));
       setBrands((prev) => prev.filter((b) => b.id !== brandId));
       toast.success("Brand deleted successfully!");
     } catch (error) {
