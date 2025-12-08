@@ -10,9 +10,10 @@ import {
   FaUser,
   FaTrash,
   FaEye,
-  FaEyeSlash
+  FaEyeSlash,
+  FaCalendarAlt
 } from "react-icons/fa";
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import toast, { Toaster } from "react-hot-toast";
 import emailjs from '@emailjs/browser';
@@ -22,11 +23,13 @@ type Subscriber = {
   username: string;
   email: string;
   phone: string;
-  subscribedAt: any;
-  verified: boolean;
+  subscribedAt?: any;
+  createdAt?: any;
+  verificationStatus: string;
+  verificationCode: string;
+  verified?: boolean;
   verifiedAt?: any;
-  source: string;
-  active: boolean;
+  updatedAt?: any;
 };
 
 export default function SendNewsletterEmails() {
@@ -44,31 +47,51 @@ export default function SendNewsletterEmails() {
     includeUnsubscribe: true,
   });
 
-  // EmailJS configuration (you need to get these from EmailJS dashboard)
+  // EmailJS configuration
   const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "your_service_id";
   const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "your_template_id";
   const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "your_public_key";
 
-  // Fetch verified subscribers
+  // Fetch verified subscribers - CORRECTED FOR YOUR SCHEMA
   const fetchVerifiedSubscribers = async () => {
     setLoading(true);
     try {
-      const subscribersRef = collection(db, "newsletterSubscribers");
-      const q = query(
-        subscribersRef,
-        where("verified", "==", true),
-        where("active", "==", true),
-        orderBy("subscribedAt", "desc")
-      );
-
-      const querySnapshot = await getDocs(q);
+      const subscribersRef = collection(db, "subscribers");
+      
+      // Get ALL subscribers first (no complex query to avoid index error)
+      const querySnapshot = await getDocs(subscribersRef);
       const subscribersData: Subscriber[] = [];
       
       querySnapshot.forEach((docSnap) => {
-        subscribersData.push({ 
-          id: docSnap.id, 
-          ...docSnap.data() 
-        } as Subscriber);
+        const data = docSnap.data();
+        
+        // Determine verification status
+        let isVerified = false;
+        if (data.verificationStatus === "verified" || data.verified === true) {
+          isVerified = true;
+        }
+        
+        // Only include verified subscribers
+        if (isVerified) {
+          subscribersData.push({ 
+            id: docSnap.id, 
+            username: data.username || "No Name",
+            email: data.email || "No Email",
+            phone: data.phone || "",
+            subscribedAt: data.subscribedAt || data.createdAt,
+            verificationStatus: data.verificationStatus || "unverified",
+            verificationCode: data.verificationCode || "",
+            verified: data.verified || false,
+            verifiedAt: data.verifiedAt || null,
+          } as Subscriber);
+        }
+      });
+
+      // Sort manually by timestamp (most recent first)
+      subscribersData.sort((a, b) => {
+        const dateA = getTimestamp(a.subscribedAt);
+        const dateB = getTimestamp(b.subscribedAt);
+        return dateB.getTime() - dateA.getTime();
       });
 
       setSubscribers(subscribersData);
@@ -86,6 +109,15 @@ export default function SendNewsletterEmails() {
     }
   };
 
+  // Helper to get Date from Firestore timestamp or string
+  const getTimestamp = (timestamp: any): Date => {
+    if (!timestamp) return new Date(0);
+    if (timestamp?.toDate) {
+      return timestamp.toDate();
+    }
+    return new Date(timestamp);
+  };
+
   useEffect(() => {
     fetchVerifiedSubscribers();
   }, []);
@@ -95,14 +127,8 @@ export default function SendNewsletterEmails() {
     if (!dateInput) return "N/A";
     
     try {
-      let date: Date;
-      if (dateInput?.toDate) {
-        date = dateInput.toDate();
-      } else if (typeof dateInput === 'string') {
-        date = new Date(dateInput);
-      } else {
-        return "N/A";
-      }
+      const date = getTimestamp(dateInput);
+      if (date.getTime() === 0) return "N/A";
       
       return date.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -238,7 +264,7 @@ export default function SendNewsletterEmails() {
       toast.error(`Sent ${successful} emails, failed: ${failed}`);
     }
 
-    // Log results (you could save this to database)
+    // Log results
     console.log("Email sending results:", results);
   };
 
@@ -321,22 +347,6 @@ export default function SendNewsletterEmails() {
                 disabled={sending}
               />
             </div>
-
-            {/* Reply To
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Reply-To Email (Optional)
-              </label>
-              <input
-                type="email"
-                name="replyTo"
-                value={emailData.replyTo}
-                onChange={handleInputChange}
-                placeholder="contact@cmndistributors.com"
-                className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#F272A8]"
-                disabled={sending}
-              />
-            </div> */}
 
             {/* Email Body */}
             <div className="mb-6">
@@ -436,33 +446,41 @@ export default function SendNewsletterEmails() {
           <div className="bg-white p-6 rounded-xl shadow-lg sticky top-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold flex items-center gap-2">
-                <FaUsers className="text-[#F272A8]" /> Recipients
+                <FaUsers className="text-[#F272A8]" /> Recipients ({subscribers.length})
               </h2>
-              <button
-                onClick={selectAllVerified}
-                disabled={loading || sending}
-                className="text-sm text-blue-600 hover:text-blue-800 disabled:opacity-50"
-              >
-                {selectedSubscribers.length === subscribers.length ? "Deselect All" : "Select All"}
-              </button>
-            </div>
-
-            {/* Search */}
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="Search subscribers..."
-                className="w-full border rounded-lg px-4 py-2 text-sm"
-                disabled={sending}
-              />
+              <div className="flex gap-2">
+                <button
+                  onClick={() => fetchVerifiedSubscribers()}
+                  disabled={loading || sending}
+                  className="text-sm text-blue-600 hover:text-blue-800 disabled:opacity-50"
+                  title="Refresh"
+                >
+                  ↻
+                </button>
+                <button
+                  onClick={selectAllVerified}
+                  disabled={loading || sending}
+                  className="text-sm text-blue-600 hover:text-blue-800 disabled:opacity-50"
+                >
+                  {selectedSubscribers.length === subscribers.length ? "Deselect All" : "Select All"}
+                </button>
+              </div>
             </div>
 
             {/* Subscribers List */}
             <div className="max-h-[500px] overflow-y-auto pr-2">
               {loading ? (
-                <p className="text-center py-4 text-gray-500">Loading subscribers...</p>
+                <p className="text-center py-4 text-gray-500">Loading verified subscribers...</p>
               ) : subscribers.length === 0 ? (
-                <p className="text-center py-4 text-gray-500">No verified subscribers found</p>
+                <div className="text-center py-4 text-gray-500">
+                  <p>No verified subscribers found</p>
+                  <button
+                    onClick={() => fetchVerifiedSubscribers()}
+                    className="text-sm text-blue-500 hover:text-blue-700 mt-2"
+                  >
+                    Try Again
+                  </button>
+                </div>
               ) : (
                 <div className="space-y-2">
                   {subscribers.map((subscriber) => (
@@ -492,16 +510,18 @@ export default function SendNewsletterEmails() {
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-sm truncate">{subscriber.username}</p>
                         <p className="text-xs text-gray-500 truncate">{subscriber.email}</p>
-                        <p className="text-xs text-gray-400">
-                          Joined: {formatDate(subscriber.subscribedAt)}
-                        </p>
+                        <div className="flex items-center gap-1 text-xs text-gray-400">
+                          <FaCalendarAlt className="text-xs" />
+                          <span>{formatDate(subscriber.subscribedAt)}</span>
+                        </div>
                       </div>
 
                       {/* Remove button */}
                       <button
                         onClick={() => toggleSubscriberSelection(subscriber.id)}
-                        className="text-gray-400 hover:text-red-500"
+                        className="text-gray-400 hover:text-red-500 p-1"
                         disabled={sending}
+                        title="Remove from selection"
                       >
                         <FaTrash className="text-xs" />
                       </button>
