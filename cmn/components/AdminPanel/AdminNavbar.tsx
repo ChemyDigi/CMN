@@ -16,10 +16,13 @@ import {
   FaList,
   FaBoxes,
   FaHome,
+  FaUsers,
+  FaEnvelope,
+  FaNewspaper,
 } from "react-icons/fa";
 
 // Allowed dropdown keys
-type SectionKey = "products" | "brands" | "categories";
+type SectionKey = "products" | "brands" | "categories" | "newsletter";
 
 // Sidebar props
 interface AdminSidebarProps {
@@ -32,9 +35,10 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
 
   // Dropdown open state
   const [open, setOpen] = useState<Record<SectionKey, boolean>>({
-    products: false, // closed by default
+    products: false,
     brands: false,
     categories: false,
+    newsletter: false,
   });
 
   const toggleSection = (key: SectionKey) => {
@@ -118,14 +122,27 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
           />
         </SidebarDropdown>
 
-        {/* Reviews */}
-        <SidebarLink
+        {/* Newsletter Dropdown */}
+        <SidebarDropdown
+          title="Newsletter"
           collapsed={collapsed}
-          href="/newsletter"
-          icon={<FaStar />}
-          label="Newsletter"
-          active={pathname === "/manage-newsletter"}
-        />
+          open={open.newsletter}
+          onToggle={() => toggleSection("newsletter")}
+          icon={<FaNewspaper />}
+        >
+          <SidebarSublink
+            href="/admin/newsletter/manage-users"
+            label="Manage Users"
+            icon={<FaUsers />}
+            active={pathname === "/admin/newsletter/manage-users"}
+          />
+          <SidebarSublink
+            href="/admin/newsletter/send-emails"
+            label="Send Emails"
+            icon={<FaEnvelope />}
+            active={pathname === "/admin/newsletter/send-emails"}
+          />
+        </SidebarDropdown>
 
         {/* Categories Dropdown */}
         <SidebarDropdown
