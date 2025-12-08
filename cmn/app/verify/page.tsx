@@ -113,7 +113,7 @@ const handleResend = async () => {
                   placeholder="Enter verification code"
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  className="border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-[#F272A8] w-full"
+                  className="border border-gray-300 p-3  text-black rounded focus:outline-none focus:ring-2 focus:ring-[#F272A8] w-full"
                   required
                 />
 
