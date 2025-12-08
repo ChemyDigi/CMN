@@ -44,18 +44,21 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
   return (
     <aside
       className={`fixed top-0 left-0 h-screen bg-[#0F0F0F] text-white border-r border-gray-700
-      transition-all duration-300 ${collapsed ? "w-20" : "w-64"}`}
+      transition-all duration-300 ${collapsed ? "w-20" : "w-64"} flex flex-col`}
     >
-      {/* HEADER */}
-      <div className="p-4 border-b border-gray-700 flex justify-between items-center">
+      {/* HEADER - Fixed height */}
+      <div className="p-4 border-b border-gray-700 flex justify-between items-center flex-shrink-0">
         <h1 className="text-xl font-bold">{collapsed ? "CMN" : "CMN Admin"}</h1>
         <button onClick={() => setCollapsed(!collapsed)} className="text-gray-400">
           {collapsed ? "<" : ">"}
         </button>
       </div>
 
-      {/* MENU */}
-      <nav className="px-3 py-4 space-y-2 overflow-y-auto">
+      {/* MENU - Scrollable area with hidden scrollbar */}
+      <nav className="px-3 py-4 space-y-2 flex-grow overflow-y-auto 
+        [&::-webkit-scrollbar]:hidden
+        [-ms-overflow-style:none]
+        [scrollbar-width:none]">
         {/* Dashboard */}
         <SidebarLink
           collapsed={collapsed}
@@ -156,8 +159,8 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
         />
       </nav>
 
-      {/* LOGOUT */}
-      <div className="mt-auto p-4 border-t border-gray-700">
+      {/* LOGOUT - Fixed at bottom */}
+      <div className="p-4 border-t border-gray-700 flex-shrink-0">
         <button className="flex items-center gap-3 text-red-400 hover:text-red-300 w-full">
           <FaSignOutAlt className="text-lg" />
           {!collapsed && "Logout"}
