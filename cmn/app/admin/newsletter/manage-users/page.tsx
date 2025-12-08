@@ -5,7 +5,6 @@ import {
   FaSearch, 
   FaCheckCircle, 
   FaTimesCircle, 
-  FaEnvelope,
   FaCalendarAlt,
   FaPhone,
   FaUser,
@@ -38,7 +37,6 @@ export default function ManageNewsletterUsers() {
   const [searchTerm, setSearchTerm] = useState("");
   const [dateFilter, setDateFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [selectedSubscribers, setSelectedSubscribers] = useState<string[]>([]);
 
   // Fetch ALL subscribers (without ordering to avoid missing fields)
   const fetchSubscribers = async () => {
@@ -181,25 +179,6 @@ export default function ManageNewsletterUsers() {
     return true;
   });
 
-  // Toggle subscriber selection
-  const toggleSubscriberSelection = (id: string) => {
-    setSelectedSubscribers(prev => 
-      prev.includes(id) 
-        ? prev.filter(subId => subId !== id)
-        : [...prev, id]
-    );
-  };
-
-  // Select all visible
-  const selectAllVisible = () => {
-    const visibleIds = filteredSubscribers.map(s => s.id);
-    if (selectedSubscribers.length === visibleIds.length) {
-      setSelectedSubscribers([]);
-    } else {
-      setSelectedSubscribers(visibleIds);
-    }
-  };
-
   // Export to CSV
   const exportToCSV = () => {
     const headers = ["Name", "Email", "Phone", "Status", "Verification Code", "Subscribed On", "Verified At", "Updated At"];
@@ -337,7 +316,7 @@ export default function ManageNewsletterUsers() {
         <p className="text-gray-600 ml-4 text-xs">
           Manage all newsletter subscribers and their status ({totalSubscribers} total)
         </p>
-        <button 
+        {/* <button 
           onClick={() => {
             console.log("All subscribers:", subscribers);
             toast.success(`Check console for ${subscribers.length} subscribers`);
@@ -345,7 +324,7 @@ export default function ManageNewsletterUsers() {
           className="ml-4 text-xs text-blue-500 hover:text-blue-700"
         >
           Debug: View all data in console
-        </button>
+        </button> */}
       </div>
 
       {/* Stats Cards */}
@@ -435,20 +414,7 @@ export default function ManageNewsletterUsers() {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="selectAll"
-              checked={selectedSubscribers.length === filteredSubscribers.length && filteredSubscribers.length > 0}
-              onChange={selectAllVisible}
-              className="rounded"
-            />
-            <label htmlFor="selectAll" className="text-sm text-gray-600">
-              Select All ({selectedSubscribers.length} selected)
-            </label>
-          </div>
-          
+        <div className="flex justify-end items-center mb-4">
           <div className="flex gap-2">
             <button
               onClick={exportToCSV}
@@ -462,18 +428,6 @@ export default function ManageNewsletterUsers() {
             >
               Refresh
             </button>
-            {selectedSubscribers.length > 0 && (
-              <button
-                onClick={() => {
-                  if (confirm(`Send email to ${selectedSubscribers.length} selected subscribers?`)) {
-                    toast.success(`Email will be sent to ${selectedSubscribers.length} subscribers`);
-                  }
-                }}
-                className="flex items-center gap-2 bg-[#F272A8] text-white px-4 py-2 rounded-lg hover:bg-[#d6488d]"
-              >
-                <FaEnvelope /> Send Email
-              </button>
-            )}
           </div>
         </div>
 
@@ -487,14 +441,11 @@ export default function ManageNewsletterUsers() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Select</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">User Name</th>
-                  {/* <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th> */}
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Subscribed</th>
-                  {/* <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th> */}
                 </tr>
               </thead>
 
@@ -505,16 +456,6 @@ export default function ManageNewsletterUsers() {
                   
                   return (
                     <tr key={subscriber.id} className="hover:bg-gray-50">
-                      {/* Checkbox */}
-                      <td className="px-4 py-3">
-                        <input
-                          type="checkbox"
-                          checked={selectedSubscribers.includes(subscriber.id)}
-                          onChange={() => toggleSubscriberSelection(subscriber.id)}
-                          className="rounded"
-                        />
-                      </td>
-
                       {/* User Name */}
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
@@ -533,14 +474,6 @@ export default function ManageNewsletterUsers() {
                         </div>
                       </td>
 
-                      {/* Email */}
-                      {/* <td className="px-4 py-3">
-                        <div className="flex items-center gap-2">
-                          <FaEnvelope className="text-gray-400" />
-                          <p className="text-sm break-all">{subscriber.email}</p>
-                        </div>
-                      </td> */}
-
                       {/* Phone */}
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
@@ -556,11 +489,6 @@ export default function ManageNewsletterUsers() {
                           <span className={`px-2 py-1 ${statusColor.bg} ${statusColor.text} text-xs rounded-full capitalize`}>
                             {statusColor.label}
                           </span>
-                          {/* {subscriber.verifiedAt && (
-                            <p className="text-xs text-gray-500">
-                              {formatDate(subscriber.verifiedAt)}
-                            </p>
-                          )} */}
                         </div>
                       </td>
 
@@ -577,46 +505,9 @@ export default function ManageNewsletterUsers() {
                       {/* Subscribed On */}
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          {/* <FaCalendarAlt className="text-gray-400" /> */}
                           <p className="text-sm">{subscriptionDate}</p>
                         </div>
                       </td>
-
-                      {/* Actions */}
-                      {/* <td className="px-4 py-3">
-                        <div className="flex flex-wrap gap-2">
-                          <button
-                            className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded hover:bg-blue-200"
-                            onClick={() => viewDetails(subscriber)}
-                          >
-                            View
-                          </button>
-                          
-                          {statusColor.label === "Unverified" && (
-                            <>
-                              <button
-                                className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded hover:bg-green-200"
-                                onClick={() => manualVerify(subscriber.id, subscriber.email)}
-                              >
-                                Verify
-                              </button>
-                              <button
-                                className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded hover:bg-purple-200"
-                                onClick={() => resendVerification(subscriber.email, subscriber.username)}
-                              >
-                                Resend
-                              </button>
-                            </>
-                          )}
-                          
-                          <button
-                            className="px-2 py-1 bg-red-100 text-red-700 text-xs rounded hover:bg-red-200"
-                            onClick={() => deleteSubscriber(subscriber.id, subscriber.email)}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td> */}
                     </tr>
                   );
                 })}
