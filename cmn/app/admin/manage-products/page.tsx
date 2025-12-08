@@ -5,7 +5,7 @@ import { FaEdit, FaTrash, FaEye, FaTools, FaSnowflake, FaBox } from "react-icons
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import toast, { Toaster } from "react-hot-toast";
-
+import EditProductForm from "@/components/AdminPanel/EditProductForm";
 type Product = {
   id: string;
   serialId: string;
@@ -39,6 +39,7 @@ const DetailRow = ({ label, value }: { label: string; value: any }) => (
   // Modal state
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [showModal, setShowModal] = useState(false);
+const [editingProduct, setEditingProduct] = useState<any | null>(null);
 
   // Fetch products
   const fetchProducts = async () => {
@@ -222,9 +223,13 @@ const DetailRow = ({ label, value }: { label: string; value: any }) => (
                           <FaEye />
                         </button>
 
-                        <button className="p-2 hover:text-green-500">
-                          <FaEdit />
-                        </button>
+                        <button
+  className="p-2 hover:text-green-500"
+  onClick={() => setEditingProduct(product)}
+>
+  <FaEdit />
+</button>
+
 
                         <button
                           onClick={() => handleDelete(product.id, product.type)}
@@ -346,7 +351,17 @@ const DetailRow = ({ label, value }: { label: string; value: any }) => (
     </div>
   </div>
 )}
-
+      {/* ➤ ADD THIS HERE — EDIT PRODUCT FORM MODAL */}
+      {editingProduct && (
+        <EditProductForm
+          product={editingProduct}
+          onClose={() => setEditingProduct(null)}
+          onUpdated={() => {
+            fetchProducts(); // refresh table
+            setEditingProduct(null);
+          }}
+        />
+      )}
     </div>
   );
 }
