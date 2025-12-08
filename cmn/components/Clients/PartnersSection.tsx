@@ -293,7 +293,7 @@ export default function PartnersSection() {
           }`}
         >
           {activeCategory === "all" 
-            ? `Showing all ${clients.length} clients` 
+            ? `Showing  ${clients.length} clients` 
             : `Showing ${filteredClients.length} clients in ${categories.find(c => c.id === activeCategory)?.name} category`
           }
         </div>

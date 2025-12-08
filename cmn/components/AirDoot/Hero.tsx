@@ -75,7 +75,7 @@ export default function HeroSection() {
             mb-4 sm:mb-5
           "
         >
-          Reliable AC & Refrigeration Service. Professional Repairs & Installations Backed by 30+ Years.
+          Reliable AC & Refrigeration Service. Professional Repairs & Installations Backed by 30+ Years of Experience.
         </motion.p>
 
         {/* DESKTOP UNDERLINE - Matches description width */}

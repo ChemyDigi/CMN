@@ -76,10 +76,7 @@ export default function HeroSection() {
             mb-4 sm:mb-5
           "
         >
-          Managing risk across complex aviation supply networks is challenging
-          but CMN Distributors makes it seamless, reliable, and future-ready. Our
-          intelligent distribution platform gives you real time visibility and control
-          over every stage of your supply chain.
+          Staying ahead in today’s fast-moving industrial landscape requires more than just tools it demands foresight. At CMN, we empower businesses with reliable supply insights, consistent product availability, and seamless distribution planning so they can anticipate needs before challenges arise. With clearer visibility and dependable support, our partners operate with greater confidence, stability, and resilience in every stage of their workflow.
         </motion.p>
 
         {/* DESKTOP UNDERLINE - Matches description width */}
