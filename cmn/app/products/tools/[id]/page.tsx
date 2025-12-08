@@ -16,7 +16,7 @@ const ProductPage = async ({ params }: PageProps) => {
   const { id } = await params;
 
   // ✅ Reference product document
-  const docRef = doc(db, "products", id);
+  const docRef = doc(db, "tools", id);
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) {
@@ -32,19 +32,18 @@ const ProductPage = async ({ params }: PageProps) => {
 
   const data = docSnap.data();
 
-  // ✅ Define the product object used in ProductDisplay
-  const product = {
-    name: data.productName || "No Name",
-    brand: data.brand || "No Brand",
-    description: data.description || "No description available",
-    warranty: data.warranty || "Not specified",
-    material: data.material || "Not specified",
-    finish: data.finish || "Not specified",
-    availability: data.availability || "Unknown",
-    images: data.subImages?.length
-      ? [data.mainImage, ...data.subImages]
-      : [data.mainImage],
-  };
+const product = {
+  productName: data.productName,
+  brand: data.brand,
+  description: data.description,
+  warranty: data.warranty,
+  material: data.material,
+  serialId: data.serialId,
+  mainImage: data.mainImage,
+  subImages: data.subImages || [],
+  extraFields: data.extraFields || [],
+};
+
 
   // ✅ Reviews array (if no reviews, fallback to empty)
   const reviews = Array.isArray(data.reviews) ? data.reviews : [];

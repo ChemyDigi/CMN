@@ -6,91 +6,92 @@ import { useRouter } from "next/navigation";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-interface Review {
-  customerName: string;
-  email: string;
-  reviewDescription: string;
-  rating: number;
+interface ExtraField {
+  id: string;
+  name: string;
+  value: string;
 }
 
 interface Product {
   id: string;
+  serialId?: string;
   brand: string;
   productName: string;
-  availability: string;
   description: string;
-  warranty: string;
-  material: string;
-  finish: string;
+  warranty?: string;
+  material?: string;
+  category?: string;
+  extraFields?: ExtraField[];
   mainImage: string;
   subImages: string[];
-  reviews: Review[];
-  category?: string;
 }
-
-const categories = [
-  "All",
-  "Bosch",
-  "Craftsman",
-  "DeWalt",
-  "Makita",
-  "Milwaukee",
-  "Ridgid",
-  "Snap-on",
-];
 
 const ProductSection: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeBrand, setActiveBrand] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  // Fetch from Firestore → "tools" collection
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "products"));
+        const querySnapshot = await getDocs(collection(db, "tools"));
         const productList = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         })) as Product[];
+
         setProducts(productList);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching tools:", error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchProducts();
   }, []);
 
+  // Build dynamic list of brands from DB
+  const brandList = ["All", ...Array.from(new Set(products.map((p) => p.brand)))];
+
+  // Filtering
   const filteredProducts = products.filter((product) => {
-    const matchesCategory =
-      activeCategory === "All" || product.brand === activeCategory;
+    const matchesBrand =
+      activeBrand === "All" || product.brand === activeBrand;
+
     const matchesSearch = product.productName
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+
+    return matchesBrand && matchesSearch;
   });
 
   return (
     <section className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 bg-white">
+
       {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 md:mb-10">
-        {/* Category Tabs */}
+
+        {/* Dynamic Brand Tabs */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-          {categories.map((cat) => (
+          {brandList.map((brand) => (
             <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
+              key={brand}
+              onClick={() => setActiveBrand(brand)}
               className={`
-                px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all flex-shrink-0
-                ${activeCategory === cat
-                  ? "bg-black text-white shadow-sm"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"}
+                px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm 
+                font-medium transition-all flex-shrink-0
+                ${
+                  activeBrand === brand
+                    ? "bg-black text-white shadow-sm"
+                    : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                }
               `}
             >
-              {cat}
+              {brand}
             </button>
           ))}
         </div>
@@ -133,7 +134,7 @@ const ProductSection: React.FC = () => {
           </p>
         </div>
       ) : (
-        /* Product Grid - ALWAYS 4 columns */
+        // Product Grid (4 columns)
         <div className="grid grid-cols-1 min-[480px]:grid-cols-2 min-[768px]:grid-cols-3 min-[1024px]:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
           {filteredProducts.map((product) => (
             <div
@@ -148,80 +149,6 @@ const ProductSection: React.FC = () => {
                   fill
                   className="object-cover"
                 />
-
-                {/* IN STOCK LABEL */}
-                {product.availability === "in-stock" && (
-                  <>
-                    {/* 🔴 MOBILE/TABLET VERSION (BIG BADGE) */}
-                    {/* <span
-                      className="
-                        absolute top-2 left-2
-                        bg-green-600 text-white
-                        text-sm font-semibold
-                        px-4 py-2
-                        rounded-md shadow-md z-10
-                        block lg:hidden
-                      "
-                    >
-                      In Stock
-                    </span> */}
-
-                    {/* 🔴 DESKTOP VERSION (SMALL BADGE) */}
-                    {/* <span
-                      className="
-                        absolute top-2 left-2
-                        bg-green-600 text-white
-                        text-xs font-semibold
-                        px-2 py-1
-                        rounded-md shadow-md z-10
-                        hidden lg:block
-                      "
-                    >
-                      In Stock
-                    </span> */}
-                  </>
-                )}
-
-                {/* Out of Stock Label */}
-                {product.availability === "out-of-stock" && (
-                  <>
-                    {/* 🔴 MOBILE/TABLET VERSION (BIG BADGE) */}
-                    {/* <span
-                      className="
-                        absolute top-2 left-2
-                        bg-red-600 text-white
-                        text-sm font-semibold
-                        px-4 py-2
-                        rounded-md shadow-md z-10
-                        block lg:hidden
-                      "
-                    >
-                      Out of Stock
-                    </span> */}
-
-                    {/* Desktop Hover Overlay */}
-                    {/* <div
-                      className="
-                        absolute inset-0
-                        bg-black/40
-                        hidden lg:flex
-                        items-center justify-center
-                        opacity-0 group-hover:opacity-100
-                        transition-opacity
-                      "
-                    >
-                      <span
-                        className="
-                          bg-white text-black
-                          text-sm font-semibold
-                          px-4 py-1.5 rounded-full shadow-md
-                        "
-                      >
-                        OUT OF STOCK
-                      </span>
-                    </div> */}
-                  </>
-                )}
               </div>
 
               {/* Product Info */}
@@ -229,6 +156,7 @@ const ProductSection: React.FC = () => {
                 <h3 className="text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 sm:mb-2 md:mb-3 line-clamp-2 min-h-[2.5rem] sm:min-h-[3rem] flex items-center justify-center">
                   {product.productName}
                 </h3>
+
                 <button
                   onClick={() => router.push(`/products/tools/${product.id}`)}
                   className="text-black w-full border border-gray-800 rounded-md py-1.5 sm:py-2 text-xs sm:text-sm font-medium hover:bg-black hover:text-white transition-all"

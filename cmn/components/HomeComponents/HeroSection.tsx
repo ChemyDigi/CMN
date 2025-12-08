@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import heroImage from "../../public/images/hero/heroHome.png";
+import heroImage from "../../public/images/hero/homeHero.png";
 import Link from "next/link";
 
 export default function HeroSection() {
@@ -58,7 +58,7 @@ export default function HeroSection() {
           transition={{ duration: 1.2, delay: 0.5 }}
           className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-bold leading-tight mb-3 sm:mb-4 md:mb-5"
         >
-          Powering Industries with<br/>
+          Powering Industries with<br />
           Precision Tools & Trusted Solutions
         </motion.h1>
 
@@ -79,39 +79,18 @@ export default function HeroSection() {
           Offices in Singapore, India & Sri Lanka
         </motion.p>
 
-        {/* CONTACT BUTTON - RESPONSIVE */}
         <Link href="/contact">
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.9 }}
-            className="
-              /* Base styles */
-              bg-[#F272A8] text-white font-medium rounded-md shadow-lg 
-              hover:bg-[#f45c98] transition-all duration-300
-              
-              /* Mobile: Smaller padding and text */
-              px-4 py-2 text-sm
-              
-              /* Small mobile: Slightly larger */
-              xs:px-5 xs:py-2.5 xs:text-base
-              
-              /* Tablet: Medium size */
-              sm:px-6 sm:py-3 sm:text-lg
-              
-              /* Desktop: Larger size */
-              md:px-8 md:py-3.5
-              
-              /* Hover effects */
-              hover:scale-105 hover:shadow-xl
-              
-              /* Focus state for accessibility */
-              focus:outline-none focus:ring-2 focus:ring-[#F272A8] focus:ring-offset-2 focus:ring-offset-transparent
-            "
-          >
-            Contact Us
-          </motion.button>
-        </Link>
+  <motion.button
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1.2, delay: 0.9 }}
+    className="inline-flex items-center gap-2 bg-[#F272A8] hover:bg-pink-600 text-white font-medium px-8 py-3 rounded-full transition-all duration-300"
+            >
+    Contact Us
+  </motion.button>
+</Link>
+
+
 
       </div>
     </section>

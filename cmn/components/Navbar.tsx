@@ -61,10 +61,21 @@ export default function Navbar() {
             {/* CONTACT BUTTON */}
             <Link
               href="/contact"
-              className="bg-[#202020] text-white px-5 py-2 rounded-md text-xs sm:text-sm font-semibold hover:bg-gray-900 transition whitespace-nowrap"
+              className="
+    bg-[#202020]
+    hover:bg-[#3a3a3a]        /* Hover color change */
+    text-white
+    px-5 py-2
+    rounded-md
+    text-xs sm:text-sm
+    font-semibold
+    transition-colors duration-300   /* Smooth transition */
+    whitespace-nowrap
+  "
             >
               CONTACT
             </Link>
+
 
             {/* DROPDOWN */}
             {activeMenu && (
@@ -79,11 +90,10 @@ export default function Navbar() {
 
                   <div className="w-1/2 border-l pl-6 lg:pl-10 text-sm space-y-4 animate-dropdownSmooth">
                     {activeMenu === "solutions" && (
-                      <>
-                        <p className="font-bold text-gray-700 underline">Solutions</p>
-                        <Link href="/services/cmn" className="block text-gray-500 hover:text-[#F272A8]">CMN Solutions</Link>
-                        <Link href="/services/airdoot" className="block text-gray-500 hover:text-[#F272A8]">AirDoot</Link>
-                      </>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <Link href="/services/cmn" className="text-gray-500 hover:text-[#F272A8]">CMN Solutions</Link>
+                        <Link href="/services/airdoot" className="text-gray-500 hover:text-[#F272A8]">AirDoot</Link>
+                      </div>
                     )}
 
                     {activeMenu === "products" && (

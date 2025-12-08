@@ -5,21 +5,30 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+interface ExtraField {
+  id: string;
+  name: string;
+  value: string;
+}
+
 interface ProductDisplayProps {
   product: {
-    name: string;
+    productName: string;
     brand: string;
     description: string;
     warranty: string;
     material: string;
-    finish: string;
-    availability: string;
-    images: string[];
+    serialId: string;
+    mainImage: string;
+    subImages: string[];
+    extraFields?: ExtraField[];
   };
 }
 
 const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
-  const [mainImage, setMainImage] = useState(product.images[0]);
+  const images = [product.mainImage, ...(product.subImages || [])];
+
+  const [mainImage, setMainImage] = useState(images[0]);
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
   const imageRef = useRef<HTMLDivElement>(null);
@@ -51,10 +60,9 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
 
       {/* Product Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 px-4 sm:px-6 lg:px-20 pb-16 pt-8 items-start">
-        
+
         {/* Left Section – Images */}
         <div className="flex flex-col items-center w-full">
-          {/* Main Image */}
           <div className="w-full flex justify-center relative">
             <div
               ref={imageRef}
@@ -65,14 +73,13 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
             >
               <Image
                 src={mainImage}
-                alt={product.name}
+                alt={product.productName}
                 width={600}
                 height={600}
                 className="object-contain w-full h-auto transition-transform duration-200"
                 priority
               />
 
-              {/* Zoom */}
               {isZoomed && (
                 <div
                   className="absolute inset-0 bg-no-repeat"
@@ -87,9 +94,9 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
           </div>
 
           {/* Thumbnails */}
-          {product.images.length > 1 && (
+          {images.length > 1 && (
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-6 px-2">
-              {product.images.map((img, i) => (
+              {images.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setMainImage(img)}
@@ -101,7 +108,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
                 >
                   <Image
                     src={img}
-                    alt={`${product.name} ${i + 1}`}
+                    alt={`${product.productName} ${i + 1}`}
                     width={85}
                     height={85}
                     className="object-contain w-[75px] h-[75px] sm:w-[95px] sm:h-[95px] rounded-md border"
@@ -117,45 +124,34 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
           <p className="text-sm text-[#F272A8] font-bold">{product.brand}</p>
 
           <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-snug">
-            {product.name}
+            {product.productName}
           </h1>
 
-          {/* All Content Displayed as Continuous List */}
           <div className="space-y-6 mt-6">
             {/* Description */}
-            <div className="space-y-3">
+            <div>
               <p className="text-gray-700 leading-relaxed text-[15px]">
                 {product.description}
               </p>
             </div>
 
-            {/* Specifications List */}
+            {/* Specifications */}
             <div className="space-y-3">
-              <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2">
-                <p className="text-gray-600 font-medium text-[15px] min-w-[80px]">Brand:</p>
-                <p className="text-gray-900 font-semibold text-[15px]">{product.brand}</p>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2">
-                <p className="text-gray-600 font-medium text-[15px] min-w-[80px]">Warranty:</p>
-                <p className="text-gray-900 font-semibold text-[15px]">{product.warranty}</p>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2">
-                <p className="text-gray-600 font-medium text-[15px] min-w-[80px]">Material:</p>
-                <p className="text-gray-900 font-semibold text-[15px]">{product.material}</p>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2">
-                <p className="text-gray-600 font-medium text-[15px] min-w-[80px]">Finish:</p>
-                <p className="text-gray-900 font-semibold text-[15px]">{product.finish}</p>
-              </div>
+              <Spec label="Brand" value={product.brand} />
+              <Spec label="Warranty" value={product.warranty} />
+              <Spec label="Material" value={product.material} />
+              <Spec label="Serial ID" value={product.serialId} />
+
+              {/* Dynamic Extra Fields */}
+              {product.extraFields?.map((field) => (
+                <Spec key={field.id} label={field.name} value={field.value} />
+              ))}
             </div>
 
             {/* Warranty Details */}
-            <div className="space-y-3">
+            <div>
               <p className="text-gray-700 leading-relaxed text-[15px]">
-                {product.warranty} - Full terms and conditions apply. Please contact customer service for warranty claims.
+                {product.warranty} - Full terms and conditions apply. Contact customer service for warranty claims.
               </p>
             </div>
           </div>
@@ -164,5 +160,12 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
     </div>
   );
 };
+
+const Spec = ({ label, value }: { label: string; value: string }) => (
+  <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2">
+    <p className="text-gray-600 font-medium text-[15px] min-w-[100px]">{label}:</p>
+    <p className="text-gray-900 font-semibold text-[15px]">{value}</p>
+  </div>
+);
 
 export default ProductDisplay;
