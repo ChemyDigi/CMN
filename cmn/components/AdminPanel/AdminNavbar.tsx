@@ -97,7 +97,7 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
         </SidebarDropdown>
 
         {/* Brands Dropdown */}
-        <SidebarDropdown
+        {/* <SidebarDropdown
           title="Brands"
           collapsed={collapsed}
           open={open.brands}
@@ -116,19 +116,19 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
             icon={<FaList />}
             active={pathname === "/brands/manage"}
           />
-        </SidebarDropdown>
+        </SidebarDropdown> */}
 
         {/* Reviews */}
-        <SidebarLink
+        {/* <SidebarLink
           collapsed={collapsed}
           href="/newsletter"
           icon={<FaStar />}
           label="Newsletter"
           active={pathname === "/manage-newsletter"}
-        />
+        /> */}
 
         {/* Categories Dropdown */}
-        <SidebarDropdown
+        {/* <SidebarDropdown
           title="Categories"
           collapsed={collapsed}
           open={open.categories}
@@ -147,16 +147,16 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
             icon={<FaList />}
             active={pathname === "/categories/manage"}
           />
-        </SidebarDropdown>
+        </SidebarDropdown> */}
 
         {/* Settings */}
-        <SidebarLink
+        {/* <SidebarLink
           collapsed={collapsed}
           href="/settings"
           icon={<FaCog />}
           label="Settings"
           active={pathname === "/settings"}
-        />
+        /> */}
       </nav>
 
       {/* LOGOUT - Fixed at bottom */}
