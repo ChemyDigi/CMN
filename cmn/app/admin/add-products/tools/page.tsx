@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { FaPlus, FaTrash, FaImage, FaUpload } from "react-icons/fa";
-import { collection, addDoc } from "firebase/firestore";
+import React, { useRef, useState, useEffect } from "react";
+import { FaPlus, FaTrash, FaImage, FaUpload, FaTimes } from "react-icons/fa";
+import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
@@ -10,15 +10,14 @@ import axios from "axios";
 type ExtraField = { id: string; name: string; value: string };
 
 const categoryOptions = ["Hand Tools", "Power Tools", "Garden", "Safety", "Electrical"];
-const brandOptions = ["Brand A", "Brand B", "Brand C"];
 
 const uploadToCloudinary = async (file: File): Promise<string> => {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("upload_preset", "cmn-products"); // Replace with your preset
+  formData.append("upload_preset", "cmn-products");
 
   const res = await axios.post(
-    "https://api.cloudinary.com/v1_1/dwjhzcztk/image/upload", // Replace with your cloud name
+    "https://api.cloudinary.com/v1_1/dwjhzcztk/image/upload",
     formData
   );
   return res.data.secure_url;
@@ -41,8 +40,74 @@ export default function AddToolForm() {
   const [subImages, setSubImages] = useState<File[]>([]);
   const [subPreviews, setSubPreviews] = useState<string[]>([]);
 
+  // Brand management states
+  const [brands, setBrands] = useState<{ id: string; name: string }[]>([]);
+  const [newBrandName, setNewBrandName] = useState<string>("");
+  const [showBrandModal, setShowBrandModal] = useState<boolean>(false);
+
   const mainInputRef = useRef<HTMLInputElement | null>(null);
   const subInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Fetch brands from Firestore
+  const fetchBrands = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "brands_tools"));
+      const brandList = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        name: doc.data().name,
+      }));
+      setBrands(brandList);
+    } catch (error) {
+      console.error("Error fetching brands:", error);
+      toast.error("Failed to load brands");
+    }
+  };
+
+  useEffect(() => {
+    fetchBrands();
+  }, []);
+
+  // Add new brand
+  const handleAddBrand = async () => {
+    if (!newBrandName.trim()) {
+      toast.error("Brand name cannot be empty");
+      return;
+    }
+
+    // Check if brand already exists
+    if (brands.some((b) => b.name.toLowerCase() === newBrandName.toLowerCase())) {
+      toast.error("Brand already exists");
+      return;
+    }
+
+    try {
+      const docRef = await addDoc(collection(db, "brands_tools"), {
+        name: newBrandName.trim(),
+        createdAt: new Date(),
+      });
+
+      setBrands((prev) => [...prev, { id: docRef.id, name: newBrandName.trim() }]);
+      setNewBrandName("");
+      toast.success("Brand added successfully!");
+    } catch (error) {
+      console.error("Error adding brand:", error);
+      toast.error("Failed to add brand");
+    }
+  };
+
+  // Delete brand
+  const handleDeleteBrand = async (brandId: string, brandName: string) => {
+    if (!confirm(`Are you sure you want to delete "${brandName}"?`)) return;
+
+    try {
+      await deleteDoc(doc(db, "brands_tools", brandId));
+      setBrands((prev) => prev.filter((b) => b.id !== brandId));
+      toast.success("Brand deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting brand:", error);
+      toast.error("Failed to delete brand");
+    }
+  };
 
   // Convert File to preview URL
   const fileToDataUrl = (file: File): Promise<string> =>
@@ -143,13 +208,78 @@ export default function AddToolForm() {
   return (
     <div className="max-w-6xl mx-auto p-4 text-gray-800 text-sm">
       <Toaster position="top-right" />
+      
       <div className="mb-6">
-                <div className="flex items-center gap-2 mb-1">
-                    <div className="w-1.5 h-6 bg-[#F272A8] rounded-full"></div>
-                    <h1 className="text-2xl font-bold text-gray-900">Add Tools &  Equipment</h1>
-                </div>
-                <p className="text-gray-600 ml-4 text-xs">Create a new tool or equipment product</p>
+        <div className="flex items-center gap-2 mb-1">
+          <div className="w-1.5 h-6 bg-[#F272A8] rounded-full"></div>
+          <h1 className="text-2xl font-bold text-gray-900">Add Tools & Equipment</h1>
+        </div>
+        <p className="text-gray-600 ml-4 text-xs">Create a new tool or equipment product</p>
+      </div>
+
+      {/* Brand Management Section */}
+      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-sm font-semibold text-gray-800">Brand Management</h2>
+          <button
+            type="button"
+            onClick={() => setShowBrandModal(!showBrandModal)}
+            className="text-xs px-3 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            {showBrandModal ? "Hide" : "Manage Brands"}
+          </button>
+        </div>
+
+        {showBrandModal && (
+          <div className="space-y-3">
+            {/* Add New Brand */}
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={newBrandName}
+                onChange={(e) => setNewBrandName(e.target.value)}
+                placeholder="Enter new brand name"
+                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500"
+                onKeyDown={(e) => e.key === "Enter" && handleAddBrand()}
+              />
+              <button
+                type="button"
+                onClick={handleAddBrand}
+                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-xs font-medium"
+              >
+                Add Brand
+              </button>
             </div>
+
+            {/* Brand List */}
+            <div className="bg-white rounded-lg p-3 max-h-48 overflow-y-auto">
+              <p className="text-xs text-gray-500 mb-2">Current Brands ({brands.length})</p>
+              <div className="space-y-1">
+                {brands.length === 0 ? (
+                  <p className="text-xs text-gray-400">No brands added yet</p>
+                ) : (
+                  brands.map((brand) => (
+                    <div
+                      key={brand.id}
+                      className="flex items-center justify-between p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                    >
+                      <span className="text-xs font-medium">{brand.name}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteBrand(brand.id, brand.name)}
+                        className="text-red-500 hover:text-red-700 p-1"
+                      >
+                        <FaTrash size={10} />
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
       <form onSubmit={onSubmit} className="space-y-6 bg-white p-6 rounded-xl shadow-lg text-sm">
         
         {/* Serial ID + Category */}
@@ -205,9 +335,9 @@ export default function AddToolForm() {
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30 appearance-none"
             >
               <option value="">Select brand</option>
-              {brandOptions.map((b) => (
-                <option key={b} value={b}>
-                  {b}
+              {brands.map((b) => (
+                <option key={b.id} value={b.name}>
+                  {b.name}
                 </option>
               ))}
             </select>
