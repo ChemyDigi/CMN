@@ -5,6 +5,7 @@ import { FaEdit, FaTrash, FaEye, FaTools, FaSnowflake, FaBox } from "react-icons
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Product = {
   id: string;
@@ -23,6 +24,7 @@ type Product = {
 };
 
 export default function ManageProductsDashboard() {
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"all" | "tools" | "ac-ref">("all");
@@ -125,6 +127,14 @@ const DetailRow = ({ label, value }: { label: string; value: any }) => (
     setShowModal(true);
   };
 
+  // Navigate to edit page
+  const handleEdit = (product: Product) => {
+    const editPath = product.type === "tool" 
+      ? `/admin/edit-products/tools/${product.id}`
+      : `/admin/edit-products/ref-ac/${product.id}`;
+    router.push(editPath);
+  };
+
   return (
     <div className="max-w-7xl mx-auto p-4 text-black">
       <Toaster position="top-right" />
@@ -218,17 +228,23 @@ const DetailRow = ({ label, value }: { label: string; value: any }) => (
                         <button
                           onClick={() => handleView(product)}
                           className="p-2 hover:text-blue-500"
+                          title="View Details"
                         >
                           <FaEye />
                         </button>
 
-                        <button className="p-2 hover:text-green-500">
+                        <button 
+                          onClick={() => handleEdit(product)}
+                          className="p-2 hover:text-green-500"
+                          title="Edit Product"
+                        >
                           <FaEdit />
                         </button>
 
                         <button
                           onClick={() => handleDelete(product.id, product.type)}
                           className="p-2 hover:text-red-500"
+                          title="Delete Product"
                         >
                           <FaTrash />
                         </button>
