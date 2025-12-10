@@ -50,7 +50,7 @@ export default function HeroIndustrySection() {
 
                 {/* BUTTON */}
                 <Link
-                    href="/services/airdoot"
+                    href="/about"
                     className="inline-flex items-center justify-center gap-2 bg-[#F272A8] hover:bg-pink-600 text-white font-medium px-6 sm:px-8 py-2.5 sm:py-3 rounded-full transition-all duration-300 mt-4 sm:mt-5 lg:mt-6 text-sm sm:text-base w-full sm:w-auto"
                 >
                     Explore More

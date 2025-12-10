@@ -164,7 +164,7 @@ export default function HeroIntroSection() {
               href="/services/cmn"
               className="inline-flex items-center gap-2 bg-[#F272A8] hover:bg-pink-600 text-white font-medium px-8 py-3 rounded-full transition-all duration-300"
             >
-              Here's How
+              CMN Solutions
             </Link>
 
           </motion.div>
