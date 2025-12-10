@@ -58,7 +58,7 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="bg-[#202020] text-white pt-16 pb-8 relative">
+      <footer className="bg-[#202020] text-white pt-16 pb-6 relative">
         {/* Background image */}
         <Image
           src="/images/CMN_Footer_img.png"
@@ -108,6 +108,7 @@ export default function Footer() {
                 <li className="hover:text-[#F272A8]"><Link href="/">Home</Link></li>
                 <li className="hover:text-[#F272A8]"><Link href="/about">About</Link></li>
                 <li className="hover:text-[#F272A8]"><Link href="/clients">Clients</Link></li>
+                <li className="hover:text-[#F272A8]"><Link href="/contact">Contact</Link></li>
               </ul>
             </div>
 
@@ -133,7 +134,7 @@ export default function Footer() {
                     className="flex items-center gap-2"
                   >
                     <i className="ri-instagram-line text-2xl"></i>
-                    <span className="text-sm">Instagram</span>
+                    {/* <span className="text-sm">Instagram</span> */}
                   </Link>
                 </li>
                 
@@ -146,7 +147,7 @@ export default function Footer() {
                     className="flex items-center gap-2"
                   >
                     <i className="ri-facebook-circle-line text-2xl"></i>
-                    <span className="text-sm">Facebook</span>
+                    {/* <span className="text-sm">Facebook</span> */}
                   </Link>
                 </li>
               </ul>
@@ -172,15 +173,11 @@ export default function Footer() {
               <p className="font-semibold text-xs">EMAIL</p>
               <p className="text-gray-400">contact@cmndistributors.com</p>
             </div>
-            <div>
-              <p className="font-semibold text-xs">WORKING DAYS / HOURS</p>
-              <p className="text-gray-400">Mon - Fri / 9:00 AM - 5:30 PM</p>
-            </div>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-700 mt-12 pt-6 text-center text-sm text-gray-500 relative z-10">
+        <div className="border-t border-gray-700 mt-12 pt-2 text-center text-sm text-gray-500 relative z-10">
           © Copyright 2025 | CMN Distributors | All Rights Reserved <br />
           Design by{" "}
           <Link
