@@ -122,8 +122,8 @@ export default function HeroIntroSection() {
             variants={itemVariants}
             className="text-3xl md:text-4xl font-bold leading-snug"
           >
-            Redefining Global Distribution <br /> with 
-            Intelligent Supply Chain Solutions
+            Global Distribution,  <br /> 
+            Intelligent Supply
           </motion.h2>
 
           <motion.p
