@@ -41,6 +41,15 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
     setOpen((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const handleLogout = async () => {
+  await fetch("/api/admin/logout", {
+    method: "POST",
+  });
+
+  window.location.href = "/admin/login";
+};
+
+
   return (
     <aside
       className={`fixed top-0 left-0 h-screen bg-[#0F0F0F] text-white border-r border-gray-700
@@ -161,10 +170,14 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
 
       {/* LOGOUT - Fixed at bottom */}
       <div className="p-4 border-t border-gray-700 flex-shrink-0">
-        <button className="flex items-center gap-3 text-red-400 hover:text-red-300 w-full">
-          <FaSignOutAlt className="text-lg" />
-          {!collapsed && "Logout"}
-        </button>
+        <button
+  onClick={handleLogout}
+  className="flex items-center gap-3 text-red-400 hover:text-red-300 w-full"
+>
+  <FaSignOutAlt className="text-lg" />
+  {!collapsed && "Logout"}
+</button>
+
       </div>
     </aside>
   );
