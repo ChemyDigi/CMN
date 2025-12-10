@@ -57,9 +57,8 @@ export default function HeroSection() {
           transition={{ duration: 1.2, delay: 0.5 }}
           className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-bold leading-tight mb-3 sm:mb-4 md:mb-5"
         >
-          You're more resilient<br/>
-          when you know what's<br/>
-          coming
+          Partner with Us<br/>
+          to Stay Ahead
         </motion.h1>
 
         {/* DESCRIPTION */}
@@ -76,8 +75,8 @@ export default function HeroSection() {
             mb-4 sm:mb-5
           "
         >
-          Staying ahead in today’s fast-moving industrial landscape requires more than just tools it demands foresight. At CMN, we empower businesses with reliable supply insights, consistent product availability, and seamless distribution planning so they can anticipate needs before challenges arise. With clearer visibility and dependable support, our partners operate with greater confidence, stability, and resilience in every stage of their workflow.
-        </motion.p>
+    CMN equips businesses with reliable supply insights, consistent product availability, and efficient distribution planning, helping them anticipate challenges and operate with greater confidence and resilience.
+    </motion.p>
 
         {/* DESKTOP UNDERLINE - Matches description width */}
         <motion.div
