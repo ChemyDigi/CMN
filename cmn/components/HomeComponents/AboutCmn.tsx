@@ -45,7 +45,7 @@ export default function HeroIndustrySection() {
                 </h1>
 
                 <p className="text-sm sm:text-base md:text-lg text-gray-700 mt-3 sm:mt-4 md:mt-5 lg:mt-6">
-                    Quality-driven. Industry-ready. Globally aligned.
+                    CMN Solutions provides high-quality industrial tools and equipment with reliable service and fast delivery.
                 </p>
 
                 {/* BUTTON */}
