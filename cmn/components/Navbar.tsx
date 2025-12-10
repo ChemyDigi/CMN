@@ -2,12 +2,30 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [activeMenu, setActiveMenu] = useState<"solutions" | "products" | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileDropdown, setMobileDropdown] = useState<"solutions" | "products" | null>(null);
+  const pathname = usePathname();
+
+  // Function to check if a link is active
+  const isActive = (href: string) => {
+    if (href === "/home") return pathname === "/" || pathname === "/home";
+    if (href === "/") return pathname === "/" || pathname === "/home";
+    return pathname.startsWith(href);
+  };
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileOpen(false);
+    setMobileDropdown(null);
+  }, [pathname]);
+
+  // Active style class for navbar links (not contact button)
+  const activeClass = "text-[#F272A8] border-b-2 border-[#F272A8] pb-1";
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">
@@ -26,7 +44,6 @@ export default function Navbar() {
           />
         </Link>
 
-
         {/* DESKTOP NAVBAR */}
         <div className="hidden lg:flex flex-1">
           <nav
@@ -37,45 +54,69 @@ export default function Navbar() {
             {/* NAV LINKS */}
             <ul className="flex items-center text-black font-semibold text-xs sm:text-sm md:text-base space-x-4 sm:space-x-8 lg:space-x-12 xl:space-x-16 2xl:space-x-20 3xl:space-x-24 pl-6 sm:pl-12 lg:pl-20 xl:pl-28 2xl:pl-40 3xl:pl-56 mr-6 sm:mr-8 lg:mr-12 xl:mr-16 2xl:mr-20">
 
-              <li className="hover:text-[#F272A8]" onMouseEnter={() => setActiveMenu(null)}>
+              <li
+                className={`hover:text-[#F272A8] transition-all duration-200 ${isActive("/home") || isActive("/") ? activeClass : ""}`}
+                onMouseEnter={() => setActiveMenu(null)}
+              >
                 <Link href="/home">Home</Link>
               </li>
 
-              <li className="hover:text-[#F272A8]" onMouseEnter={() => setActiveMenu(null)}>
+              <li
+                className={`hover:text-[#F272A8] transition-all duration-200 ${isActive("/about") ? activeClass : ""}`}
+                onMouseEnter={() => setActiveMenu(null)}
+              >
                 <Link href="/about">About</Link>
               </li>
 
-              <li className="hover:text-[#F272A8] cursor-pointer" onMouseEnter={() => setActiveMenu("solutions")}>
+              <li 
+                className={`hover:text-[#F272A8] cursor-pointer transition-all duration-200 ${
+                  (activeMenu === "solutions" || 
+                   pathname.startsWith("/services/cmn") || 
+                   pathname.startsWith("/services/airdoot")) ? 
+                  "text-[#F272A8]" : ""
+                }`}
+                onMouseEnter={() => setActiveMenu("solutions")}
+              >
                 Solutions
               </li>
 
-              <li className="hover:text-[#F272A8] cursor-pointer" onMouseEnter={() => setActiveMenu("products")}>
+              <li 
+                className={`hover:text-[#F272A8] cursor-pointer transition-all duration-200 ${
+                  (activeMenu === "products" || 
+                   pathname.startsWith("/products/tools") || 
+                   pathname.startsWith("/products/ref-ac")) ? 
+                  "text-[#F272A8]" : ""
+                }`}
+                onMouseEnter={() => setActiveMenu("products")}
+              >
                 Products
               </li>
 
-              <li className="hover:text-[#F272A8]" onMouseEnter={() => setActiveMenu(null)}>
+              <li
+                className={`hover:text-[#F272A8] transition-all duration-200 ${isActive("/clients") ? activeClass : ""}`}
+                onMouseEnter={() => setActiveMenu(null)}
+              >
                 <Link href="/clients">Clients</Link>
               </li>
             </ul>
 
-            {/* CONTACT BUTTON */}
+            {/* CONTACT BUTTON - NO ACTIVE STYLING */}
             <Link
               href="/contact"
               className="
-    bg-[#202020]
-    hover:bg-[#3a3a3a]        /* Hover color change */
-    text-white
-    px-5 py-2
-    rounded-md
-    text-xs sm:text-sm
-    font-semibold
-    transition-colors duration-300   /* Smooth transition */
-    whitespace-nowrap
-  "
+                bg-[#202020]
+                hover:bg-[#3a3a3a]
+                text-white
+                px-5 py-2
+                rounded-md
+                text-xs sm:text-sm
+                font-semibold
+                transition-colors duration-300
+                whitespace-nowrap
+              "
             >
               CONTACT
             </Link>
-
 
             {/* DROPDOWN */}
             {activeMenu && (
@@ -91,15 +132,35 @@ export default function Navbar() {
                   <div className="w-1/2 border-l pl-6 lg:pl-10 text-sm space-y-4 animate-dropdownSmooth">
                     {activeMenu === "solutions" && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <Link href="/services/cmn" className="text-gray-500 hover:text-[#F272A8]">CMN Solutions</Link>
-                        <Link href="/services/airdoot" className="text-gray-500 hover:text-[#F272A8]">AirDoot</Link>
+                        <Link 
+                          href="/services/cmn" 
+                          className={`text-gray-500 hover:text-[#F272A8] ${pathname === "/services/cmn" ? "text-[#F272A8] font-semibold" : ""}`}
+                        >
+                          CMN Solutions
+                        </Link>
+                        <Link 
+                          href="/services/airdoot" 
+                          className={`text-gray-500 hover:text-[#F272A8] ${pathname === "/services/airdoot" ? "text-[#F272A8] font-semibold" : ""}`}
+                        >
+                          AirDoot
+                        </Link>
                       </div>
                     )}
 
                     {activeMenu === "products" && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <Link href="/products/tools" className="text-gray-500 hover:text-[#F272A8]">Tools & Equipment</Link>
-                        <Link href="/products/ref-ac" className="text-gray-500 hover:text-[#F272A8]">Refrigerators & Air Conditioners</Link>
+                        <Link 
+                          href="/products/tools" 
+                          className={`text-gray-500 hover:text-[#F272A8] ${pathname === "/products/tools" ? "text-[#F272A8] font-semibold" : ""}`}
+                        >
+                          Tools & Equipment
+                        </Link>
+                        <Link 
+                          href="/products/ref-ac" 
+                          className={`text-gray-500 hover:text-[#F272A8] ${pathname === "/products/ref-ac" ? "text-[#F272A8] font-semibold" : ""}`}
+                        >
+                          Refrigerators & Air Conditioners
+                        </Link>
                       </div>
                     )}
                   </div>
@@ -130,18 +191,37 @@ export default function Navbar() {
         <div className="lg:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-200 animate-slideDownSlow z-40">
           <div className="px-6 py-6 space-y-6 text-black">
 
-            <MobileLink href="/home" label="Home" setMobileOpen={setMobileOpen} />
-            <MobileLink href="/about" label="About" setMobileOpen={setMobileOpen} />
+            <MobileLink 
+              href="/home" 
+              label="Home" 
+              setMobileOpen={setMobileOpen} 
+              isActive={isActive("/home") || isActive("/")} 
+            />
+            <MobileLink 
+              href="/about" 
+              label="About" 
+              setMobileOpen={setMobileOpen} 
+              isActive={isActive("/about")} 
+            />
 
             <MobileDropdown
               title="Solutions"
               active={mobileDropdown === "solutions"}
               toggle={() => setMobileDropdown(mobileDropdown === "solutions" ? null : "solutions")}
               items={[
-                { label: "CMN Solutions", href: "/services/cmn" },
-                { label: "AirDoot", href: "/services/airdoot" },
+                { 
+                  label: "CMN Solutions", 
+                  href: "/services/cmn",
+                  isActive: pathname === "/services/cmn"
+                },
+                { 
+                  label: "AirDoot", 
+                  href: "/services/airdoot",
+                  isActive: pathname === "/services/airdoot"
+                },
               ]}
               setMobileOpen={setMobileOpen}
+              isParentActive={pathname.startsWith("/services/cmn") || pathname.startsWith("/services/airdoot")}
             />
 
             <MobileDropdown
@@ -149,19 +229,38 @@ export default function Navbar() {
               active={mobileDropdown === "products"}
               toggle={() => setMobileDropdown(mobileDropdown === "products" ? null : "products")}
               items={[
-                { label: "Tools & Equipment", href: "/products/tools" },
-                { label: "Refrigerators & Air Conditioners", href: "/products/ref-ac" },
+                { 
+                  label: "Tools & Equipment", 
+                  href: "/products/tools",
+                  isActive: pathname === "/products/tools"
+                },
+                { 
+                  label: "Refrigerators & Air Conditioners", 
+                  href: "/products/ref-ac",
+                  isActive: pathname === "/products/ref-ac"
+                },
               ]}
               setMobileOpen={setMobileOpen}
+              isParentActive={pathname.startsWith("/products/tools") || pathname.startsWith("/products/ref-ac")}
             />
 
-            <MobileLink href="/clients" label="Clients" setMobileOpen={setMobileOpen} />
+            <MobileLink 
+              href="/clients" 
+              label="Clients" 
+              setMobileOpen={setMobileOpen} 
+              isActive={isActive("/clients")} 
+            />
 
             <div className="pt-2">
               <Link
                 href="/contact"
                 onClick={() => setMobileOpen(false)}
-                className="inline-flex items-center justify-center bg-[#202020] text-white px-6 py-2 rounded-md text-sm font-semibold shadow-sm hover:bg-gray-900 transition-all"
+                className="
+                  inline-flex items-center justify-center 
+                  bg-[#202020] text-white px-6 py-2 rounded-md 
+                  text-sm font-semibold shadow-sm hover:bg-gray-900 
+                  transition-all
+                "
               >
                 CONTACT
               </Link>
@@ -191,12 +290,16 @@ export default function Navbar() {
 }
 
 /* MOBILE LINK COMPONENT */
-function MobileLink({ href, label, setMobileOpen }: any) {
+function MobileLink({ href, label, setMobileOpen, isActive }: any) {
   return (
     <Link
       href={href}
       onClick={() => setMobileOpen(false)}
-      className="block text-base font-medium text-gray-900 hover:text-[#F272A8] transition"
+      className={`
+        block text-base font-medium text-gray-900 
+        hover:text-[#F272A8] transition-all duration-200
+        ${isActive ? "text-[#F272A8] font-semibold border-l-4 border-[#F272A8] pl-3 -ml-2" : ""}
+      `}
     >
       {label}
     </Link>
@@ -204,12 +307,17 @@ function MobileLink({ href, label, setMobileOpen }: any) {
 }
 
 /* MOBILE DROPDOWN COMPONENT */
-function MobileDropdown({ title, active, toggle, items, setMobileOpen }: any) {
+function MobileDropdown({ title, active, toggle, items, setMobileOpen, isParentActive }: any) {
   return (
     <div className="border-t border-gray-200 pt-4">
       <button
         onClick={toggle}
-        className="flex items-center justify-between w-full text-base font-semibold text-[#F272A8]"
+        className={`
+          flex items-center justify-between w-full 
+          text-base font-semibold 
+          ${isParentActive ? "text-[#F272A8]" : "text-gray-900"}
+          hover:text-[#F272A8] transition-all duration-200
+        `}
       >
         {title}
         <span className="text-xs">{active ? "▲" : "▼"}</span>
@@ -222,7 +330,10 @@ function MobileDropdown({ title, active, toggle, items, setMobileOpen }: any) {
               key={item.href}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className="block hover:text-[#F272A8] transition"
+              className={`
+                block hover:text-[#F272A8] transition-all duration-200
+                ${item.isActive ? "text-[#F272A8] font-semibold pl-2 border-l-2 border-[#F272A8]" : ""}
+              `}
             >
               {item.label}
             </Link>
