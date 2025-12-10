@@ -57,9 +57,8 @@ export default function HeroSection() {
           transition={{ duration: 1.2, delay: 0.5 }}
           className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-bold leading-tight mb-3 sm:mb-4 md:mb-5"
         >
-          Empowering Global Brands<br/>
-          Through Seamless<br/>
-          Distribution
+          Powering Global Brands<br/>
+          with Seamless Distribution
         </motion.h1>
 
         {/* DESCRIPTION */}
