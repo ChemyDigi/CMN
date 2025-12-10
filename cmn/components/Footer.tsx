@@ -111,38 +111,45 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* NEWSLETTER */}
-            <div className="w-full flex flex-col items-center md:items-start">
-              <h3 className="font-semibold text-sm tracking-wide mb-2">
-                SUBSCRIBE NEWSLETTER
+            {/* SOCIAL MEDIA - UPDATED */}
+            <div className="w-full">
+              <h3 className="font-semibold text-sm tracking-wide mb-4">
+                SOCIAL MEDIA
               </h3>
-
-              <p className="text-sm text-gray-400 mb-4 text-center md:text-left">
-                Get all the latest information on Events, Sales and Offers. <br />
-                Sign up for newsletter today.
-              </p>
-
-              <div className="flex w-full max-w-sm">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="
-                    w-full border border-gray-500 bg-transparent 
-                    px-4 py-2 text-sm outline-none text-center md:text-left
-                    text-white
-                  "
-                  onKeyDown={(e) => e.key === "Enter" && handleSubscribeClick()}
-                />
-                <button 
-                  onClick={handleSubscribeClick}
-                  className="bg-[#F272A8] text-white px-6 py-2 text-sm font-semibold 
-                    hover:bg-[#d6488d] transition whitespace-nowrap"
-                >
-                  Subscribe
-                </button>
-              </div>
+              
+              <ul
+                className="
+                  flex flex-wrap justify-center md:justify-start
+                  gap-x-6 gap-y-2
+                  text-gray-300
+                "
+              >
+                <li className="hover:text-[#F272A8] transition-colors">
+                  <Link
+                    href="https://www.instagram.com/cmndistributors/?hl=en"
+                    aria-label="Instagram"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2"
+                  >
+                    <i className="ri-instagram-line text-2xl"></i>
+                    <span className="text-sm">Instagram</span>
+                  </Link>
+                </li>
+                
+                <li className="hover:text-[#F272A8] transition-colors">
+                  <Link
+                    href="https://www.facebook.com/cmndistributorssl/"
+                    aria-label="Facebook"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2"
+                  >
+                    <i className="ri-facebook-circle-line text-2xl"></i>
+                    <span className="text-sm">Facebook</span>
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -179,42 +186,22 @@ export default function Footer() {
           <Link
             href="https://alchemy.lk/"
             className="hover:text-[#F272A8]"
-            target="blank"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Alchemy
           </Link>
         </div>
-
-        {/* Social Icons */}
-        <div className="mt-4 flex justify-center gap-6 relative z-10">
-          <Link
-            href="https://www.instagram.com/cmndistributors/?hl=en"
-            aria-label="Instagram"
-            target="blank"
-            className="hover:text-[#F272A8]"
-          >
-            <i className="ri-instagram-line text-lg"></i>
-          </Link>
-          <Link
-            href="https://www.facebook.com/cmndistributorssl/"
-            aria-label="Facebook"
-            target="blank"
-            className="hover:text-[#B32E2E]"
-          >
-            <i className="ri-facebook-circle-line text-lg"></i>
-          </Link>
-        </div>
       </footer>
 
-      {/* Subscription Popup */}
+      {/* Subscription Popup
       {showPopup && (
         <SubscriptionPopup
           initialEmail={email}
           onClose={() => setShowPopup(false)}
           onSubmit={handleSubmitSubscription}
         />
-      )}
+      )} */}
     </>
   );
 }
-// added subscription pop up
