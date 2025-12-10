@@ -11,38 +11,37 @@ interface FeatureItem {
 
 export default function WhyChooseUsSection(): React.ReactElement {
   const features: FeatureItem[] = [
-    {
-      icon: "/images/Home/Network.png",
-      title: "NETWORK",
-      desc: "A strong and reliable retail and distribution network ensuring seamless product flow across regions.",
-
-    },
-    {
-      icon: "/images/Home/International.png",
-      title: "INTERNATIONAL PRESENCE",
-      desc: "A steadily expanding footprint with operations in Singapore, Sri Lanka, and India, enabling global sourcing and regional accessibility.",
-    },
-    {
-      icon: "/images/Home/Team.png",
-      title: "DEDICATED TEAM",
-      desc: "A highly skilled and technically qualified team committed to delivering precise, efficient, and reliable execution.",
-    },
-    {
-      icon: "/images/Home/Service.png",
-      title: "BEST SERVICE",
-      desc: "Exceptional customer service backed by industry expertise, fast response times, and consistent delivery quality.",
-    },
-    {
-      icon: "/images/Home/Wide.png",
-      title: "WIDE NETWORK",
-      desc: "A broad and growing network that connects global suppliers with local industries for efficient supply-chain integration.",
-    },
-    {
-      icon: "/images/Home/Cost.png",
-      title: "COST EFFICIENT",
-      desc: "Optimized solutions and streamlined processes designed to minimize operational costs without compromising quality.",
-    },
-  ];
+  {
+    icon: "/images/Home/Network.png",
+    title: "NETWORK",
+    desc: "Reliable retail & distribution network for seamless product flow.",
+  },
+  {
+    icon: "/images/Home/International.png",
+    title: "INTERNATIONAL PRESENCE",
+    desc: "Operations in Singapore, Sri Lanka, and India for global accessibility.",
+  },
+  {
+    icon: "/images/Home/Team.png",
+    title: "DEDICATED TEAM",
+    desc: "Skilled team delivering precise, efficient execution.",
+  },
+  {
+    icon: "/images/Home/Service.png",
+    title: "BEST SERVICE",
+    desc: "Expert customer service with fast response and quality delivery.",
+  },
+  {
+    icon: "/images/Home/Wide.png",
+    title: "WIDE NETWORK",
+    desc: "Connecting global suppliers with local industries efficiently.",
+  },
+  {
+    icon: "/images/Home/Cost.png",
+    title: "COST EFFICIENT",
+    desc: "Optimized solutions that reduce costs without compromising quality.",
+  },
+];
 
   return (
     <section className="w-full bg-[#000000] text-white py-20 px-6 md:px-16 lg:px-24">

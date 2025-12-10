@@ -130,28 +130,29 @@ export default function HeroIntroSection() {
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
-            CMN solutions is a trusted industrial supplier specializing in high quality precision tools, engineering
-		equipment and reliable distribution services designed to support  manufacturing, construction and heavy-industry operations. With a strong commitment to quality, performance, and global sourcing standards, we deliver industry-ready products that help businesses improve efficiency, reduce downtime, and maintain consistent operational excellence. As a customer-focused industrial solutions provider, we combine expert support, fast delivery, and a wide product portfolio to ensure our clients receive dependable, cost-effective solutions tailored to their technical and operational needs.
+            CMN Solutions is a trusted industrial supplier specializing in high-quality precision tools, 
+            engineering equipment, and reliable distribution services for manufacturing, construction, 
+            and heavy-industry operations. We deliver industry-ready products that improve efficiency, 
+            reduce downtime, and ensure operational excellence.
           </motion.p>
 
           <motion.p
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
-            Beyond industrial tools, CMN serves the Refrigeration, 
-            Air Conditioning, and Ventilation sector by supplying 
-            essential niche products and specialized components for 
-            modern climate control systems.
+            We also supply specialized products for the Refrigeration, 
+            Air Conditioning, and Ventilation sector, and provide advanced Air 
+            Quality Treatment solutions for cleaner, safer indoor spaces.
           </motion.p>
 
-          <motion.p
+          {/* <motion.p
             variants={itemVariants}
             className="text-gray-300 leading-relaxed max-w-xl text-justify"
           >
             CMN also provides advanced Air Quality Treatment 
             solutions, enabling clients to achieve cleaner, 
             safer, and compliant indoor spaces.
-          </motion.p>
+          </motion.p> */}
 
           {/* CTA BUTTON */}
           <motion.div
