@@ -75,7 +75,7 @@ export default function HeroSection() {
             mb-4 sm:mb-5
           "
         >
-          We deliver end-to-end supply and distribution solutions for premium
+          We deliver end to end supply and distribution solutions for premium
           tools, equipment, and industrial products across continents.
         </motion.p>
 

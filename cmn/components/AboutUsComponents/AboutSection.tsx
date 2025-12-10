@@ -36,7 +36,7 @@ export default function AboutSection() {
             "
           >
             <p>
-              CMN Distributors Pvt Ltd "CMN" is a professionally managed company
+              CMN Distributors Pvt Ltd &quot;CMN&quot; is a professionally managed company
               engaged mainly in Distributions of Premium Tools & Equipments for
               various industries. CMN is also in Distribution of Niche products
               related to Refrigeration, Airconditioning and Ventilation industry
@@ -103,7 +103,7 @@ export default function AboutSection() {
             space-y-3 text-gray-700 text-sm md:text-base
             mx-auto md:mx-0
             max-w-md md:max-w-none
-            text-justify md:text-left
+            text-justify 
           "
         >
           <p>
