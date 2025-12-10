@@ -3,16 +3,19 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const isAdminPage = req.nextUrl.pathname.startsWith("/admin");
-  const isLoginPage = req.nextUrl.pathname.startsWith("/admin/login");
+  const token = req.cookies.get("admin_session")?.value;
 
-  if (!isAdminPage) return NextResponse.next();
-  if (isLoginPage) return NextResponse.next();
+  const isLoggedIn = !!token;
+  const isLoginPage = req.nextUrl.pathname === "/admin/login";
 
-  const session = req.cookies.get("admin_session");
-
-  if (!session) {
+  // If not logged in and trying to access admin pages → redirect to login
+  if (!isLoggedIn && req.nextUrl.pathname.startsWith("/admin") && !isLoginPage) {
     return NextResponse.redirect(new URL("/admin/login", req.url));
+  }
+
+  // If logged in and trying to visit login → redirect to dashboard
+  if (isLoggedIn && isLoginPage) {
+    return NextResponse.redirect(new URL("/admin", req.url));
   }
 
   return NextResponse.next();

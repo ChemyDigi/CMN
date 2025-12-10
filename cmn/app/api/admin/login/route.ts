@@ -1,3 +1,4 @@
+// app/api/admin/login/route.ts
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
@@ -15,10 +16,8 @@ export async function POST(req: Request) {
     );
   }
 
-  // Create a basic session token
   const token = Buffer.from(`${email}:${secret}`).toString("base64");
 
-  // ✅ FIX HERE — add await
   const cookieStore = await cookies();
 
   cookieStore.set("admin_session", token, {
