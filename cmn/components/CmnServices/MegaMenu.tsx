@@ -119,7 +119,7 @@ export default function ServicesRange() {
           Providing the Right Tools and Equipment for Every Industry 
         </h2>
 
-        <a href="/home/#featured-products" className="inline-block">
+        <a href="/products/tools" className="inline-block">
           <button
             className="px-4 sm:px-6 py-3 rounded-full bg-white text-[#554c4a] text-sm sm:text-base font-medium
               shadow-md hover:shadow-lg transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-1 whitespace-nowrap w-full sm:w-auto"

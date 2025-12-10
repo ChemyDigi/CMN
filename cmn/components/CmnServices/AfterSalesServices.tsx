@@ -52,7 +52,7 @@ export default function AfterSalesServices() {
                     </p>
 
                     <Link
-                        href="/products"
+                        href="/home/#featured-products"
                         className="inline-block bg-[#F272A8] text-white px-10 py-4 rounded-full font-semibold hover:bg-pink-600 transition-all"
                     >
                         Discover Products
