@@ -16,7 +16,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "CMN Distributors",
+  title: "CMN Distributors Pvt Ltd",
   description: "Premium Tools, HVAC & Engineering Solutions",
 };
 
