@@ -7,6 +7,7 @@ import ProductReviews from "@/components/Tools/ReviewSection";
 import SimilarProducts from "@/components/Tools/SimilarProducts";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }
@@ -32,18 +33,19 @@ const ProductPage = async ({ params }: PageProps) => {
 
   const data = docSnap.data();
 
-const product = {
-  productName: data.productName,
-  brand: data.brand,
-  description: data.description,
-  warranty: data.warranty,
-  material: data.material,
-  serialId: data.serialId,
-  mainImage: data.mainImage,
-  subImages: data.subImages || [],
-  extraFields: data.extraFields || [],
-};
-
+  const product = {
+    id, // Add the product ID here
+    productName: data.productName,
+    brand: data.brand,
+    description: data.description,
+    warranty: data.warranty,
+    material: data.material,
+    serialId: data.serialId,
+    mainImage: data.mainImage,
+    subImages: data.subImages || [],
+    extraFields: data.extraFields || [],
+    category: data.category, // Make sure this field exists in your Firestore document
+  };
 
   // ✅ Reviews array (if no reviews, fallback to empty)
   const reviews = Array.isArray(data.reviews) ? data.reviews : [];
@@ -54,7 +56,11 @@ const product = {
       <ProductDisplay product={product} />
       {/* ✅ Pass productId for adding new reviews + existing reviews */}
       <ProductReviews productId={id} reviews={reviews} />
-      <SimilarProducts />
+      {/* ✅ Pass current product ID and category to SimilarProducts */}
+      <SimilarProducts 
+        currentProductId={id} 
+        currentProductCategory={data.category} 
+      />
       <Footer />
     </div>
   );

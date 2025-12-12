@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 interface Product {
@@ -22,11 +22,17 @@ interface Product {
   price?: number;
 }
 
-export default function SimilarProducts() {
+interface SimilarProductsProps {
+  currentProductId: string;
+  currentProductCategory?: string;
+}
+
+export default function SimilarProducts({ currentProductId, currentProductCategory }: SimilarProductsProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [itemsPerView, setItemsPerView] = useState(4);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
@@ -47,30 +53,109 @@ export default function SimilarProducts() {
     return () => window.removeEventListener("resize", updateItems);
   }, []);
 
-  // Fetch products
+  // Fetch similar products by category
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchSimilarProducts = async () => {
+      setIsLoading(true);
       try {
-        const snap = await getDocs(collection(db, "products"));
-        const list = snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) })) as Product[];
-        setProducts(list);
+        if (!currentProductCategory) {
+          // If no category specified, fetch all products except current one
+          const snap = await getDocs(collection(db, "tools"));
+          const allProducts = snap.docs.map((d) => ({ 
+            id: d.id, 
+            ...(d.data() as any) 
+          })) as Product[];
+          
+          // Filter out current product
+          const filteredProducts = allProducts.filter(product => product.id !== currentProductId);
+          setProducts(filteredProducts);
+        } else {
+          // Fetch products with same category, excluding current product
+          const q = query(
+            collection(db, "tools"),
+            where("category", "==", currentProductCategory)
+          );
+          
+          const querySnapshot = await getDocs(q);
+          const similarProducts = querySnapshot.docs
+            .map((doc) => ({ 
+              id: doc.id, 
+              ...(doc.data() as any) 
+            })) as Product[];
+          
+          // Filter out the current product from similar products
+          const filteredSimilarProducts = similarProducts.filter(
+            product => product.id !== currentProductId
+          );
+          
+          setProducts(filteredSimilarProducts);
+        }
       } catch (err) {
-        console.error("fetch products error", err);
+        console.error("Error fetching similar products:", err);
+        // Fallback: fetch all products except current one
+        try {
+          const snap = await getDocs(collection(db, "tools"));
+          const allProducts = snap.docs.map((d) => ({ 
+            id: d.id, 
+            ...(d.data() as any) 
+          })) as Product[];
+          
+          const filteredProducts = allProducts.filter(product => product.id !== currentProductId);
+          setProducts(filteredProducts);
+        } catch (fallbackErr) {
+          console.error("Fallback fetch also failed:", fallbackErr);
+        }
+      } finally {
+        setIsLoading(false);
       }
     };
-    fetchProducts();
-  }, []);
 
-  // Create infinite carousel data
+    fetchSimilarProducts();
+  }, [currentProductId, currentProductCategory]);
+
+  // Create visible products for carousel
   const getVisibleProducts = () => {
     if (products.length === 0) return [];
+    
+    // If we have 1-3 products, show them without carousel logic
+    if (products.length <= itemsPerView) {
+      return products;
+    }
     
     // Create extended array for seamless looping
     const extendedProducts = [...products, ...products, ...products];
     const startIndex = products.length + currentIndex;
-    return extendedProducts.slice(startIndex, startIndex + itemsPerView);
+    
+    // Get the slice of products to display
+    const slice = extendedProducts.slice(startIndex, startIndex + itemsPerView);
+    
+    // Use a Set to track unique product IDs to avoid duplicates
+    const uniqueProducts: Product[] = [];
+    const seenIds = new Set<string>();
+    
+    for (const product of slice) {
+      if (!seenIds.has(product.id)) {
+        seenIds.add(product.id);
+        uniqueProducts.push(product);
+      }
+    }
+    
+    // If we filtered out duplicates, we might have fewer products than itemsPerView
+    // Fill with additional unique products if needed
+    if (uniqueProducts.length < itemsPerView && products.length > 0) {
+      // Find products not already in our uniqueProducts
+      const availableProducts = products.filter(p => !seenIds.has(p.id));
+      
+      // Add as many as needed to reach itemsPerView
+      for (let i = 0; i < Math.min(availableProducts.length, itemsPerView - uniqueProducts.length); i++) {
+        uniqueProducts.push(availableProducts[i]);
+      }
+    }
+    
+    return uniqueProducts;
   };
 
+  // Call the function to get visible products
   const visibleProducts = getVisibleProducts();
 
   // Touch handlers for swipe
@@ -117,18 +202,42 @@ export default function SimilarProducts() {
   };
 
   const handlePrev = () => {
+    if (products.length <= itemsPerView) return;
     setIsTransitioning(true);
     setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
   };
 
   const handleNext = () => {
+    if (products.length <= itemsPerView) return;
     setIsTransitioning(true);
     setCurrentIndex((prev) => (prev + 1) % products.length);
   };
 
-  // REMOVED: Auto-play interval that was causing the jumping effect
+  // Show loading state
+  if (isLoading) {
+    return (
+      <section className="w-full bg-white py-6 sm:py-8 md:py-10 flex flex-col items-center">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-black mb-4 sm:mb-5 md:mb-6 text-center px-4">
+          Explore <span className="ml-1 sm:ml-2">Similar Products</span>
+        </h2>
+        <div className="text-gray-500">Loading similar products...</div>
+      </section>
+    );
+  }
 
-  if (products.length === 0) return null;
+  // Don't show section if no similar products
+  if (products.length === 0) {
+    return (
+      <section className="w-full bg-white py-6 sm:py-8 md:py-10 flex flex-col items-center">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-black mb-4 sm:mb-5 md:mb-6 text-center px-4">
+          Explore <span className="ml-1 sm:ml-2">Similar Products</span>
+        </h2>
+        <div className="text-gray-500 text-center px-4">
+          No similar products found. Check out our other products!
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="w-full bg-white py-6 sm:py-8 md:py-10 flex flex-col items-center">
@@ -147,12 +256,12 @@ export default function SimilarProducts() {
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseLeave}
-          style={{ cursor: "grab" }}
+          style={{ cursor: products.length > itemsPerView ? "grab" : "default" }}
         >
           {/* Products row with smooth transition */}
           <div
             className={`flex gap-2 sm:gap-3 md:gap-4 p-2 sm:p-3 justify-center ${
-              isTransitioning ? "transition-transform duration-500 ease-in-out" : ""
+              isTransitioning && products.length > itemsPerView ? "transition-transform duration-500 ease-in-out" : ""
             }`}
           >
             {visibleProducts.map((product, index) => (
@@ -160,7 +269,7 @@ export default function SimilarProducts() {
                 key={`${product.id}-${index}`}
                 className="bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer flex-shrink-0 hover:scale-105"
                 style={{ 
-                  width: `calc(${100 / itemsPerView}% - ${(itemsPerView - 1) * 0.5}rem)`, 
+                  width: `calc(${100 / Math.min(itemsPerView, products.length)}% - ${(Math.min(itemsPerView, products.length) - 1) * 0.5}rem)`, 
                   maxWidth: "280px",
                   display: "flex", 
                   flexDirection: "column" 
@@ -175,16 +284,6 @@ export default function SimilarProducts() {
                     sizes="(max-width: 480px) 100vw, (max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     className="object-cover"
                   />
-                  {/* Availability Badge */}
-                  {/* {product.availability && (
-                    <span className={`absolute top-2 left-2 text-[8px] sm:text-[9px] font-semibold px-1.5 py-0.5 rounded ${
-                      product.availability === "in-stock" 
-                        ? "bg-green-600 text-white" 
-                        : "bg-red-600 text-white"
-                    }`}>
-                      {product.availability === "in-stock" ? "In Stock" : "Out of Stock"}
-                    </span>
-                  )} */}
                 </div>
 
                 <div className="p-2 sm:p-3 flex flex-col flex-1 justify-between">
@@ -218,7 +317,7 @@ export default function SimilarProducts() {
           </div>
         </div>
 
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows - Only show if we have more products than itemsPerView */}
         {products.length > itemsPerView && (
           <>
             <button
@@ -239,7 +338,7 @@ export default function SimilarProducts() {
           </>
         )}
 
-        {/* Dots Indicator */}
+        {/* Dots Indicator - Only show if we have more products than itemsPerView */}
         {products.length > itemsPerView && (
           <div className="flex justify-center mt-3 sm:mt-4 gap-1.5 sm:gap-2">
             {Array.from({ length: Math.min(products.length, 10) }).map((_, i) => (
