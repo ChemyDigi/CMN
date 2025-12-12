@@ -33,6 +33,7 @@ const ProductPage = async ({ params }: PageProps) => {
   const data = docSnap.data();
 
 const product = {
+  id, // Add the product ID here
   productName: data.productName,
   brand: data.brand,
   description: data.description,
@@ -42,7 +43,9 @@ const product = {
   mainImage: data.mainImage,
   subImages: data.subImages || [],
   extraFields: data.extraFields || [],
+  category: data.category, // Make sure this field exists in your Firestore document
 };
+
 
 
   // ✅ Reviews array (if no reviews, fallback to empty)
@@ -54,7 +57,10 @@ const product = {
       <ProductDisplay product={product} />
       {/* ✅ Pass productId for adding new reviews + existing reviews */}
       <ProductReviews productId={id} reviews={reviews} />
-      <SimilarProducts />
+      <SimilarProducts 
+  currentProductId={id} 
+  currentProductCategory={data.category} 
+/>
       <Footer />
     </div>
   );
