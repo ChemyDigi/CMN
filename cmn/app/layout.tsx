@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["100","200","300","400","500","600","700","800","900"], // correct: singular 'weight' not 'weights'
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"], 
 });
 
 export const metadata: Metadata = {
@@ -34,33 +34,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       >
         {children}
 
-        {/* 🔥 THIS IS REQUIRED FOR TOAST NOTIFICATIONS */}
+        {/* THIS IS REQUIRED FOR TOAST NOTIFICATIONS */}
         <Toaster
-  position="top-right"
-  toastOptions={{
-    duration: 6000, // ⏱ toast stays for 3 seconds
-    style: {
-      background: "black",
-      color: "#F272A8",
-      border: "1px solid #F272A8",
-      padding: "12px 16px",
-      fontSize: "14px",
-      fontWeight: "600",
-    },
-    success: {
-      iconTheme: {
-        primary: "#F272A8",
-        secondary: "black",
-      },
-    },
-    error: {
-      iconTheme: {
-        primary: "#F272A8",
-        secondary: "black",
-      },
-    },
-  }}
-/>
+          position="top-right"
+          toastOptions={{
+            duration: 6000, 
+            style: {
+              background: "black",
+              color: "#F272A8",
+              border: "1px solid #F272A8",
+              padding: "12px 16px",
+              fontSize: "14px",
+              fontWeight: "600",
+            },
+            success: {
+              iconTheme: {
+                primary: "#F272A8",
+                secondary: "black",
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: "#F272A8",
+                secondary: "black",
+              },
+            },
+          }}
+        />
 
       </body>
     </html>
