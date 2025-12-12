@@ -1,26 +1,42 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import heroImage from "../../public/images/hero/heroContact.png";
+import heroImageDesktop from "../../public/images/hero/heroContact.png";
+import heroImageMobile from "../../public/images/hero/heroContact-mobile.png";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full min-h-screen flex items-center overflow-hidden pt-20"> {/* Added pt-20 for navbar and items-center for vertical centering */}
-
-      {/* Background Image */}
+    <section className="relative w-full min-h-screen flex items-center overflow-hidden pt-20">
+      {/* Background Image Container */}
       <motion.div
         initial={{ scale: 1.2, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.8, ease: "easeOut" }}
         className="absolute inset-0"
       >
-        <Image
-          src={heroImage}
-          alt="CMN Distributor Hero"
-          fill
-          className="object-cover brightness-50"
-          priority
-        />
+        {/* Mobile Image - Shows only on screens smaller than 768px (md) */}
+        <div className="absolute inset-0 block md:hidden">
+          <Image
+            src={heroImageMobile}
+            alt="Contact CMN Distributor - Mobile"
+            fill
+            className="object-cover brightness-50"
+            priority
+            sizes="100vw"
+          />
+        </div>
+        
+        {/* Desktop Image - Shows only on screens 768px (md) and larger */}
+        <div className="absolute inset-0 hidden md:block">
+          <Image
+            src={heroImageDesktop}
+            alt="Contact CMN Distributor - Desktop"
+            fill
+            className="object-cover brightness-50"
+            priority
+            sizes="100vw"
+          />
+        </div>
       </motion.div>
 
       {/* CONTENT */}
@@ -75,8 +91,8 @@ export default function HeroSection() {
             mb-4 sm:mb-5
           "
         >
-    CMN equips businesses with reliable supply insights, consistent product availability, and efficient distribution planning, helping them anticipate challenges and operate with greater confidence and resilience.
-    </motion.p>
+          CMN equips businesses with reliable supply insights, consistent product availability, and efficient distribution planning, helping them anticipate challenges and operate with greater confidence and resilience.
+        </motion.p>
 
         {/* DESKTOP UNDERLINE - Matches description width */}
         <motion.div

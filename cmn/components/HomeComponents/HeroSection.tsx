@@ -1,14 +1,70 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import heroImage from "../../public/images/hero/homeHero.png";
+import heroImageDesktop from "../../public/images/hero/homeHero.png";
+import heroImageMobile from "../../public/images/hero/homeHero-mobile.png"; // Add your mobile image here
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function HeroSection() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if window is available (client-side)
+    if (typeof window !== "undefined") {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768); // 768px is typically md breakpoint
+      };
+      
+      // Initial check
+      checkMobile();
+      
+      // Add event listener for resize
+      window.addEventListener("resize", checkMobile);
+      
+      // Cleanup
+      return () => window.removeEventListener("resize", checkMobile);
+    }
+  }, []);
+
   return (
     <section className="relative w-full min-h-screen flex items-center overflow-hidden pt-20">
+      {/* Background Image - Mobile */}
+      <motion.div
+        initial={{ scale: 1.2, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1.8, ease: "easeOut" }}
+        className="absolute inset-0 md:hidden" // Only show on mobile
+      >
+        <Image
+          src={heroImageMobile}
+          alt="CMN Distributor Hero - Mobile"
+          fill
+          className="object-cover brightness-50"
+          priority
+          sizes="100vw"
+        />
+      </motion.div>
 
-      {/* Background Image */}
+      {/* Background Image - Desktop */}
+      <motion.div
+        initial={{ scale: 1.2, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1.8, ease: "easeOut" }}
+        className="absolute inset-0 hidden md:block" // Only show on desktop
+      >
+        <Image
+          src={heroImageDesktop}
+          alt="CMN Distributor Hero - Desktop"
+          fill
+          className="object-cover brightness-50"
+          priority
+          sizes="100vw"
+        />
+      </motion.div>
+
+      {/* Optional: Single image component with dynamic src (Alternative approach) */}
+      {/* 
       <motion.div
         initial={{ scale: 1.2, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -16,13 +72,15 @@ export default function HeroSection() {
         className="absolute inset-0"
       >
         <Image
-          src={heroImage}
+          src={isMobile ? heroImageMobile : heroImageDesktop}
           alt="CMN Distributor Hero"
           fill
           className="object-cover brightness-50"
           priority
+          sizes="100vw"
         />
       </motion.div>
+      */}
 
       {/* CONTENT */}
       <div
@@ -80,18 +138,15 @@ export default function HeroSection() {
         </motion.p>
 
         <Link href="/contact">
-  <motion.button
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 1.2, delay: 0.9 }}
-    className="inline-flex items-center gap-2 bg-[#F272A8] hover:bg-pink-600 text-white font-medium px-8 py-3 rounded-full transition-all duration-300"
-            >
-    Contact Us
-  </motion.button>
-</Link>
-
-
-
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.9 }}
+            className="inline-flex items-center gap-2 bg-[#F272A8] hover:bg-pink-600 text-white font-medium px-8 py-3 rounded-full transition-all duration-300"
+          >
+            Contact Us
+          </motion.button>
+        </Link>
       </div>
     </section>
   );
