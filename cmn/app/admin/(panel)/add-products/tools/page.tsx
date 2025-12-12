@@ -47,6 +47,8 @@ export default function AddToolForm() {
 
   const mainInputRef = useRef<HTMLInputElement | null>(null);
   const subInputRef = useRef<HTMLInputElement | null>(null);
+  const submittingRef = useRef(false);
+  const [loading, setLoading] = useState(false);
 
   // Fetch brands from Firestore
   const fetchBrands = async () => {
@@ -151,59 +153,67 @@ export default function AddToolForm() {
   };
 
   // Submit handler
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
+const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+  e.preventDefault();
 
-    try {
-      toast.loading("Uploading images...", { id: "upload" });
+  // 🛑 HARD LOCK (prevents double submit even in React Strict Mode)
+  if (submittingRef.current) return;
+  submittingRef.current = true;
 
-      let mainImageUrl = "";
-      if (mainImage) {
-        mainImageUrl = await uploadToCloudinary(mainImage);
-      }
+  setLoading(true);
 
-      const subImageUrls: string[] = [];
-      for (const img of subImages) {
-        const url = await uploadToCloudinary(img);
-        subImageUrls.push(url);
-      }
+  try {
+    toast.loading("Uploading images...", { id: "upload" });
 
-      await addDoc(collection(db, "tools"), {
-        serialId,
-        category,
-        productName,
-        brand,
-        description,
-        warranty,
-        material,
-        extraFields,
-        mainImage: mainImageUrl,
-        subImages: subImageUrls,
-        createdAt: new Date(),
-      });
-
-      toast.dismiss("upload");
-      toast.success("Tool added successfully!");
-
-      // Reset form
-      setSerialId("");
-      setCategory("");
-      setProductName("");
-      setBrand("");
-      setDescription("");
-      setWarranty("");
-      setMaterial("");
-      setExtraFields([]);
-      setMainImage(null);
-      setMainPreview(null);
-      setSubImages([]);
-      setSubPreviews([]);
-    } catch (err) {
-      console.error("Error adding tool:", err);
-      toast.dismiss("upload");
-      toast.error("Failed to add tool. Check console.");
+    let mainImageUrl = "";
+    if (mainImage) {
+      mainImageUrl = await uploadToCloudinary(mainImage);
     }
-  };
+
+    const subImageUrls: string[] = [];
+    for (const img of subImages) {
+      const url = await uploadToCloudinary(img);
+      subImageUrls.push(url);
+    }
+
+    await addDoc(collection(db, "AC-Ref"), {
+      serialId,
+      category,
+      productName,
+      brand,
+      description,
+      warranty,
+      material,
+      extraFields,
+      mainImage: mainImageUrl,
+      subImages: subImageUrls,
+      createdAt: new Date(),
+    });
+
+    toast.success("Products added successfully!");
+
+    // Reset form
+    setSerialId("");
+    setCategory("");
+    setProductName("");
+    setBrand("");
+    setDescription("");
+    setWarranty("");
+    setMaterial("");
+    setExtraFields([]);
+    setMainImage(null);
+    setMainPreview(null);
+    setSubImages([]);
+    setSubPreviews([]);
+  } catch (err) {
+    console.error("Error adding product:", err);
+    toast.error("Failed to add product. Check console.");
+  } finally {
+    toast.dismiss("upload");
+    setLoading(false);
+    submittingRef.current = false; // 🔓 release lock
+  }
+};
 
   return (
     <div className="max-w-6xl mx-auto p-4 text-gray-800 text-sm">
@@ -496,9 +506,14 @@ export default function AddToolForm() {
         <div className="flex justify-end pt-4 border-t border-gray-200">
           <button
             type="submit"
-            className="bg-[#F272A8] text-white px-6 py-2.5 rounded-lg font-medium hover:bg-[#e06597] transition-all duration-200 shadow-md flex items-center gap-2 text-xs"
+            disabled={loading}
+            className={`px-6 py-2.5 rounded-lg font-medium text-xs shadow-md transition-all
+              ${loading
+                ? "bg-[#F272A8]/60 cursor-not-allowed"
+                : "bg-[#F272A8] hover:bg-[#e06597]"
+              }`}
           >
-            Save Product
+            {loading ? "Saving..." : "Save Product"}
           </button>
         </div>
       </form>
