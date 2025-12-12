@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
-
+import { Toaster } from "react-hot-toast";
 const geistSans = Geist({
   subsets: ["latin"],
 });
@@ -33,6 +33,35 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${geistSans.className} ${geistMono.className} ${poppins.className} antialiased overflow-x-hidden`}
       >
         {children}
+
+        {/* 🔥 THIS IS REQUIRED FOR TOAST NOTIFICATIONS */}
+        <Toaster
+  position="top-right"
+  toastOptions={{
+    duration: 6000, // ⏱ toast stays for 3 seconds
+    style: {
+      background: "black",
+      color: "#F272A8",
+      border: "1px solid #F272A8",
+      padding: "12px 16px",
+      fontSize: "14px",
+      fontWeight: "600",
+    },
+    success: {
+      iconTheme: {
+        primary: "#F272A8",
+        secondary: "black",
+      },
+    },
+    error: {
+      iconTheme: {
+        primary: "#F272A8",
+        secondary: "black",
+      },
+    },
+  }}
+/>
+
       </body>
     </html>
   );

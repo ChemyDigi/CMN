@@ -34,7 +34,7 @@ export default function Navbar() {
       <div className="w-full h-20 flex items-center justify-between bg-black pl-4 sm:pl-6 lg:pl-10 pr-0 relative z-50 position-fixed">
 
         {/* LOGO */}
-        <Link href="/" className="flex items-center flex-shrink-0 pl-4 sm:pl-6 lg:pl-10">
+        <Link href="/home" className="flex items-center flex-shrink-0 pl-4 sm:pl-6 lg:pl-10">
           <Image
             src="/images/CMN_logo.png"
             alt="Company Logo"
