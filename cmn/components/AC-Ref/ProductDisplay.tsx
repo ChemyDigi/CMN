@@ -13,6 +13,7 @@ interface ExtraField {
 
 interface ProductDisplayProps {
   product: {
+    id: string; // Add this
     productName: string;
     brand: string;
     description: string;
@@ -22,6 +23,7 @@ interface ProductDisplayProps {
     mainImage: string;
     subImages: string[];
     extraFields?: ExtraField[];
+    category?: string; // Add this
   };
 }
 
@@ -120,7 +122,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
 
         {/* Right Section – Details */}
         <div className="w-full max-w-xl space-y-6">
-          <p className="text-sm text-[#F272A8] font-bold">{product.brand}</p>
+          <p className="text-sm text-[#F272A8] font-bold">{product.category}</p>
 
           <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-snug">
             {product.productName}
@@ -140,6 +142,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
               <Spec label="Warranty" value={product.warranty} />
               <Spec label="Material" value={product.material} />
               <Spec label="Serial ID" value={product.serialId} />
+              {/* {product.category && <Spec label="Category" value={product.category} />} */}
 
               {/* Dynamic Extra Fields */}
               {product.extraFields?.map((field) => (
