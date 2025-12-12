@@ -82,7 +82,7 @@ export default function MissionVisionSection() {
             viewport={{ once: true }}
             className="w-full max-w-xl"
           >
-            <h2 className="text-3xl font-semibold mb-6">Our expertise & vision</h2>
+            <h2 className="text-3xl font-semibold mb-6 text-[#F272A8]">Our expertise & vision</h2>
 
             <div className="relative">
               <span className="text-gray-400 text-7xl absolute left-0 -top-6">"</span>
@@ -157,7 +157,7 @@ export default function MissionVisionSection() {
             viewport={{ once: true }}
             className="w-full max-w-xl"
           >
-            <h2 className="text-3xl font-semibold mb-6">Our Strength Adjustments</h2>
+            <h2 className="text-3xl font-semibold mb-6 text-[#F272A8]">Our Strength </h2>
 
             <div className="relative">
               <span className="text-gray-400 text-7xl absolute left-0 -top-6">"</span>
