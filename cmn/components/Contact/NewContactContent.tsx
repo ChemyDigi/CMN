@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { User, Mail, Phone, Globe, MessageSquare } from "lucide-react";
 import { send } from "@emailjs/browser";
+import toast from "react-hot-toast";
 
 import facebookIcon from "@/public/images/AboutUS/facebook.png";
 import instagramIcon from "@/public/images/AboutUS/instagram.png";
@@ -47,11 +48,12 @@ export default function ContactSection() {
         values,
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
-      alert("Message sent successfully!");
+
+      toast.success("Message sent successfully!");
       setValues({});
     } catch (err) {
       console.error(err);
-      alert("Failed to send message. Please try again.");
+      toast.error("Failed to send message. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -71,10 +73,10 @@ export default function ContactSection() {
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
             Keep in<br />touch
           </h1>
+
           <p className="text-sm md:text-base leading-relaxed">
             Send us a message with your questions or concerns, and our team will
-            review it and get back to you as soon as possible with the support
-            or information you need.
+            review it and get back to you as soon as possible.
           </p>
         </motion.div>
 
@@ -100,7 +102,9 @@ export default function ContactSection() {
                   <label className="text-sm font-medium">{field.label}</label>
                   <Icon size={18} className="text-pink-500" />
                 </div>
+
                 <div className="w-full border-b border-gray-300 mt-2"></div>
+
                 <AnimatePresence>
                   {isOpen && (
                     <motion.div
@@ -115,7 +119,6 @@ export default function ContactSection() {
                           rows={4}
                           className="w-full mt-3 pb-2 text-sm outline-none bg-transparent resize-none"
                           placeholder={`Enter your ${field.label.toLowerCase()}`}
-                          autoFocus={field.id === "firstName"}
                           value={values[field.id] || ""}
                           onChange={e => handleChange(field.id, e.target.value)}
                         />
@@ -124,7 +127,6 @@ export default function ContactSection() {
                           type={field.type}
                           className="w-full mt-3 pb-2 text-sm outline-none bg-transparent"
                           placeholder={`Enter your ${field.label.toLowerCase()}`}
-                          autoFocus={field.id === "firstName"}
                           value={values[field.id] || ""}
                           onChange={e => handleChange(field.id, e.target.value)}
                         />
@@ -155,12 +157,12 @@ export default function ContactSection() {
         className="w-full border-t border-gray-300 mt-20 pt-16 flex justify-center"
       >
         <div className="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 text-center md:text-left">
-          
+
           {/* India */}
           <LocationCard
             title="India"
             company="CMN Distributors PVT LTD"
-            address="# 1, Mehta Industrial Estate<br />Off J P Road No 2 Goregaon East<br />Mumbai – 400063, Maharshtra- India"
+            address="# 1, Mehta Industrial Estate<br />Off J P Road No 2 Goregaon East<br />Mumbai – 400063, Maharashtra - India"
             phone="+91 9920785241"
             email="shubhangipatil@cmndistributors.com"
             facebook="https://www.facebook.com/vkr4u/"
@@ -183,7 +185,7 @@ export default function ContactSection() {
             title="Singapore"
             company="CMN Distributors PVT LTD"
             address="362, Upper Paya Lebar, Road#05-07<br />Da Jin Factory Building,<br />Singapore, 534963"
-            phone="+6596914182"
+            phone="+65 9691 4182"
             email="amitmalik@cmndistributors.com"
             facebook="https://www.facebook.com/vkr4u/"
             instagram="https://www.instagram.com/cmndistributors/"
@@ -194,7 +196,7 @@ export default function ContactSection() {
   );
 }
 
-// ---------- LocationCard Component ----------
+// ---------------- LOCATION CARD ----------------
 function LocationCard({
   title,
   company,
@@ -215,19 +217,28 @@ function LocationCard({
   return (
     <div className="flex flex-col items-center md:items-start">
       <h2 className="text-2xl font-semibold mb-2">{title}</h2>
+
       <p className="font-semibold text-sm">{company}</p>
+
       <p
         className="text-sm mt-2 leading-relaxed"
         dangerouslySetInnerHTML={{ __html: address }}
       ></p>
+
       <p className="text-sm mt-4">{phone}</p>
-      <a href={`mailto:${email}`} className="text-sm hover:text-pink-500 transition-colors">
+
+      <a
+        href={`mailto:${email}`}
+        className="text-sm hover:text-pink-500 transition-colors"
+      >
         {email}
       </a>
+
       <div className="flex gap-4 mt-4">
         <a href={facebook} target="_blank" rel="noopener noreferrer">
           <Image src={facebookIcon} alt="Facebook" width={24} height={24} />
         </a>
+
         <a href={instagram} target="_blank" rel="noopener noreferrer">
           <Image src={instagramIcon} alt="Instagram" width={24} height={24} />
         </a>

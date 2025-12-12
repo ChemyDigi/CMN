@@ -30,6 +30,7 @@ export default function EaseOfServiceSection() {
       description: "Full service records with dates, details, and technician reports",
       category: "digital"
     },
+    
     {
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="#F272A8" viewBox="0 0 24 24">
@@ -89,6 +90,16 @@ export default function EaseOfServiceSection() {
       title: "24/7 Booking",
       description: "Lodge complaints or book services anytime, anywhere",
       category: "promise"
+    },
+    {
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="#F272A8" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+        </svg>
+      ),
+      title: "Complete Service History",
+      description: "Full service records with dates, details, and technician reports",
+      category: "digital"
     }
   ];
 
