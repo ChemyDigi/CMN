@@ -13,7 +13,7 @@ export default function IntroText() {
         <p className="mx-auto text-xs text-black sm:max-w-md sm:text-sm 
                       md:max-w-xl md:text-base lg:max-w-2xl lg:text-lg">
           CMN Distributors provides premium tools, equipment, and niche HVAC & R solutions 
-          for industries across Asia  supporting energy  efficient, safe, and high-performance 
+          for industries across Asia  supporting energy  efficient, safe, and high performance 
           operations.
         </p>
       </div>

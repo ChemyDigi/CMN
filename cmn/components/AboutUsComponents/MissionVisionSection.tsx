@@ -165,10 +165,10 @@ export default function MissionVisionSection() {
               <blockquote className="italic text-lg leading-relaxed md:text-xl text-gray-600 px-6">
                 Our biggest strength is our customers, they trust us and 
                 believe in us as our motto is customer service, which is 
-                reflected in our name CMN that stands for "CALL ME NOW" 
-                We specialize in application-based sales and put in lot of 
+                reflected in our name CMN that stands for &quot;CALL ME NOW&quot; 
+                We specialize in application based sales and put in lot of 
                 efforts in customer education and training. Key accounts 
-                handling – providing them one stop solution comes naturally to us.
+                handling providing them one stop solution comes naturally to us.
               </blockquote>
               <span className="text-gray-400 text-7xl absolute right-0 bottom-0 translate-y-6">
                 "
