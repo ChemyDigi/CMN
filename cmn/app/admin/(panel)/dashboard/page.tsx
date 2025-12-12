@@ -1,10 +1,10 @@
 import AdminDashboard from "@/components/AdminPanel/AdminDash";
-import AdminLoginPage from "./(auth)/login/page";
+
 
 export default function AdminPage() {
   return (
     <div className="p-6">
-      <AdminLoginPage />
+      <AdminDashboard />
     </div>
   );
 }
