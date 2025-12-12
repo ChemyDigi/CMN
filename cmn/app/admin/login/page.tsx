@@ -10,10 +10,12 @@ export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // NEW
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    setLoading(true); // NEW
 
     const res = await fetch("/api/admin/login", {
       method: "POST",
@@ -26,19 +28,20 @@ export default function AdminLoginPage() {
     } else {
       const data = await res.json();
       setError(data.message || "Invalid credentials");
+      setLoading(false); // Re-enable button
     }
   }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen bg-white">
 
-      {/* LEFT SIDE IMAGE (reduced height) */}
+      {/* LEFT SIDE IMAGE */}
       <div className="hidden md:flex items-center justify-center p-10">
         <div className="w-full max-w-md">
           <Image
             src={loginImg}
             alt="Admin Login Image"
-            className="rounded-2xl  object-cover"
+            className="rounded-2xl object-cover"
             style={{ maxHeight: "450px", width: "100%", height: "auto" }}
             priority
           />
@@ -87,15 +90,23 @@ export default function AdminLoginPage() {
               />
             </div>
 
+            {/* LOGIN BUTTON WITH LOADING */}
             <button
-  type="submit"
-  className="w-full py-3 rounded-xl text-lg font-medium text-white transition"
-  style={{ backgroundColor: "#F272A8" }}
-  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#e26095")}
-  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F272A8")}
->
-  Login
-</button>
+              type="submit"
+              disabled={loading}
+              className={`w-full py-3 rounded-xl text-lg font-medium text-white transition ${
+                loading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
+              style={{ backgroundColor: "#F272A8" }}
+              onMouseEnter={(e) =>
+                !loading && (e.currentTarget.style.backgroundColor = "#e26095")
+              }
+              onMouseLeave={(e) =>
+                !loading && (e.currentTarget.style.backgroundColor = "#F272A8")
+              }
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
 
           </form>
 
