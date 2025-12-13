@@ -160,9 +160,7 @@ export default function AdminDashboard() {
             </div>
             <FaBox className="text-3xl text-pink-500" />
           </div>
-          <div className="mt-4 text-sm text-black">
-            {stats.activeProducts} active • {stats.outOfStock} out of stock
-          </div>
+          
         </div>
 
         <div className="bg-[#d9d9d9] p-6 rounded-xl shadow-lg text-black">
@@ -265,11 +263,9 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
-                  <span className="text-xs bg-gray-100 px-2 py-1 rounded-full">
-                    {product.type === "tool" ? "Tool" : "Appliance"}
-                  </span>
+                  
                 </div>
-              ))}
+              ))} 
             </div>
           )}
         </div>
