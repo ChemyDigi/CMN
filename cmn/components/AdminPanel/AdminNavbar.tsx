@@ -71,7 +71,7 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
         {/* Dashboard */}
         <SidebarLink
           collapsed={collapsed}
-          href="/admin"
+          href="/admin/dashboard"
           icon={<FaHome />}
           label="Dashboard"
           active={pathname === "/admin"}
