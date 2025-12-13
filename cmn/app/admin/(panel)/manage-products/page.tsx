@@ -8,6 +8,7 @@ import {
   FaTools,
   FaSnowflake,
   FaBox,
+  FaFilter,
 } from "react-icons/fa";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -34,7 +35,7 @@ export default function ManageProductsDashboard() {
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<"all" | "tools" | "ac-ref">("all");
+  const [filter, setFilter] = useState<"all" | "tool" | "ac-ref">("all");
   const [searchTerm, setSearchTerm] = useState("");
 
   const DetailRow = ({ label, value }: { label: string; value: any }) => (
@@ -198,22 +199,144 @@ export default function ManageProductsDashboard() {
         </div>
       </div>
 
-      {/* Search */}
+      {/* Search and Filter Section */}
       <div className="bg-white p-6 rounded-xl shadow-lg mb-6">
-        <input
-          type="text"
-          placeholder="Search products..."
-          className="border rounded-lg px-3 py-2 w-full md:w-64"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+          <div className="flex flex-col sm:flex-row gap-3">
+            {/* Search Bar */}
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search products..."
+                className="border rounded-lg px-4 py-2.5 w-full md:w-64 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+
+            {/* Filter Dropdown */}
+<div className="relative w-56">
+  <FaFilter className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+
+  <select
+    value={filter}
+    onChange={(e) =>
+      setFilter(e.target.value as "all" | "tool" | "ac-ref")
+    }
+    className="
+      w-full appearance-none
+      rounded-xl border border-gray-200
+      bg-white pl-11 pr-10 py-3
+      text-sm font-medium text-gray-700
+      shadow-sm
+      hover:border-gray-300 hover:bg-gray-50
+      focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-black
+      transition-all
+      cursor-pointer
+    "
+  >
+    <option value="all">All Types</option>
+    <option value="tool">Tools & Equipment</option>
+    <option value="ac-ref">AC & Refrigerator</option>
+  </select>
+
+  {/* Chevron */}
+  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M19 9l-7 7-7-7"
+      />
+    </svg>
+  </div>
+</div>
+
+          </div>
+
+          {/* Active Filter Badge */}
+          {filter !== "all" && (
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Filtered by:</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+                {filter === "tool" ? (
+                  <>
+                    <FaTools className="w-3.5 h-3.5" />
+                    Tools & Equipment
+                  </>
+                ) : (
+                  <>
+                    <FaSnowflake className="w-3.5 h-3.5" />
+                    AC & Refrigerator
+                  </>
+                )}
+                <button
+                  onClick={() => setFilter("all")}
+                  className="ml-1 text-blue-500 hover:text-blue-700"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Results Count */}
+        <div className="mb-4 text-sm text-gray-600">
+          Showing {filteredProducts.length} of {products.length} products
+          {searchTerm && ` matching "${searchTerm}"`}
+          {filter !== "all" && ` in ${getProductTypeLabel(filter)}`}
+        </div>
 
         {/* Table */}
         <div className="overflow-x-auto mt-4">
           {loading ? (
             <p className="text-center py-6">Loading...</p>
           ) : filteredProducts.length === 0 ? (
-            <p className="text-center py-6 text-gray-600">No products found</p>
+            <div className="text-center py-12">
+              <FaBox className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-600 font-medium">No products found</p>
+              <p className="text-gray-500 text-sm mt-1">
+                {searchTerm
+                  ? `No results for "${searchTerm}"`
+                  : filter !== "all"
+                  ? `No ${filter === "tool" ? "tools" : "AC & Refrigerator"} products available`
+                  : "No products available"}
+              </p>
+              {(searchTerm || filter !== "all") && (
+                <button
+                  onClick={() => {
+                    setSearchTerm("");
+                    setFilter("all");
+                  }}
+                  className="mt-3 px-4 py-2 text-sm text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  Clear filters
+                </button>
+              )}
+            </div>
           ) : (
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
