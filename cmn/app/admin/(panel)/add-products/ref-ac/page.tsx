@@ -47,9 +47,6 @@ export default function AddToolForm() {
 
   const mainInputRef = useRef<HTMLInputElement | null>(null);
   const subInputRef = useRef<HTMLInputElement | null>(null);
-  const [loading, setLoading] = useState(false); 
-  const submittingRef = useRef(false);
-
 
   // Fetch brands from Firestore
   const fetchBrands = async () => {
@@ -135,8 +132,15 @@ export default function AddToolForm() {
   // Handle sub images
   const handleSubSelect = async (files: FileList | File[]) => {
     const arr = Array.from(files);
-    const remaining = Math.max(0, 5 - subImages.length);
+    const remaining = Math.max(0, 3 - subImages.length); // Changed from 5 to 3
     const toAdd = arr.slice(0, remaining);
+    
+    // Show toast if user tries to add more than allowed
+    if (arr.length > remaining && subImages.length >= 3) {
+      toast.error("You can only add up to 3 additional images");
+      return;
+    }
+    
     const previews = await Promise.all(toAdd.map((f) => fileToDataUrl(f)));
     setSubImages((prev) => [...prev, ...toAdd]);
     setSubPreviews((prev) => [...prev, ...previews]);
@@ -154,68 +158,59 @@ export default function AddToolForm() {
   };
 
   // Submit handler
-const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
-  e.preventDefault();
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
 
-  // 🛑 HARD LOCK (prevents double submit even in React Strict Mode)
-  if (submittingRef.current) return;
-  submittingRef.current = true;
+    try {
+      toast.loading("Uploading images...", { id: "upload" });
 
-  setLoading(true);
+      let mainImageUrl = "";
+      if (mainImage) {
+        mainImageUrl = await uploadToCloudinary(mainImage);
+      }
 
-  try {
-    toast.loading("Uploading images...", { id: "upload" });
+      const subImageUrls: string[] = [];
+      for (const img of subImages) {
+        const url = await uploadToCloudinary(img);
+        subImageUrls.push(url);
+      }
 
-    let mainImageUrl = "";
-    if (mainImage) {
-      mainImageUrl = await uploadToCloudinary(mainImage);
+      await addDoc(collection(db, "AC-Ref"), {
+        serialId,
+        category,
+        productName,
+        brand,
+        description,
+        warranty,
+        material,
+        extraFields,
+        mainImage: mainImageUrl,
+        subImages: subImageUrls,
+        createdAt: new Date(),
+      });
+
+      toast.dismiss("upload");
+      toast.success("Products added successfully!");
+
+      // Reset form
+      setSerialId("");
+      setCategory("");
+      setProductName("");
+      setBrand("");
+      setDescription("");
+      setWarranty("");
+      setMaterial("");
+      setExtraFields([]);
+      setMainImage(null);
+      setMainPreview(null);
+      setSubImages([]);
+      setSubPreviews([]);
+    } catch (err) {
+      console.error("Error adding product:", err);
+      toast.dismiss("upload");
+      toast.error("Failed to add product. Check console.");
     }
-
-    const subImageUrls: string[] = [];
-    for (const img of subImages) {
-      const url = await uploadToCloudinary(img);
-      subImageUrls.push(url);
-    }
-
-    await addDoc(collection(db, "AC-Ref"), {
-      serialId,
-      category,
-      productName,
-      brand,
-      description,
-      warranty,
-      material,
-      extraFields,
-      mainImage: mainImageUrl,
-      subImages: subImageUrls,
-      createdAt: new Date(),
-    });
-
-    toast.success("Products added successfully!");
-
-    // Reset form
-    setSerialId("");
-    setCategory("");
-    setProductName("");
-    setBrand("");
-    setDescription("");
-    setWarranty("");
-    setMaterial("");
-    setExtraFields([]);
-    setMainImage(null);
-    setMainPreview(null);
-    setSubImages([]);
-    setSubPreviews([]);
-  } catch (err) {
-    console.error("Error adding product:", err);
-    toast.error("Failed to add product. Check console.");
-  } finally {
-    toast.dismiss("upload");
-    setLoading(false);
-    submittingRef.current = false; // 🔓 release lock
-  }
-};
-
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-4 text-gray-800 text-sm">
@@ -465,9 +460,15 @@ const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
 
         {/* Sub Images */}
         <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
-          <label className="block mb-2 font-medium text-gray-700">Additional Images (up to 5)</label>
+          <label className="block mb-2 font-medium text-gray-700">Additional Images (up to 3)</label> {/* Changed from 5 to 3 */}
           <div
-            onClick={() => subInputRef.current?.click()}
+            onClick={() => {
+              if (subImages.length >= 3) {
+                toast.error("You can only add up to 3 additional images");
+                return;
+              }
+              subInputRef.current?.click();
+            }}
             className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center cursor-pointer bg-white hover:border-[#F272A8]/40 hover:bg-gray-50/50 transition-all duration-200 group"
           >
             {subPreviews.length === 0 ? (
@@ -478,7 +479,7 @@ const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
                 <p className="text-gray-500 text-xs">Click to browse or drag and drop multiple images</p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-2"> {/* Changed from md:grid-cols-5 to md:grid-cols-3 */}
                 {subPreviews.map((src, idx) => (
                   <div key={idx} className="relative group/image">
                     <img src={src} alt={`sub-${idx}`} className="h-24 w-full object-cover rounded-lg" />
@@ -508,16 +509,10 @@ const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
         <div className="flex justify-end pt-4 border-t border-gray-200">
           <button
             type="submit"
-            disabled={loading}
-            className={`px-6 py-2.5 rounded-lg font-medium text-xs shadow-md transition-all
-              ${loading
-                ? "bg-[#F272A8]/60 cursor-not-allowed"
-                : "bg-[#F272A8] hover:bg-[#e06597]"
-              }`}
+            className="bg-[#F272A8] text-white px-6 py-2.5 rounded-lg font-medium hover:bg-[#e06597] transition-all duration-200 shadow-md flex items-center gap-2 text-xs"
           >
-            {loading ? "Saving..." : "Save Product"}
+            Save Product
           </button>
-
         </div>
       </form>
     </div>
