@@ -379,9 +379,9 @@ export default function ManageProductsDashboard() {
                         )}
                         <div>
                           <p className="font-semibold">{product.productName}</p>
-                          <p className="text-xs text-gray-500">
+                          {/* <p className="text-xs text-gray-500">
                             ID: {product.serialId}
-                          </p>
+                          </p> */}
                         </div>
                       </div>
                     </td>
