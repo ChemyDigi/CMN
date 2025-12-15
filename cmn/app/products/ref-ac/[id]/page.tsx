@@ -3,7 +3,6 @@ import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
 import ProductDisplay from "@/components/AC-Ref/ProductDisplay";
-import ProductReviews from "@/components/AC-Ref/ReviewSection";
 import SimilarProducts from "@/components/AC-Ref/SimilarProducts";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -39,7 +38,6 @@ const product = {
   description: data.description,
   warranty: data.warranty,
   material: data.material,
-  serialId: data.serialId,
   mainImage: data.mainImage,
   subImages: data.subImages || [],
   extraFields: data.extraFields || [],
@@ -56,7 +54,7 @@ const product = {
       <Navbar />
       <ProductDisplay product={product} />
       {/* ✅ Pass productId for adding new reviews + existing reviews */}
-      <ProductReviews productId={id} reviews={reviews} />
+     
       <SimilarProducts 
   currentProductId={id} 
   currentProductCategory={data.category} 

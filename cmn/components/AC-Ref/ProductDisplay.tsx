@@ -19,7 +19,6 @@ interface ProductDisplayProps {
     description: string;
     warranty: string;
     material: string;
-    serialId: string;
     mainImage: string;
     subImages: string[];
     extraFields?: ExtraField[];
@@ -141,7 +140,6 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({ product }) => {
               <Spec label="Brand" value={product.brand} />
               <Spec label="Warranty" value={product.warranty} />
               <Spec label="Material" value={product.material} />
-              <Spec label="Serial ID" value={product.serialId} />
               {/* {product.category && <Spec label="Category" value={product.category} />} */}
 
               {/* Dynamic Extra Fields */}
