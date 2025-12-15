@@ -7,18 +7,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex min-h-screen overflow-hidden">
       <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
-      {/* Main content area */}
       <main
-        className={`flex-1 bg-gray-50 overflow-auto transition-all duration-300
-        pt-16 md:pt-0
-        ${collapsed ? "md:ml-20" : "md:ml-64"}`}
+        className={`
+          flex-1 bg-gray-50 overflow-auto transition-all duration-300
+          p-3 sm:p-4 md:p-6
+          ml-0 ${collapsed ? "md:ml-20" : "md:ml-64"}
+        `}
       >
-        <div className="p-6">
-          {children}
-        </div>
+        {children}
       </main>
     </div>
   );

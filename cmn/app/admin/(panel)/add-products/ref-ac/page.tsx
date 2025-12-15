@@ -529,72 +529,71 @@ export default function AddToolForm() {
 
         {/* Sub Images */}
         <div className="bg-gray-50 p-3 sm:p-4 rounded-xl border border-gray-200 text-xs sm:text-sm">
-          <label className="block mb-2 font-medium text-gray-700 text-xs sm:text-sm">
-            Additional Images (up to 3)
-          </label>
+  <label className="block mb-2 font-medium text-gray-700 text-xs sm:text-sm">
+    Additional Images (up to 3)
+  </label>
 
-          <div
-            onClick={() => {
-              if (subImages.length >= 3) {
-                toast.error("You can only add up to 3 additional images");
-                return;
-              }
-              subInputRef.current?.click();
-            }}
-            className="border-2 border-dashed border-gray-300 rounded-xl p-3 sm:p-4 md:p-6 text-center cursor-pointer bg-white hover:border-[#F272A8]/40 hover:bg-gray-50/50 transition-all duration-200"
-          >
-            {subPreviews.length === 0 ? (
-              <div className="space-y-2">
-                <div className="inline-flex p-3 sm:p-4 rounded-full bg-[#F272A8]/10">
-                  <FaUpload className="text-xl sm:text-2xl text-[#F272A8]" />
-                </div>
-
-                <p className="text-gray-500 text-xs sm:text-sm">
-                  Click to browse or drag and drop multiple images
-                </p>
-
-                <p className="text-[10px] sm:text-xs text-gray-400">
-                  Up to 3 images • JPG, PNG, WEBP
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3">
-                {subPreviews.map((src, idx) => (
-                  <div key={idx} className="relative">
-                    <img
-                      src={src}
-                      alt={`sub-${idx}`}
-                      className="h-20 sm:h-24 md:h-28 w-full object-cover rounded-lg"
-                    />
-
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation(); // ✅ prevents opening file picker
-                        removeSubImageAt(idx);
-                      }}
-                      className="absolute -top-2 -right-2 bg-[#F272A8] text-white rounded-full w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center shadow"
-                      aria-label="Remove image"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <input
-              ref={subInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={(e) =>
-                e.target.files && handleSubSelect(e.target.files)
-              }
-              className="hidden"
-            />
-          </div>
+  <div
+    onClick={() => {
+      if (subImages.length >= 3) {
+        toast.error("You can only add up to 3 additional images");
+        return;
+      }
+      subInputRef.current?.click();
+    }}
+    className="border-2 border-dashed border-gray-300 rounded-xl p-3 sm:p-4 md:p-6 text-center cursor-pointer bg-white hover:border-[#F272A8]/40 hover:bg-gray-50/50 transition-all duration-200"
+  >
+    {subPreviews.length === 0 ? (
+      <div className="space-y-2">
+        <div className="inline-flex p-3 sm:p-4 rounded-full bg-[#F272A8]/10">
+          <FaUpload className="text-xl sm:text-2xl text-[#F272A8]" />
         </div>
+
+        <p className="text-gray-500 text-xs sm:text-sm">
+          Click to browse or drag and drop multiple images
+        </p>
+
+        <p className="text-[10px] sm:text-xs text-gray-400">
+          Up to 3 images • JPG, PNG, WEBP
+        </p>
+      </div>
+    ) : (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3">
+        {subPreviews.map((src, idx) => (
+          <div key={idx} className="relative">
+            <img
+              src={src}
+              alt={`sub-${idx}`}
+              className="h-20 sm:h-24 md:h-28 w-full object-cover rounded-lg"
+            />
+
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation(); // ✅ prevents opening file picker
+                removeSubImageAt(idx);
+              }}
+              className="absolute -top-2 -right-2 bg-[#F272A8] text-white rounded-full w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center shadow"
+              aria-label="Remove image"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <input
+      ref={subInputRef}
+      type="file"
+      accept="image/*"
+      multiple
+      onChange={(e) => e.target.files && handleSubSelect(e.target.files)}
+      className="hidden"
+    />
+  </div>
+</div>
+
 
         {/* Submit */}
         <div className="flex justify-end pt-4 border-t border-gray-200">

@@ -242,7 +242,7 @@ export function AdminMobileNavbar() {
 
   return (
     <>
-      <nav className="md:hidden fixed top-0 left-0 right-0 bg-[#0F0F0F] text-white border-b border-gray-700 z-40">
+      <nav className="md:hidden fixed top-0 left-0 right-0  text-white ">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
             <button
