@@ -2,14 +2,26 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { FaPlus, FaTrash, FaImage, FaUpload, FaTimes } from "react-icons/fa";
-import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 type ExtraField = { id: string; name: string; value: string };
 
-const categoryOptions = ["Hand Tools", "Power Tools", "Garden", "Safety", "Electrical"];
+const categoryOptions = [
+  "Hand Tools",
+  "Power Tools",
+  "Garden",
+  "Safety",
+  "Electrical",
+];
 
 const uploadToCloudinary = async (file: File): Promise<string> => {
   const formData = new FormData();
@@ -44,9 +56,17 @@ export default function AddToolForm() {
   const [brands, setBrands] = useState<{ id: string; name: string }[]>([]);
   const [newBrandName, setNewBrandName] = useState<string>("");
   const [showBrandModal, setShowBrandModal] = useState<boolean>(false);
+  const [brandToDelete, setBrandToDelete] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
+
+  const [showBrandDeleteModal, setShowBrandDeleteModal] = useState(false);
+  const [deletingBrand, setDeletingBrand] = useState(false);
 
   const mainInputRef = useRef<HTMLInputElement | null>(null);
   const subInputRef = useRef<HTMLInputElement | null>(null);
+  // Brand delete modal states
 
   // Fetch brands from Firestore
   const fetchBrands = async () => {
@@ -75,7 +95,9 @@ export default function AddToolForm() {
     }
 
     // Check if brand already exists
-    if (brands.some((b) => b.name.toLowerCase() === newBrandName.toLowerCase())) {
+    if (
+      brands.some((b) => b.name.toLowerCase() === newBrandName.toLowerCase())
+    ) {
       toast.error("Brand already exists");
       return;
     }
@@ -86,7 +108,10 @@ export default function AddToolForm() {
         createdAt: new Date(),
       });
 
-      setBrands((prev) => [...prev, { id: docRef.id, name: newBrandName.trim() }]);
+      setBrands((prev) => [
+        ...prev,
+        { id: docRef.id, name: newBrandName.trim() },
+      ]);
       setNewBrandName("");
       toast.success("Brand added successfully!");
     } catch (error) {
@@ -96,16 +121,28 @@ export default function AddToolForm() {
   };
 
   // Delete brand
-  const handleDeleteBrand = async (brandId: string, brandName: string) => {
-    if (!confirm(`Are you sure you want to delete "${brandName}"?`)) return;
+  // Open brand delete modal
+  const openBrandDeleteModal = (brandId: string, brandName: string) => {
+    setBrandToDelete({ id: brandId, name: brandName });
+    setShowBrandDeleteModal(true);
+  };
+
+  // Confirm brand delete
+  const confirmBrandDelete = async () => {
+    if (!brandToDelete) return;
 
     try {
-      await deleteDoc(doc(db, "brands_tools", brandId));
-      setBrands((prev) => prev.filter((b) => b.id !== brandId));
+      setDeletingBrand(true);
+      await deleteDoc(doc(db, "brands_tools", brandToDelete.id));
+
+      setBrands((prev) => prev.filter((b) => b.id !== brandToDelete.id));
       toast.success("Brand deleted successfully!");
+      setShowBrandDeleteModal(false);
+      setBrandToDelete(null);
     } catch (error) {
-      console.error("Error deleting brand:", error);
       toast.error("Failed to delete brand");
+    } finally {
+      setDeletingBrand(false);
     }
   };
 
@@ -134,22 +171,27 @@ export default function AddToolForm() {
     const arr = Array.from(files);
     const remaining = Math.max(0, 3 - subImages.length); // Changed from 5 to 3
     const toAdd = arr.slice(0, remaining);
-    
+
     // Show toast if user tries to add more than allowed
     if (arr.length > remaining && subImages.length >= 3) {
       toast.error("You can only add up to 3 additional images");
       return;
     }
-    
+
     const previews = await Promise.all(toAdd.map((f) => fileToDataUrl(f)));
     setSubImages((prev) => [...prev, ...toAdd]);
     setSubPreviews((prev) => [...prev, ...previews]);
   };
 
   const addExtraField = () =>
-    setExtraFields((prev) => [...prev, { id: String(Date.now()), name: "", value: "" }]);
+    setExtraFields((prev) => [
+      ...prev,
+      { id: String(Date.now()), name: "", value: "" },
+    ]);
   const updateExtraField = (id: string, patch: Partial<ExtraField>) =>
-    setExtraFields((prev) => prev.map((f) => (f.id === id ? { ...f, ...patch } : f)));
+    setExtraFields((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, ...patch } : f))
+    );
   const removeExtraField = (id: string) =>
     setExtraFields((prev) => prev.filter((f) => f.id !== id));
   const removeSubImageAt = (index: number) => {
@@ -215,19 +257,25 @@ export default function AddToolForm() {
   return (
     <div className="max-w-6xl mx-auto p-4 text-gray-800 text-sm">
       <Toaster position="top-right" />
-      
+
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-1">
           <div className="w-1.5 h-6 bg-[#F272A8] rounded-full"></div>
-          <h1 className="text-2xl font-bold text-gray-900">Add Tools & Equipment</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Add Tools & Equipment
+          </h1>
         </div>
-        <p className="text-gray-600 ml-4 text-xs">Create a new tool or equipment</p>
+        <p className="text-gray-600 ml-4 text-xs">
+          Create a new tool or equipment
+        </p>
       </div>
 
       {/* Brand Management Section */}
       <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-gray-800">Brand Management</h2>
+          <h2 className="text-sm font-semibold text-gray-800">
+            Brand Management
+          </h2>
           <button
             type="button"
             onClick={() => setShowBrandModal(!showBrandModal)}
@@ -260,7 +308,9 @@ export default function AddToolForm() {
 
             {/* Brand List */}
             <div className="bg-white rounded-lg p-3 max-h-48 overflow-y-auto">
-              <p className="text-xs text-gray-500 mb-2">Current Brands ({brands.length})</p>
+              <p className="text-xs text-gray-500 mb-2">
+                Current Brands ({brands.length})
+              </p>
               <div className="space-y-1">
                 {brands.length === 0 ? (
                   <p className="text-xs text-gray-400">No brands added yet</p>
@@ -273,7 +323,9 @@ export default function AddToolForm() {
                       <span className="text-xs font-medium">{brand.name}</span>
                       <button
                         type="button"
-                        onClick={() => handleDeleteBrand(brand.id, brand.name)}
+                        onClick={() =>
+                          openBrandDeleteModal(brand.id, brand.name)
+                        }
                         className="text-red-500 hover:text-red-700 p-1"
                       >
                         <FaTrash size={10} />
@@ -287,12 +339,16 @@ export default function AddToolForm() {
         )}
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-6 bg-white p-6 rounded-xl shadow-lg text-sm">
-        
+      <form
+        onSubmit={onSubmit}
+        className="space-y-6 bg-white p-6 rounded-xl shadow-lg text-sm"
+      >
         {/* Serial ID + Category */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">Serial ID</label>
+            <label className="block mb-1 font-medium text-gray-700 text-xs">
+              Serial ID
+            </label>
             <input
               value={serialId}
               onChange={(e) => setSerialId(e.target.value)}
@@ -301,7 +357,9 @@ export default function AddToolForm() {
             />
           </div>
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">Product Category</label>
+            <label className="block mb-1 font-medium text-gray-700 text-xs">
+              Product Category
+            </label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
@@ -368,7 +426,9 @@ export default function AddToolForm() {
         {/* Warranty + Material */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">Warranty</label>
+            <label className="block mb-1 font-medium text-gray-700 text-xs">
+              Warranty
+            </label>
             <input
               value={warranty}
               onChange={(e) => setWarranty(e.target.value)}
@@ -377,7 +437,9 @@ export default function AddToolForm() {
             />
           </div>
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">Material</label>
+            <label className="block mb-1 font-medium text-gray-700 text-xs">
+              Material
+            </label>
             <input
               value={material}
               onChange={(e) => setMaterial(e.target.value)}
@@ -390,7 +452,9 @@ export default function AddToolForm() {
         {/* Extra Fields */}
         <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="font-semibold text-gray-800">Additional Specifications</h2>
+            <h2 className="font-semibold text-gray-800">
+              Additional Specifications
+            </h2>
             <button
               type="button"
               onClick={addExtraField}
@@ -408,13 +472,17 @@ export default function AddToolForm() {
               >
                 <input
                   value={f.name}
-                  onChange={(e) => updateExtraField(f.id, { name: e.target.value })}
+                  onChange={(e) =>
+                    updateExtraField(f.id, { name: e.target.value })
+                  }
                   placeholder="Field name"
                   className="col-span-2 border border-gray-300 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
                 />
                 <input
                   value={f.value}
-                  onChange={(e) => updateExtraField(f.id, { value: e.target.value })}
+                  onChange={(e) =>
+                    updateExtraField(f.id, { value: e.target.value })
+                  }
                   placeholder="Field value"
                   className="col-span-2 border border-gray-300 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
                 />
@@ -433,26 +501,36 @@ export default function AddToolForm() {
 
         {/* Main Image */}
         <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
-          <label className="block mb-2 font-medium text-gray-700">Main Image</label>
+          <label className="block mb-2 font-medium text-gray-700">
+            Main Image
+          </label>
           <div
             onClick={() => mainInputRef.current?.click()}
             className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center cursor-pointer bg-white hover:border-[#F272A8]/40 hover:bg-gray-50/50 transition-all duration-200 group"
           >
             {mainPreview ? (
-              <img src={mainPreview} alt="main preview" className="mx-auto max-h-48 object-contain rounded-lg" />
+              <img
+                src={mainPreview}
+                alt="main preview"
+                className="mx-auto max-h-48 object-contain rounded-lg"
+              />
             ) : (
               <div className="space-y-2">
                 <div className="inline-flex p-3 rounded-full bg-[#F272A8]/10">
                   <FaImage className="text-2xl text-[#F272A8]" />
                 </div>
-                <p className="text-gray-500 text-xs">Click to browse or drag and drop</p>
+                <p className="text-gray-500 text-xs">
+                  Click to browse or drag and drop
+                </p>
               </div>
             )}
             <input
               ref={mainInputRef}
               type="file"
               accept="image/*"
-              onChange={(e) => e.target.files && handleMainSelect(e.target.files[0])}
+              onChange={(e) =>
+                e.target.files && handleMainSelect(e.target.files[0])
+              }
               className="hidden"
             />
           </div>
@@ -460,7 +538,10 @@ export default function AddToolForm() {
 
         {/* Sub Images */}
         <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
-          <label className="block mb-2 font-medium text-gray-700">Additional Images (up to 3)</label> {/* Changed from 5 to 3 */}
+          <label className="block mb-2 font-medium text-gray-700">
+            Additional Images (up to 3)
+          </label>{" "}
+          {/* Changed from 5 to 3 */}
           <div
             onClick={() => {
               if (subImages.length >= 3) {
@@ -476,13 +557,21 @@ export default function AddToolForm() {
                 <div className="inline-flex p-3 rounded-full bg-[#F272A8]/10">
                   <FaUpload className="text-2xl text-[#F272A8]" />
                 </div>
-                <p className="text-gray-500 text-xs">Click to browse or drag and drop multiple images</p>
+                <p className="text-gray-500 text-xs">
+                  Click to browse or drag and drop multiple images
+                </p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-2"> {/* Changed from md:grid-cols-5 to md:grid-cols-3 */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-2">
+                {" "}
+                {/* Changed from md:grid-cols-5 to md:grid-cols-3 */}
                 {subPreviews.map((src, idx) => (
                   <div key={idx} className="relative group/image">
-                    <img src={src} alt={`sub-${idx}`} className="h-24 w-full object-cover rounded-lg" />
+                    <img
+                      src={src}
+                      alt={`sub-${idx}`}
+                      className="h-24 w-full object-cover rounded-lg"
+                    />
                     <button
                       type="button"
                       onClick={() => removeSubImageAt(idx)}
@@ -499,7 +588,9 @@ export default function AddToolForm() {
               type="file"
               accept="image/*"
               multiple
-              onChange={(e) => e.target.files && handleSubSelect(e.target.files)}
+              onChange={(e) =>
+                e.target.files && handleSubSelect(e.target.files)
+              }
               className="hidden"
             />
           </div>
@@ -514,6 +605,45 @@ export default function AddToolForm() {
             Save Product
           </button>
         </div>
+
+        {/* BRAND DELETE CONFIRM MODAL */}
+        {showBrandDeleteModal && brandToDelete && (
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl animate-fadeIn">
+              <h2 className="text-xl font-bold text-red-600 mb-2">
+                Delete Brand
+              </h2>
+
+              <p className="text-gray-600 mb-5 text-sm">
+                Are you sure you want to delete
+                <span className="font-semibold text-gray-900">
+                  {" "}
+                  “{brandToDelete.name}”
+                </span>
+                ?
+                <br />
+                This action cannot be undone.
+              </p>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowBrandDeleteModal(false)}
+                  className="px-4 py-2 rounded-lg border text-sm"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={confirmBrandDelete}
+                  disabled={deletingBrand}
+                  className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 text-sm"
+                >
+                  {deletingBrand ? "Deleting..." : "Delete"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </form>
     </div>
   );
