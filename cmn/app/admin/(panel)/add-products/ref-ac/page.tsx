@@ -235,7 +235,7 @@ export default function AddToolForm() {
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-1">
           <div className="w-1.5 h-6 bg-[#F272A8] rounded-full"></div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-gray-900 text-center">
             Add Refrigerators & AC
           </h1>
         </div>

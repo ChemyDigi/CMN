@@ -258,13 +258,15 @@ export default function AddToolForm() {
       <Toaster position="top-right" />
 
       <div className="mb-6">
-        <div className="flex items-center gap-2 mb-1">
-          <div className="w-1.5 h-6 bg-[#F272A8] rounded-full"></div>
-          <h1 className="text-2xl font-bold text-gray-900">
+        <div className="flex items-center gap-2 mb-1 justify-center sm:justify-start">
+          <div className="w-1.5 h-6 bg-[#F272A8] rounded-full sm:remo"></div>
+
+          <h1 className="text-2xl font-bold text-gray-900 text-center sm:text-left">
             Add Tools & Equipment
           </h1>
         </div>
-        <p className="text-gray-600 ml-4 text-xs">
+
+        <p className="text-gray-600 text-xs text-center sm:text-left sm:ml-4">
           Create a new tool or equipment
         </p>
       </div>
@@ -346,7 +348,7 @@ export default function AddToolForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block mb-1 font-medium text-gray-700 text-xs">
-              Product ID  <span className="text-[#F272A8]">*</span>
+              Product ID <span className="text-[#F272A8]">*</span>
             </label>
             <input
               required
