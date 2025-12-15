@@ -2,7 +2,13 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { FaPlus, FaTrash, FaImage, FaUpload, FaTimes } from "react-icons/fa";
-import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
@@ -75,7 +81,9 @@ export default function AddToolForm() {
     }
 
     // Check if brand already exists
-    if (brands.some((b) => b.name.toLowerCase() === newBrandName.toLowerCase())) {
+    if (
+      brands.some((b) => b.name.toLowerCase() === newBrandName.toLowerCase())
+    ) {
       toast.error("Brand already exists");
       return;
     }
@@ -86,7 +94,10 @@ export default function AddToolForm() {
         createdAt: new Date(),
       });
 
-      setBrands((prev) => [...prev, { id: docRef.id, name: newBrandName.trim() }]);
+      setBrands((prev) => [
+        ...prev,
+        { id: docRef.id, name: newBrandName.trim() },
+      ]);
       setNewBrandName("");
       toast.success("Brand added successfully!");
     } catch (error) {
@@ -134,22 +145,27 @@ export default function AddToolForm() {
     const arr = Array.from(files);
     const remaining = Math.max(0, 3 - subImages.length); // Changed from 5 to 3
     const toAdd = arr.slice(0, remaining);
-    
+
     // Show toast if user tries to add more than allowed
     if (arr.length > remaining && subImages.length >= 3) {
       toast.error("You can only add up to 3 additional images");
       return;
     }
-    
+
     const previews = await Promise.all(toAdd.map((f) => fileToDataUrl(f)));
     setSubImages((prev) => [...prev, ...toAdd]);
     setSubPreviews((prev) => [...prev, ...previews]);
   };
 
   const addExtraField = () =>
-    setExtraFields((prev) => [...prev, { id: String(Date.now()), name: "", value: "" }]);
+    setExtraFields((prev) => [
+      ...prev,
+      { id: String(Date.now()), name: "", value: "" },
+    ]);
   const updateExtraField = (id: string, patch: Partial<ExtraField>) =>
-    setExtraFields((prev) => prev.map((f) => (f.id === id ? { ...f, ...patch } : f)));
+    setExtraFields((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, ...patch } : f))
+    );
   const removeExtraField = (id: string) =>
     setExtraFields((prev) => prev.filter((f) => f.id !== id));
   const removeSubImageAt = (index: number) => {
@@ -215,23 +231,30 @@ export default function AddToolForm() {
   return (
     <div className="max-w-6xl mx-auto p-4 text-gray-800 text-sm">
       <Toaster position="top-right" />
-      
+
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-1">
           <div className="w-1.5 h-6 bg-[#F272A8] rounded-full"></div>
-          <h1 className="text-2xl font-bold text-gray-900">Add Refrigerators & AC</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Add Refrigerators & AC
+          </h1>
         </div>
-        <p className="text-gray-600 ml-4 text-xs">Create a new refrigerator or ac</p>
+        <p className="text-gray-600 ml-4 text-xs">
+          Create a new refrigerator or ac
+        </p>
       </div>
 
       {/* Brand Management Section */}
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-gray-800">Brand Management</h2>
+      <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 sm:p-4 mb-5 sm:mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+          <h2 className="text-sm font-semibold text-gray-800">
+            Brand Management
+          </h2>
+
           <button
             type="button"
             onClick={() => setShowBrandModal(!showBrandModal)}
-            className="text-xs px-3 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            className="w-full sm:w-auto text-xs px-3 py-2 sm:py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
           >
             {showBrandModal ? "Hide" : "Manage Brands"}
           </button>
@@ -240,27 +263,31 @@ export default function AddToolForm() {
         {showBrandModal && (
           <div className="space-y-3">
             {/* Add New Brand */}
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="text"
                 value={newBrandName}
                 onChange={(e) => setNewBrandName(e.target.value)}
                 placeholder="Enter new brand name"
-                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full sm:flex-1 border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500"
                 onKeyDown={(e) => e.key === "Enter" && handleAddBrand()}
               />
+
               <button
                 type="button"
                 onClick={handleAddBrand}
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-xs font-medium"
+                className="w-full sm:w-auto px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-xs font-medium"
               >
                 Add Brand
               </button>
             </div>
 
             {/* Brand List */}
-            <div className="bg-white rounded-lg p-3 max-h-48 overflow-y-auto">
-              <p className="text-xs text-gray-500 mb-2">Current Brands ({brands.length})</p>
+            <div className="bg-white rounded-lg p-3 max-h-48 sm:max-h-56 overflow-y-auto">
+              <p className="text-xs text-gray-500 mb-2">
+                Current Brands ({brands.length})
+              </p>
+
               <div className="space-y-1">
                 {brands.length === 0 ? (
                   <p className="text-xs text-gray-400">No brands added yet</p>
@@ -268,13 +295,16 @@ export default function AddToolForm() {
                   brands.map((brand) => (
                     <div
                       key={brand.id}
-                      className="flex items-center justify-between p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center justify-between gap-3 p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                     >
-                      <span className="text-xs font-medium">{brand.name}</span>
+                      <span className="text-xs font-medium break-words">
+                        {brand.name}
+                      </span>
+
                       <button
                         type="button"
                         onClick={() => handleDeleteBrand(brand.id, brand.name)}
-                        className="text-red-500 hover:text-red-700 p-1"
+                        className="text-red-500 hover:text-red-700 p-2 -m-1 flex-shrink-0"
                       >
                         <FaTrash size={10} />
                       </button>
@@ -287,27 +317,34 @@ export default function AddToolForm() {
         )}
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-6 bg-white p-6 rounded-xl shadow-lg text-sm">
-        
+      <form
+        onSubmit={onSubmit}
+        className="space-y-6 bg-white p-6 rounded-xl shadow-lg text-sm"
+      >
         {/* Serial ID + Category */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">Product ID  <span className="text-[#F272A8]">*</span></label>
+            <label className="block mb-1 font-medium text-gray-700 text-xs sm:text-sm">
+              Product ID <span className="text-[#F272A8]">*</span>
+            </label>
             <input
               required
               value={serialId}
               onChange={(e) => setSerialId(e.target.value)}
               placeholder="Enter Product ID"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
             />
           </div>
+
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">Product Category  <span className="text-[#F272A8]">*</span></label>
+            <label className="block mb-1 font-medium text-gray-700 text-xs sm:text-sm">
+              Product Category <span className="text-[#F272A8]">*</span>
+            </label>
             <select
               required
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30 appearance-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30 appearance-none"
             >
               <option value="">Select category</option>
               {categoryOptions.map((c) => (
@@ -320,9 +357,9 @@ export default function AddToolForm() {
         </div>
 
         {/* Product Name + Brand */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">
+            <label className="block mb-1 font-medium text-gray-700 text-xs sm:text-sm">
               Product Name <span className="text-[#F272A8]">*</span>
             </label>
             <input
@@ -330,18 +367,19 @@ export default function AddToolForm() {
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
               placeholder="Enter product name"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
             />
           </div>
+
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">
+            <label className="block mb-1 font-medium text-gray-700 text-xs sm:text-sm">
               Brand <span className="text-[#F272A8]">*</span>
             </label>
             <select
               required
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30 appearance-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30 appearance-none"
             >
               <option value="">Select brand</option>
               {brands.map((b) => (
@@ -355,48 +393,57 @@ export default function AddToolForm() {
 
         {/* Description */}
         <div>
-          <label className="block mb-1 font-medium text-gray-700 text-xs">
+          <label className="block mb-1 font-medium text-gray-700 text-xs sm:text-sm">
             Description <span className="text-[#F272A8]">*</span>
           </label>
+
           <textarea
             required
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter detailed product description..."
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30 min-h-[100px] resize-y"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 sm:py-2.5 text-xs sm:text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30 min-h-[120px] sm:min-h-[140px] resize-y"
           />
         </div>
 
         {/* Warranty + Material */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">Warranty</label>
+            <label className="block mb-1 font-medium text-gray-700 text-xs sm:text-sm">
+              Warranty
+            </label>
             <input
               value={warranty}
               onChange={(e) => setWarranty(e.target.value)}
               placeholder="e.g., 2 years"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 sm:py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
             />
           </div>
+
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">Material</label>
+            <label className="block mb-1 font-medium text-gray-700 text-xs sm:text-sm">
+              Material
+            </label>
             <input
               value={material}
               onChange={(e) => setMaterial(e.target.value)}
               placeholder="e.g., Stainless Steel"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 sm:py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
             />
           </div>
         </div>
 
         {/* Extra Fields */}
-        <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="font-semibold text-gray-800">Additional Specifications</h2>
+        <div className="bg-gray-50 p-3 sm:p-4 rounded-xl border border-gray-200 text-xs sm:text-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+            <h2 className="font-semibold text-gray-800">
+              Additional Specifications
+            </h2>
+
             <button
               type="button"
               onClick={addExtraField}
-              className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#F272A8] text-white rounded-lg hover:bg-[#e06597] transition-colors duration-200"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-3 py-2 sm:py-1.5 bg-[#F272A8] text-white rounded-lg hover:bg-[#e06597] transition-colors duration-200"
             >
               <FaPlus size={12} /> Add Field
             </button>
@@ -406,24 +453,33 @@ export default function AddToolForm() {
             {extraFields.map((f) => (
               <div
                 key={f.id}
-                className="grid grid-cols-1 md:grid-cols-5 gap-2 items-center bg-white p-2 rounded-lg border border-gray-200"
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2 items-center bg-white p-2 rounded-lg border border-gray-200"
               >
+                {/* Field name */}
                 <input
                   value={f.name}
-                  onChange={(e) => updateExtraField(f.id, { name: e.target.value })}
+                  onChange={(e) =>
+                    updateExtraField(f.id, { name: e.target.value })
+                  }
                   placeholder="Field name"
-                  className="col-span-2 border border-gray-300 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
+                  className="sm:col-span-1 md:col-span-2 border border-gray-300 rounded-lg px-2 py-2 md:py-1 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
                 />
+
+                {/* Field value */}
                 <input
                   value={f.value}
-                  onChange={(e) => updateExtraField(f.id, { value: e.target.value })}
+                  onChange={(e) =>
+                    updateExtraField(f.id, { value: e.target.value })
+                  }
                   placeholder="Field value"
-                  className="col-span-2 border border-gray-300 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
+                  className="sm:col-span-1 md:col-span-2 border border-gray-300 rounded-lg px-2 py-2 md:py-1 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
                 />
+
+                {/* Remove button */}
                 <button
                   type="button"
                   onClick={() => removeExtraField(f.id)}
-                  className="p-2 text-gray-500 hover:text-[#F272A8] flex justify-center"
+                  className="w-full md:w-auto md:col-span-1 p-2 text-gray-500 hover:text-[#F272A8] flex justify-center rounded-lg border border-gray-200 md:border-0"
                   aria-label="Remove field"
                 >
                   <FaTrash size={12} />
@@ -435,19 +491,27 @@ export default function AddToolForm() {
 
         {/* Main Image */}
         <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
-          <label className="block mb-2 font-medium text-gray-700">Main Image  <span className="text-[#F272A8]">*</span></label>
+          <label className="block mb-2 font-medium text-gray-700">
+            Main Image <span className="text-[#F272A8]">*</span>
+          </label>
           <div
             onClick={() => mainInputRef.current?.click()}
             className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center cursor-pointer bg-white hover:border-[#F272A8]/40 hover:bg-gray-50/50 transition-all duration-200 group"
           >
             {mainPreview ? (
-              <img src={mainPreview} alt="main preview" className="mx-auto max-h-48 object-contain rounded-lg" />
+              <img
+                src={mainPreview}
+                alt="main preview"
+                className="mx-auto max-h-48 object-contain rounded-lg"
+              />
             ) : (
               <div className="space-y-2">
                 <div className="inline-flex p-3 rounded-full bg-[#F272A8]/10">
                   <FaImage className="text-2xl text-[#F272A8]" />
                 </div>
-                <p className="text-gray-500 text-xs">Click to browse or drag and drop</p>
+                <p className="text-gray-500 text-xs">
+                  Click to browse or drag and drop
+                </p>
               </div>
             )}
             <input
@@ -455,15 +519,20 @@ export default function AddToolForm() {
               ref={mainInputRef}
               type="file"
               accept="image/*"
-              onChange={(e) => e.target.files && handleMainSelect(e.target.files[0])}
+              onChange={(e) =>
+                e.target.files && handleMainSelect(e.target.files[0])
+              }
               className="hidden"
             />
           </div>
         </div>
 
         {/* Sub Images */}
-        <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
-          <label className="block mb-2 font-medium text-gray-700">Additional Images (up to 3)</label> {/* Changed from 5 to 3 */}
+        <div className="bg-gray-50 p-3 sm:p-4 rounded-xl border border-gray-200 text-xs sm:text-sm">
+          <label className="block mb-2 font-medium text-gray-700 text-xs sm:text-sm">
+            Additional Images (up to 3)
+          </label>
+
           <div
             onClick={() => {
               if (subImages.length >= 3) {
@@ -472,24 +541,40 @@ export default function AddToolForm() {
               }
               subInputRef.current?.click();
             }}
-            className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center cursor-pointer bg-white hover:border-[#F272A8]/40 hover:bg-gray-50/50 transition-all duration-200 group"
+            className="border-2 border-dashed border-gray-300 rounded-xl p-3 sm:p-4 md:p-6 text-center cursor-pointer bg-white hover:border-[#F272A8]/40 hover:bg-gray-50/50 transition-all duration-200"
           >
             {subPreviews.length === 0 ? (
               <div className="space-y-2">
-                <div className="inline-flex p-3 rounded-full bg-[#F272A8]/10">
-                  <FaUpload className="text-2xl text-[#F272A8]" />
+                <div className="inline-flex p-3 sm:p-4 rounded-full bg-[#F272A8]/10">
+                  <FaUpload className="text-xl sm:text-2xl text-[#F272A8]" />
                 </div>
-                <p className="text-gray-500 text-xs">Click to browse or drag and drop multiple images</p>
+
+                <p className="text-gray-500 text-xs sm:text-sm">
+                  Click to browse or drag and drop multiple images
+                </p>
+
+                <p className="text-[10px] sm:text-xs text-gray-400">
+                  Up to 3 images • JPG, PNG, WEBP
+                </p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-2"> {/* Changed from md:grid-cols-5 to md:grid-cols-3 */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3">
                 {subPreviews.map((src, idx) => (
-                  <div key={idx} className="relative group/image">
-                    <img src={src} alt={`sub-${idx}`} className="h-24 w-full object-cover rounded-lg" />
+                  <div key={idx} className="relative">
+                    <img
+                      src={src}
+                      alt={`sub-${idx}`}
+                      className="h-20 sm:h-24 md:h-28 w-full object-cover rounded-lg"
+                    />
+
                     <button
                       type="button"
-                      onClick={() => removeSubImageAt(idx)}
-                      className="absolute -top-1 -right-1 bg-[#F272A8] text-white rounded-full w-5 h-5 flex items-center justify-center"
+                      onClick={(e) => {
+                        e.stopPropagation(); // ✅ prevents opening file picker
+                        removeSubImageAt(idx);
+                      }}
+                      className="absolute -top-2 -right-2 bg-[#F272A8] text-white rounded-full w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center shadow"
+                      aria-label="Remove image"
                     >
                       ×
                     </button>
@@ -497,12 +582,15 @@ export default function AddToolForm() {
                 ))}
               </div>
             )}
+
             <input
               ref={subInputRef}
               type="file"
               accept="image/*"
               multiple
-              onChange={(e) => e.target.files && handleSubSelect(e.target.files)}
+              onChange={(e) =>
+                e.target.files && handleSubSelect(e.target.files)
+              }
               className="hidden"
             />
           </div>
