@@ -3,7 +3,6 @@ import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
 import ProductDisplay from "@/components/Tools/ProductDisplay";
-import ProductReviews from "@/components/Tools/ReviewSection";
 import SimilarProducts from "@/components/Tools/SimilarProducts";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -40,7 +39,6 @@ const ProductPage = async ({ params }: PageProps) => {
     description: data.description,
     warranty: data.warranty,
     material: data.material,
-    serialId: data.serialId,
     mainImage: data.mainImage,
     subImages: data.subImages || [],
     extraFields: data.extraFields || [],
@@ -55,7 +53,6 @@ const ProductPage = async ({ params }: PageProps) => {
       <Navbar />
       <ProductDisplay product={product} />
       {/* ✅ Pass productId for adding new reviews + existing reviews */}
-      <ProductReviews productId={id} reviews={reviews} />
       {/* ✅ Pass current product ID and category to SimilarProducts */}
       <SimilarProducts 
         currentProductId={id} 
