@@ -354,7 +354,7 @@ export default function ManageProductsDashboard() {
                     Brand
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Warranty
+                    Product ID
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     Actions
@@ -396,7 +396,7 @@ export default function ManageProductsDashboard() {
                     <td className="px-4 py-3">{product.brand}</td>
 
                     <td className="px-4 py-3">
-                      {product.warranty || "Not specified"}
+                      {product.serialId || "Not specified"}
                     </td>
 
                     <td className="px-4 py-3">
