@@ -130,8 +130,8 @@ export default function AdminDashboard() {
       {/* HEADER */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 py-2 md:py-0">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold mb-1 md:mb-2 text-black">Admin Dashboard</h1>
-          <p className="text-sm md:text-base text-gray-600">Welcome to your product management dashboard</p>
+          <h1 className="text-2xl md:text-3xl font-bold mb-1 md:mb-2 text-black text-center sm:text-left">Admin Dashboard</h1>
+          <p className="text-sm md:text-base text-gray-600 text-center">Welcome to your product management dashboard</p>
         </div>
         <div className="flex flex-col xs:flex-row gap-2 w-full sm:w-auto">
           <button
