@@ -292,8 +292,9 @@ export default function AddToolForm() {
         {/* Serial ID + Category */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">Serial ID</label>
+            <label className="block mb-1 font-medium text-gray-700 text-xs">Serial ID  <span className="text-[#F272A8]">*</span></label>
             <input
+              required
               value={serialId}
               onChange={(e) => setSerialId(e.target.value)}
               placeholder="Enter serial ID"
@@ -301,8 +302,9 @@ export default function AddToolForm() {
             />
           </div>
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">Product Category</label>
+            <label className="block mb-1 font-medium text-gray-700 text-xs">Product Category  <span className="text-[#F272A8]">*</span></label>
             <select
+              required
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30 appearance-none"
@@ -433,7 +435,7 @@ export default function AddToolForm() {
 
         {/* Main Image */}
         <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
-          <label className="block mb-2 font-medium text-gray-700">Main Image</label>
+          <label className="block mb-2 font-medium text-gray-700">Main Image  <span className="text-[#F272A8]">*</span></label>
           <div
             onClick={() => mainInputRef.current?.click()}
             className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center cursor-pointer bg-white hover:border-[#F272A8]/40 hover:bg-gray-50/50 transition-all duration-200 group"
@@ -449,6 +451,7 @@ export default function AddToolForm() {
               </div>
             )}
             <input
+              required
               ref={mainInputRef}
               type="file"
               accept="image/*"
