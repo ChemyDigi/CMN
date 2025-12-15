@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface ExtraField {
   id: string;
@@ -28,12 +29,17 @@ interface Product {
 
 const ProductSection: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [activeBrand, setActiveBrand] = useState("All");
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Fetch from Firestore → "tools" collection
+  // Collapsible state for Brands sidebar
+  const [isBrandsOpen, setIsBrandsOpen] = useState(true);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
+
+  // Fetch from Firestore → "AC-Ref" collection
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -45,7 +51,7 @@ const ProductSection: React.FC = () => {
 
         setProducts(productList);
       } catch (error) {
-        console.error("Error fetching tools:", error);
+        console.error("Error fetching products:", error);
       } finally {
         setLoading(false);
       }
@@ -54,120 +60,258 @@ const ProductSection: React.FC = () => {
     fetchProducts();
   }, []);
 
+  // Helper to normalize categories (singular -> plural)
+  const normalizeCategory = (cat: string | undefined) => {
+    if (!cat) return "";
+    const lower = cat.trim().toLowerCase();
+    if (lower === "air conditioner" || lower === "air conditioners") return "Air Conditioners";
+    if (lower === "refrigerator" || lower === "refrigerators") return "Refrigerators";
+    return cat.trim(); // fallback (case sensitive? usually we want title case but let's just trim)
+  };
   // Build dynamic list of brands from DB
-  const brandList = ["All", ...Array.from(new Set(products.map((p) => p.brand)))];
+  const brandList = Array.from(new Set(products.map((p) => p.brand).filter(Boolean))).sort();
+  
+  // Predefined categories
+  const predefinedCategories = [
+    "Air Conditioners",
+    "Refrigerators"
+  ];
+
+  // Build list of categories: Predefined + any new ones from DB
+  const categoryList = Array.from(new Set([
+    ...predefinedCategories,
+    ...products.map((p) => normalizeCategory(p.category)).filter((c) => !!c && !predefinedCategories.includes(c))
+  ])).sort(); // Sort to handle the dynamic ones
+
+  // Handle Checkbox Change
+  const toggleBrand = (brand: string) => {
+    setSelectedBrands((prev) =>
+      prev.includes(brand)
+        ? prev.filter((b) => b !== brand)
+        : [...prev, brand]
+    );
+  };
+
+  const toggleCategory = (category: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+  };
+
+  const clearAllFilters = () => {
+    setSelectedBrands([]);
+    setSelectedCategories([]);
+    setSearchQuery("");
+  };
 
   // Filtering
   const filteredProducts = products.filter((product) => {
     const matchesBrand =
-      activeBrand === "All" || product.brand === activeBrand;
+      selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+
+    const normalizedProductCat = normalizeCategory(product.category);
+    const matchesCategory =
+      selectedCategories.length === 0 || 
+      (normalizedProductCat && selectedCategories.includes(normalizedProductCat));
 
     const matchesSearch = product.productName
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
 
-    return matchesBrand && matchesSearch;
+    return matchesBrand && matchesCategory && matchesSearch;
   });
 
   return (
-    <section className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 bg-white">
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 bg-white min-h-screen">
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+        
+        {/* Sidebar Filter */}
+        <aside className="w-full lg:w-1/4 flex-shrink-0">
+          <div className="border border-gray-200 rounded-lg p-5 sticky top-24 bg-white shadow-sm space-y-6">
+            
+            {/* Brands Header (Collapsible Trigger) */}
+            <div>
+              <button 
+                onClick={() => setIsBrandsOpen(!isBrandsOpen)}
+                className="flex items-center justify-between w-full group"
+              >
+                <h3 className="font-semibold text-gray-900 text-lg">Brands</h3>
+                {isBrandsOpen ? (
+                  <ChevronUp className="w-5 h-5 text-gray-500 group-hover:text-black transition-colors" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 text-gray-500 group-hover:text-black transition-colors" />
+                )}
+              </button>
+  
+              {/* Collapsible Content */}
+              {isBrandsOpen && (
+                <div className="mt-4 animate-in slide-in-from-top-2 duration-200">
+                  {/* Brand Checkboxes */}
+                  <div className="space-y-3">
+                    {brandList.map((brand) => (
+                      <label
+                        key={brand}
+                        className="flex items-center gap-3 cursor-pointer group"
+                      >
+                        <div className="relative flex items-center">
+                          <input
+                            type="checkbox"
+                            className="peer h-4 w-4 border-2 border-gray-300 rounded text-black focus:ring-black transition-colors checked:border-black checked:bg-black"
+                            checked={selectedBrands.includes(brand)}
+                            onChange={() => toggleBrand(brand)}
+                          />
+                        </div>
+                        <span className="text-sm text-gray-700 group-hover:text-black transition-colors select-none">
+                          {brand}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
 
-      {/* Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 md:mb-10">
+            <div className="border-t border-gray-100 pt-6">
+               {/* Categories Header (Collapsible Trigger) */}
+               <button 
+                onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
+                className="flex items-center justify-between w-full group"
+              >
+                <h3 className="font-semibold text-gray-900 text-lg">Categories</h3>
+                {isCategoriesOpen ? (
+                  <ChevronUp className="w-5 h-5 text-gray-500 group-hover:text-black transition-colors" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 text-gray-500 group-hover:text-black transition-colors" />
+                )}
+              </button>
 
-        {/* Dynamic Brand Tabs */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-          {brandList.map((brand) => (
-            <button
-              key={brand}
-              onClick={() => setActiveBrand(brand)}
-              className={`
-                px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm 
-                font-medium transition-all flex-shrink-0
-                ${
-                  activeBrand === brand
-                    ? "bg-black text-white shadow-sm"
-                    : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-                }
-              `}
-            >
-              {brand}
-            </button>
-          ))}
-        </div>
+              {/* Collapsible Content */}
+              {isCategoriesOpen && (
+                <div className="mt-4 animate-in slide-in-from-top-2 duration-200">
+                  {/* Category Checkboxes */}
+                  <div className="space-y-3">
+                    {categoryList.map((category) => (
+                      <label
+                        key={category}
+                        className="flex items-center gap-3 cursor-pointer group"
+                      >
+                        <div className="relative flex items-center">
+                          <input
+                            type="checkbox"
+                            className="peer h-4 w-4 border-2 border-gray-300 rounded text-black focus:ring-black transition-colors checked:border-black checked:bg-black"
+                            checked={selectedCategories.includes(category)}
+                            onChange={() => toggleCategory(category)}
+                          />
+                        </div>
+                        <span className="text-sm text-gray-700 group-hover:text-black transition-colors select-none">
+                          {category}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            <div className="pt-2">
+              <button
+                onClick={clearAllFilters}
+                className="w-full py-2 px-4 bg-[#F272A8] hover:bg-pink-600 text-white font-medium rounded-lg transition-colors text-sm shadow-sm"
+              >
+                Clear All
+              </button>
+            </div>
 
-        {/* Search Box */}
-        <div className="relative flex items-center bg-gray-100 rounded-md px-3 py-2 w-full sm:w-48 md:w-56 lg:w-64">
-          <input
-            type="text"
-            placeholder="Search Products"
-            className="bg-transparent w-full text-xs sm:text-sm text-gray-800 placeholder-gray-500 focus:outline-none"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700 ml-2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"
-            />
-          </svg>
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <div className="w-full lg:w-3/4">
+
+          {/* Search Box */}
+          <div className="mb-6 flex justify-end">
+             <div className="relative w-full max-w-xs">
+                <input
+                type="text"
+                placeholder="Search Products"
+                className="w-full pl-4 pr-10 py-2.5 border border-gray-500 rounded-lg text-xs sm:text-sm text-gray-800 placeholder-gray-700 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all bg-gray-50"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <svg
+                className="absolute right-3 top-2.5 h-5 w-5 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+             </div>
+          </div>
+
+          {/* Loading & Grid */}
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="w-10 h-10 border-4 border-gray-200 border-t-black rounded-full animate-spin"></div>
+            </div>
+          ) : filteredProducts.length === 0 ? (
+            <div className="text-center py-20 bg-gray-50 rounded-lg border border-dashed border-gray-200">
+              <p className="text-gray-500 font-medium">No products found matching your criteria.</p>
+              <button 
+                onClick={clearAllFilters}
+                className="mt-2 text-sm text-blue-600 hover:underline"
+              >
+                Clear all filters
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col"
+                >
+                  {/* Image Container */}
+                  <div className="relative pt-[100%] bg-gray-50 overflow-hidden">
+                    <Image
+                      src={product.mainImage}
+                      alt={product.productName}
+                      fill
+                      className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-4 flex flex-col flex-grow">
+                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+                      {product.brand}
+                    </p>
+                    <h3 className="text-sm font-semibold text-gray-900 mb-3 line-clamp-2 min-h-[2.5rem]">
+                      {product.productName}
+                    </h3>
+                    
+                    <div className="mt-auto">
+                        <button
+                        onClick={() => router.push(`/products/ref-ac/${product.id}`)}
+                        className="w-full py-2 px-4 bg-white border border-gray-900 text-gray-900 text-sm font-medium rounded-lg hover:bg-black hover:text-white transition-colors duration-200"
+                        >
+                        View Details
+                        </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Loading State */}
-      {loading ? (
-        <div className="flex justify-center items-center py-16 sm:py-20">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
-        </div>
-      ) : filteredProducts.length === 0 ? (
-        <div className="text-center py-16 sm:py-20">
-          <p className="text-gray-600 text-base sm:text-lg font-medium">
-            No products found.
-          </p>
-        </div>
-      ) : (
-        // Product Grid (4 columns)
-        <div className="grid grid-cols-1 min-[480px]:grid-cols-2 min-[768px]:grid-cols-3 min-[1024px]:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-          {filteredProducts.map((product) => (
-            <div
-              key={product.id}
-              className="relative bg-white rounded-lg sm:rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden group flex flex-col"
-            >
-              {/* Product Image */}
-              <div className="relative w-full aspect-square flex items-center justify-center">
-                <Image
-                  src={product.mainImage}
-                  alt={product.productName}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-
-              {/* Product Info */}
-              <div className="p-2 sm:p-3 md:p-4 text-center flex-grow flex flex-col justify-end">
-                <h3 className="text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 sm:mb-2 md:mb-3 line-clamp-2 min-h-[2.5rem] sm:min-h-[3rem] flex items-center justify-center">
-                  {product.productName}
-                </h3>
-
-                <button
-                  onClick={() => router.push(`/products/ref-ac/${product.id}`)}
-                  className="text-black w-full border border-gray-800 rounded-md py-1.5 sm:py-2 text-xs sm:text-sm font-medium hover:bg-black hover:text-white transition-all"
-                >
-                  Read More
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
     </section>
   );
 };
