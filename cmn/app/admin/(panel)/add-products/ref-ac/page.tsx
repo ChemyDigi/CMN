@@ -292,12 +292,12 @@ export default function AddToolForm() {
         {/* Serial ID + Category */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block mb-1 font-medium text-gray-700 text-xs">Serial ID  <span className="text-[#F272A8]">*</span></label>
+            <label className="block mb-1 font-medium text-gray-700 text-xs">Product ID  <span className="text-[#F272A8]">*</span></label>
             <input
               required
               value={serialId}
               onChange={(e) => setSerialId(e.target.value)}
-              placeholder="Enter serial ID"
+              placeholder="Enter Product ID"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
             />
           </div>
