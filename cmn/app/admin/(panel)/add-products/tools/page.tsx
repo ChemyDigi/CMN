@@ -120,7 +120,6 @@ export default function AddToolForm() {
     }
   };
 
-  // Delete brand
   // Open brand delete modal
   const openBrandDeleteModal = (brandId: string, brandName: string) => {
     setBrandToDelete({ id: brandId, name: brandName });
@@ -347,20 +346,22 @@ export default function AddToolForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block mb-1 font-medium text-gray-700 text-xs">
-              Serial ID
+              Product ID  <span className="text-[#F272A8]">*</span>
             </label>
             <input
+              required
               value={serialId}
               onChange={(e) => setSerialId(e.target.value)}
-              placeholder="Enter serial ID"
+              placeholder="Enter Product ID"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30"
             />
           </div>
           <div>
             <label className="block mb-1 font-medium text-gray-700 text-xs">
-              Product Category
+              Product Category <span className="text-[#F272A8]">*</span>
             </label>
             <select
+              required
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30 appearance-none"
@@ -502,7 +503,7 @@ export default function AddToolForm() {
         {/* Main Image */}
         <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
           <label className="block mb-2 font-medium text-gray-700">
-            Main Image
+            Main Image <span className="text-[#F272A8]">*</span>
           </label>
           <div
             onClick={() => mainInputRef.current?.click()}
@@ -525,6 +526,7 @@ export default function AddToolForm() {
               </div>
             )}
             <input
+              required
               ref={mainInputRef}
               type="file"
               accept="image/*"
