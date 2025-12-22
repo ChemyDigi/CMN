@@ -1,6 +1,6 @@
 # CMN - Comprehensive Mechanical Solutions
 
-![CMN Logo](public/images/Home/Logos/cmn-logo.png) <!-- Assuming logo path -->
+![CMN Logo](/public/images/CMN_logo.png) <!-- Assuming logo path -->
 
 A modern, responsive web application built with Next.js for CMN, a leading provider of mechanical solutions including air conditioning, tools, and specialized services.
 
