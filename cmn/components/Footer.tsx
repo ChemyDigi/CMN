@@ -186,7 +186,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Alchemy
+            Alchemy Solutions
           </Link>
         </div>
       </footer>
