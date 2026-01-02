@@ -79,7 +79,7 @@ export default function Footer() {
           {/* LEFT COLUMN */}
           <div className="flex flex-col items-center md:items-start">
             <Image
-              src="/images/CMN_logo.png"
+              src="/images/CMNLogo.png"
               alt="Logo"
               width={140}
               height={140}

@@ -36,7 +36,7 @@ export default function Navbar() {
         {/* LOGO */}
         <Link href="/home" className="flex items-center flex-shrink-0 pl-4 sm:pl-6 lg:pl-10">
           <Image
-            src="/images/CMN_logo.png"
+            src="/images/CMNLogo.png"
             alt="Company Logo"
             width={70}
             height={70}

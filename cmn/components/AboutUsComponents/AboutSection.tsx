@@ -68,7 +68,7 @@ export default function AboutSection() {
           className="flex justify-center md:justify-end mt-8 md:mt-0"
         >
           <Image
-            src="/images/CMN_logo.png"
+            src="/images/CMNLogo.png"
             alt="CMN Distributors Logo"
             width={350}
             height={350}
