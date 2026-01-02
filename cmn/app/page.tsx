@@ -39,7 +39,7 @@ const texts = [
       <div className="flex flex-col items-center gap-6 text-white">
         {/* Logo */}
         <Image
-          src="/images/admin/splash.png"  // change this to your logo
+          src="/images/CMNLogo.png"  // change this to your logo
           width={120}
           height={120}
           alt="Logo"

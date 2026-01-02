@@ -38,8 +38,8 @@ export default function Navbar() {
           <Image
             src="/images/CMNLogo.png"
             alt="Company Logo"
-            width={70}
-            height={70}
+            width={90}
+            height={90}
             className="object-contain"
           />
         </Link>

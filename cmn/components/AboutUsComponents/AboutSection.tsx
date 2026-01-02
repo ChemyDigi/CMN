@@ -65,7 +65,7 @@ export default function AboutSection() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
           viewport={{ once: true }}
-          className="flex justify-center md:justify-end mt-8 md:mt-0"
+          className="flex justify-center md:justify-start md:ml-46 mt-8 md:mt-0"
         >
           <Image
             src="/images/CMNLogo.png"
