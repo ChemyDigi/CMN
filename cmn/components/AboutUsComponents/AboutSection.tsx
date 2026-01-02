@@ -44,17 +44,11 @@ export default function AboutSection() {
             </p>
 
             <p>
-              We are looking forward to become one of the leading supply chain
-              companies for Aviation, Nuclear Power, Defence Research, Oil & Gas
-              & Heavy Engineering Industry.
+              We are looking forward to become one of the leading solution provider in both tooling and air conditioning industries. We under take turnkey projects and successful executed many in the past. We have islandwide sales and service dealer network which is our strong hold and our inhouse technical teams provides the best after sales services to all our customers.
             </p>
 
             <p>
-              In our retail distribution arm we intend to distribute niche quality
-              products for HVAC & R industry for next level of comfort. We bind
-              ourselves to usage and promotion of energy saving, productivity
-              enhancing and environment friendly products and practices and also
-              creating safe, hazard-free working conditions.
+              We present the worlds best brands in each business vertical which helps us to provide the best engineering solutions to our customers
             </p>
           </div>
         </motion.div>
