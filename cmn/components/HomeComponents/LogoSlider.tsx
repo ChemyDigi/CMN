@@ -13,6 +13,7 @@ import client9 from "../../public/images/clientlogo/clientLogo (9).png";
 import client10 from "../../public/images/clientlogo/clientLogo (10).png";
 import client11 from "../../public/images/clientlogo/clientLogo (11).png";
 import client12 from "../../public/images/clientlogo/clientLogo (12).png";
+import client13 from "../../public/images/clientlogo/clientLogo (13).png";
 
 const imageLogos = [
   { src: client1.src, alt: "Company 1" },
@@ -27,6 +28,7 @@ const imageLogos = [
   { src: client10.src, alt: "Company 10" },
   { src: client11.src, alt: "Company 11" },
   { src: client12.src, alt: "Company 12" },
+  { src: client13.src, alt: "Company 13" },
 ];
 
 export default function LogoSlider() {
