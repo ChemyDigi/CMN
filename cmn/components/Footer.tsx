@@ -160,18 +160,18 @@ export default function Footer() {
             <div>
               <p className="font-semibold text-xs">ADDRESS</p>
               <p className="text-gray-400">
-                362, Upper Paya Lebar Road <br />
-                #05-07 Da Jin Factory Building,<br />
-                Singapore, 534963
+                No 145, Lake Road <br />
+                Boralasgamuwa,<br />
+                Sri Lanka.
               </p>
             </div>
             <div>
               <p className="font-semibold text-xs">PHONE</p>
-              <p className="text-gray-400">+6596914182</p>
+              <p className="text-gray-400">+94 76 359 7171</p>
             </div>
             <div>
               <p className="font-semibold text-xs">EMAIL</p>
-              <p className="text-gray-400">contact@cmndistributors.com</p>
+              <p className="text-gray-400">hasitha@cmndistributors.com</p>
             </div>
           </div>
         </div>

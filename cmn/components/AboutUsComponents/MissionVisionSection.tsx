@@ -107,13 +107,13 @@ export default function MissionVisionSection() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 px-6">
           {[
             // Changed to Briefcase (represents business experience)
-            { icon: Briefcase, number: "35+", title: "Years Experience" },
+            { icon: Briefcase, number: "10+", title: "Years Experience" },
             // Changed to UserCheck (represents professional team)
-            { icon: UserCheck, number: "50+", title: "Professional Team" },
+            { icon: UserCheck, number: "20+", title: "Professional Team" },
             // Changed to UsersRound (represents customers/people)
-            { icon: UsersRound, number: "2500+", title: "Customers" },
+            { icon: UsersRound, number: "500+", title: "Customers" },
             // Changed to Trophy (represents completed projects/achievements)
-            { icon: Trophy, number: "5,000+", title: "Projects Completed" },
+            { icon: Trophy, number: "500,000+", title: "Tools Sold" },
           ].map((item, index) => {
             const Icon = item.icon;
             return (

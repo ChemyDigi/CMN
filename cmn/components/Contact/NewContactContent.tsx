@@ -182,7 +182,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           <LocationCard
             title="Sri Lanka"
             company="CMN Distributors Lanka PVT LTD"
-            address="No 103 & 105<br />Kesbawa Road,<br />Boralasgamuwa 10290, Sri Lanka"
+            address="No 145 <br />Lake Road,<br />Boralasgamuwa, Sri Lanka"
             phone="+94 76 359 7171"
             email="hasitha@cmndistributors.com"
             facebook="https://www.facebook.com/cmndistributorssl/"
