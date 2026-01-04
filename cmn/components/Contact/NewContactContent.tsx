@@ -37,27 +37,36 @@ export default function ContactSection() {
     setValues(prev => ({ ...prev, [id]: val }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      await send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        values,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      );
-
-      toast.success("Message sent successfully!");
-      setValues({});
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to send message. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  const templateParams = {
+    firstName: values.firstName || "",
+    lastName: values.lastName || "",
+    email: values.email || "",
+    phone: values.phone || "",
+    country: values.country || "",
+    message: values.message || "",
   };
+
+  try {
+    await send(
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+      templateParams,
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+    );
+
+    toast.success("Message sent successfully!");
+    setValues({});
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to send message. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <section className="w-full bg-white text-black px-6 md:px-16 lg:px-24 py-20">
