@@ -5,38 +5,40 @@ import { BarChart3, Smartphone, Settings, Shield, Wrench, Factory } from "lucide
 import image from "../../public/images/cmnServices/install.png";
 
 export default function FeaturesSection() {
-  const features = [
+const features = [
+  {
+    icon: <Factory size={26} />,
+    title: "Turnkey Ref & Air Projects",
+    desc: "End-to-end refrigeration and air-conditioning solutions covering design, installation, implementation, and commissioning.",
+  },
+ {
+    icon: <Smartphone size={26} />,
+    title: "Smart Service Management with Airdoot",
+    desc: "All services are tracked via the Airdoot app, allowing customers to log complaints, view maintenance history, and enabling technicians to arrive fully prepared.",
+  },
+  {
+    icon: <Wrench size={26} />,
+    title: "Installation & Commissioning",
+    desc: "Professional installation and commissioning services ensuring systems operate safely, efficiently, and as per specifications.",
+  },
+  {
+    icon: <Shield size={26} />,
+    title: "Breakdown & Repair Services",
+    desc: "Prompt troubleshooting and repair services to minimize downtime and restore system performance efficiently.",
+  },
+  {
+    icon: <BarChart3 size={26} />,
+    title: "Annual Maintenance Contracts & Energy Audits",
+    desc: "Preventive maintenance through AMCs and energy audits to improve efficiency, reduce operating costs, and extend equipment life.",
+  },
+ 
     {
-      icon: <BarChart3 size={26} />,
-      title: "AC Installation & System Setup",
-      desc: "Professional installation with accurate mounting, safe connections, and full system testing for reliable long-term cooling.",
-    },
-    {
-      icon: <Smartphone size={26} />,
-      title: "AC Commissioning & Initial Calibration",
-      desc: "We perform airflow balancing, electrical checks, and refrigerant validation to ensure peak efficiency from day one.",
-    },
-    {
-      icon: <Settings size={26} />,
-      title: "Routine Servicing & Performance Checks",
-      desc: "Includes coil cleaning, filter replacement, drainage clearing, and performance testing to reduce energy usage.",
-    },
-    {
-      icon: <Shield size={26} />,
-      title: "Breakdown Repair & Troubleshooting",
-      desc: "Quick diagnosis and repair for compressor faults, electrical failures, cooling issues, and gas leaks.",
-    },
-    {
-      icon: <Wrench size={26} />,
-      title: "Annual Maintenance Contracts (AMC)",
-      desc: "Scheduled cleaning, inspections, and preventive repairs for smooth year-round AC performance.",
-    },
-    {
-      icon: <Factory size={26} />,
-      title: "System Upgrades & Efficiency Enhancements",
-      desc: "Improve cooling efficiency with component upgrades, airflow optimization, and smart system enhancements.",
-    },
-  ];
+    icon: <Settings size={26} />,
+    title: "Specialized Ref & Air Systems",
+    desc: "Expertise in split air-conditioning units, boilers, chillers, and cool room systems for residential, commercial, and industrial needs.",
+  }
+];
+
 
   return (
     <section className="w-full py-20 bg-white text-black">
