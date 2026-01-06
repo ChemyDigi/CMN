@@ -2,115 +2,82 @@
 
 import { useState, useEffect, useRef } from "react";
 
-interface Feature {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  category: "digital" | "promise";
-}
-
-export default function EaseOfServiceSection() {
-  const [activeCategory, setActiveCategory] = useState<"digital" | "promise">("digital");
+export default function AirDootIntroductionSection() {
   const [isHeaderInView, setIsHeaderInView] = useState(false);
-  const [isButtonsInView, setIsButtonsInView] = useState(false);
-  const [isContentInView, setIsContentInView] = useState(false);
+  const [isVideoInView, setIsVideoInView] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   
   const headerRef = useRef<HTMLDivElement>(null);
-  const buttonsRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLDivElement>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+  const localVideoRef = useRef<HTMLVideoElement>(null);
 
-  const features: Feature[] = [
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="#F272A8" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-        </svg>
-      ),
-      title: "Complete Service History",
-      description: "Full service records with dates, details, and technician reports",
-      category: "digital"
-    },
-    
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="#F272A8" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-      title: "Issue Resolution Tracking",
-      description: "Past complaints and their complete resolution history",
-      category: "digital"
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="#F272A8" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-      ),
-      title: "Parts & Warranty Records",
-      description: "Part replacement history and warranty information with expiry dates",
-      category: "digital"
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="#F272A8" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
-        </svg>
-      ),
-      title: "One-Platform Solution",
-      description: "From booking to payment, everything happens in one place",
-      category: "promise"
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="#F272A8" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 8l3 5m0 0l3-5m-3 5v4m-3-5h6m-6 3h6m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-      title: "Transparent Pricing",
-      description: "Clear, upfront estimates before any work begins",
-      category: "promise"
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="#F272A8" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-        </svg>
-      ),
-      title: "Verified Professionals",
-      description: "Background-verified, skilled, and certified technicians",
-      category: "promise"
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="#F272A8" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-      title: "24/7 Booking",
-      description: "Lodge complaints or book services anytime, anywhere",
-      category: "promise"
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="#F272A8" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-        </svg>
-      ),
-      title: "Complete Service History",
-      description: "Full service records with dates, details, and technician reports",
-      category: "digital"
+  // Toggle fullscreen using browser Fullscreen API
+  const toggleFullscreen = async () => {
+    if (!videoContainerRef.current) return;
+
+    try {
+      if (!document.fullscreenElement) {
+        // Enter fullscreen
+        if (videoContainerRef.current.requestFullscreen) {
+          await videoContainerRef.current.requestFullscreen();
+        } else if ((videoContainerRef.current as any).webkitRequestFullscreen) {
+          await (videoContainerRef.current as any).webkitRequestFullscreen();
+        } else if ((videoContainerRef.current as any).msRequestFullscreen) {
+          await (videoContainerRef.current as any).msRequestFullscreen();
+        }
+      } else {
+        // Exit fullscreen
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if ((document as any).webkitExitFullscreen) {
+          await (document as any).webkitExitFullscreen();
+        } else if ((document as any).msExitFullscreen) {
+          await (document as any).msExitFullscreen();
+        }
+      }
+    } catch (error) {
+      console.error('Fullscreen error:', error);
     }
-  ];
+  };
 
-  const categories = [
-    { id: "digital" as const, name: "Digital Lifeline" },
-    { id: "promise" as const, name: "Our Promise" },
-  ];
+  // Toggle play/pause
+  const togglePlay = () => {
+    if (localVideoRef.current) {
+      if (localVideoRef.current.paused) {
+        localVideoRef.current.play();
+        setIsPlaying(true);
+      } else {
+        localVideoRef.current.pause();
+        setIsPlaying(false);
+      }
+    }
+  };
 
-  const filteredFeatures = features.filter(feature => 
-    activeCategory === "digital" ? feature.category === "digital" : feature.category === "promise"
-  );
+  // Handle video ended
+  const handleVideoEnd = () => {
+    setIsPlaying(false);
+  };
+
+  // Listen to fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+    };
+  }, []);
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -120,12 +87,10 @@ export default function EaseOfServiceSection() {
           if (entry.isIntersecting) {
             if (entry.target === headerRef.current) {
               setIsHeaderInView(true);
-            } else if (entry.target === buttonsRef.current) {
-              setIsButtonsInView(true);
-            } else if (entry.target === contentRef.current) {
-              setIsContentInView(true);
+            } else if (entry.target === videoRef.current) {
+              setIsVideoInView(true);
             }
-          } 
+          }
         });
       },
       {
@@ -135,13 +100,11 @@ export default function EaseOfServiceSection() {
     );
 
     if (headerRef.current) observer.observe(headerRef.current);
-    if (buttonsRef.current) observer.observe(buttonsRef.current);
-    if (contentRef.current) observer.observe(contentRef.current);
+    if (videoRef.current) observer.observe(videoRef.current);
 
     return () => {
       if (headerRef.current) observer.unobserve(headerRef.current);
-      if (buttonsRef.current) observer.unobserve(buttonsRef.current);
-      if (contentRef.current) observer.unobserve(contentRef.current);
+      if (videoRef.current) observer.unobserve(videoRef.current);
     };
   }, []);
 
@@ -158,86 +121,123 @@ export default function EaseOfServiceSection() {
           }`}
         >
           <p className="text-gray-500 text-sm font-medium mb-2 tracking-wider">
-            Digital Advantage
+            Introducing
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-            Total Control at Your Fingertips
+            Discover AirDoot
           </h2>
           <p className="text-gray-600 text-sm sm:text-base max-w-4xl mx-auto leading-relaxed px-4 sm:px-0">
-            Experience seamless HVAC-R service management with AirDoot's comprehensive digital platform
-            designed for modern convenience and unmatched ease of use.
+            Watch how AirDoot revolutionizes HVAC-R service management with cutting-edge technology
+            and seamless user experience. All your service needs, simplified.
           </p>
         </div>
 
-        {/* Filter Buttons */}
+        {/* Video Section */}
         <div 
-          ref={buttonsRef}
-          className={`flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 mb-12 lg:mb-16 transition-all duration-700 delay-300 ${
-            isButtonsInView 
+          ref={videoRef}
+          className={`transition-all duration-700 delay-300 ${
+            isVideoInView 
               ? 'opacity-100 translate-y-0' 
               : 'opacity-0 translate-y-10'
           }`}
         >
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              className={`px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-full font-semibold text-xs sm:text-sm transition-all ${
-                activeCategory === category.id
-                  ? "bg-black text-white shadow-lg transform scale-105"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300 hover:shadow-md"
-              }`}
+          <div className="max-w-6xl mx-auto">
+            {/* Video Container with Aspect Ratio */}
+            <div 
+              ref={videoContainerRef}
+              className={`relative w-full bg-white ${
+                isFullscreen 
+                  ? 'fullscreen:w-screen fullscreen:h-screen' 
+                  : ''
+              }`} 
+              style={!isFullscreen ? { paddingBottom: '56.25%' } : {}}
             >
-              {category.name}
-            </button>
-          ))}
-        </div>
-
-        {/* Features Grid */}
-        <div 
-          ref={contentRef}
-          className={`transition-all duration-700 delay-500 ${
-            isContentInView 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-10'
-          }`}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
-            {filteredFeatures.map((feature, index) => (
-              <div
-                key={`${feature.category}-${index}`}
-                className="bg-white rounded-xl p-6 sm:p-8 shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 text-center group cursor-pointer"
+              {/* Local Video Player */}
+              <video
+                ref={localVideoRef}
+                className={`absolute top-0 left-0 w-full h-full object-cover ${
+                  isFullscreen 
+                    ? 'rounded-none' 
+                    : 'rounded-xl sm:rounded-2xl border border-gray-200 shadow-lg'
+                }`}
+                title="Introducing AirDoot - HVAC-R Service Management Platform"
+                controls={isFullscreen}
+                onEnded={handleVideoEnd}
+                onClick={togglePlay}
+                preload="metadata"
               >
-                {/* Icon Container - White circle with pink icon */}
-                <div className="w-16 h-16 sm:w-18 sm:h-18 bg-white rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-300 border-2 border-gray-100 group-hover:border-[#F272A8]">
-                  {feature.icon}
+                {/* Add multiple sources for better browser compatibility */}
+                <source src="../images/AirDoot/AirCon Cleaning Toshiba Version.mp4" type="video/mp4" />
+                <source src="/videos/airdoot-introduction.webm" type="video/webm" />
+                Your browser does not support the video tag.
+              </video>
+              
+              {/* Custom Controls (only show when not in fullscreen) */}
+              {!isFullscreen && (
+                <>
+                  {/* Play/Pause Button */}
+                  <button
+                    onClick={togglePlay}
+                    className="absolute inset-0 w-full h-full flex items-center justify-center  transition-colors duration-300"
+                    aria-label={isPlaying ? "Pause video" : "Play video"}
+                  >
+                    {!isPlaying && (
+                      <div className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform duration-300">
+                        <svg 
+                          className="w-10 h-10 text-gray-900 ml-1" 
+                          fill="currentColor" 
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    )}
+                  </button>
+
+                  {/* Fullscreen Toggle Button */}
+                  <button
+                    onClick={toggleFullscreen}
+                    className="absolute top-4 right-4 z-10 bg-black/70 hover:bg-black/90 text-white rounded-full p-2 sm:p-3
+                      transition-all duration-300 hover:scale-110 shadow-lg"
+                    aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+                  >
+                    <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+                    </svg>
+                  </button>
+                </>
+              )}
+
+              {/* Fullscreen Exit Button (only in fullscreen mode) */}
+              {isFullscreen && (
+                <button
+                  onClick={toggleFullscreen}
+                  className="absolute top-4 right-4 z-10 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 sm:p-4
+                    transition-all duration-300 hover:scale-110 shadow-lg"
+                  aria-label="Exit fullscreen"
+                >
+                  <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+
+              {/* Play button overlay for mobile (not in fullscreen) - keeps original styling */}
+              {!isFullscreen && !isPlaying && (
+                <div className="absolute inset-0 flex items-center justify-center md:hidden pointer-events-none">
+                  <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center shadow-lg">
+                    <svg 
+                      className="w-8 h-8 text-gray-900 ml-1" 
+                      fill="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
                 </div>
-
-                {/* Content */}
-                <h3 className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg mb-2 sm:mb-3 leading-tight">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
-                  {feature.description}
-                </p>
-
-                {/* Hover Indicator */}
-                <div className="w-0 group-hover:w-8 h-0.5 bg-[#F272A8] mt-4 mx-auto transition-all duration-300"></div>
-              </div>
-            ))}
+              )}
+            </div>
           </div>
-        </div>
-
-        {/* Category Info */}
-        <div className={`text-center mt-8 sm:mt-12 text-xs sm:text-sm text-gray-500 transition-all duration-700 delay-700 ${
-          isContentInView 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-10'
-        }`}>
-          {activeCategory === "digital" 
-            ? "Your machine's complete digital history and service records"
-            : "Our commitment to providing unmatched service experience"
-          }
         </div>
       </div>
     </div>
