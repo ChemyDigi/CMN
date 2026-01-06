@@ -38,10 +38,10 @@ export default function StepsShowcaseSection(): React.ReactElement {
       
       {/* Title */}
       <div className="max-w-6xl mx-auto mb-12 text-center">
-        <p className="text-sm mb-2 text-[#F272A8]">Service Process</p>
+        <p className="text-sm mb-2 text-[#F272A8]">Beyond Maintenance</p>
         <h2 className="text-3xl md:text-4xl font-semibold leading-snug">
-          Getting Help is Simple <br />
-          Just Follow These Steps
+          Proactive Comfort Solutions <br />
+          For Every Environment
         </h2>
       </div>
 
