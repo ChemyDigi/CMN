@@ -34,21 +34,20 @@ export default function AdminLoginPage() {
     router.push("/admin/dashboard");
 
   } catch (err: any) {
-    console.error("Firebase login error:", err);
+    // Suppress console error for cleaner UX as requested
+    // console.error("Firebase login error:", err);
 
-    // Show meaningful Firebase error
     switch (err.code) {
       case "auth/user-not-found":
-        setError("Admin user not found");
-        break;
       case "auth/wrong-password":
-        setError("Incorrect password");
-        break;
       case "auth/invalid-credential":
-        setError("Invalid credentials");
+        setError("Invalid email or password");
+        break;
+      case "auth/too-many-requests":
+        setError("Too many attempts. Please try again later.");
         break;
       default:
-        setError("Login failed. Please try again.");
+        setError("Login failed. Please check your connection.");
     }
   } finally {
     setLoading(false); // ✅ THIS FIXES THE STUCK LOADING
