@@ -68,6 +68,9 @@ export default function AddToolForm() {
   const [showCategoryDeleteModal, setShowCategoryDeleteModal] = useState(false);
   const [deletingCategory, setDeletingCategory] = useState(false);
 
+  // Add this state to track saving status
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+
   const mainInputRef = useRef<HTMLInputElement | null>(null);
   const subInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -283,6 +286,11 @@ export default function AddToolForm() {
   // Submit handler
   const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    
+    // Prevent multiple submissions
+    if (isSaving) return;
+    
+    setIsSaving(true);
 
     try {
       toast.loading("Uploading images...", { id: "upload" });
@@ -332,6 +340,9 @@ export default function AddToolForm() {
       console.error("Error adding product:", err);
       toast.dismiss("upload");
       toast.error("Failed to add product. Check console.");
+    } finally {
+      // Always set isSaving to false when done (success or error)
+      setIsSaving(false);
     }
   };
 
@@ -362,7 +373,12 @@ export default function AddToolForm() {
           <button
             type="button"
             onClick={() => setShowCategoryModal(!showCategoryModal)}
-            className="text-xs px-3 py-1.5 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
+            disabled={isSaving}
+            className={`text-xs px-3 py-1.5 rounded-lg transition-colors ${
+              isSaving
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-purple-500 text-white hover:bg-purple-600"
+            }`}
           >
             {showCategoryModal ? "Hide" : "Manage Categories"}
           </button>
@@ -431,7 +447,12 @@ export default function AddToolForm() {
           <button
             type="button"
             onClick={() => setShowBrandModal(!showBrandModal)}
-            className="text-xs px-3 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            disabled={isSaving}
+            className={`text-xs px-3 py-1.5 rounded-lg transition-colors ${
+              isSaving
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-blue-500 text-white hover:bg-blue-600"
+            }`}
           >
             {showBrandModal ? "Hide" : "Manage Brands"}
           </button>
@@ -752,9 +773,14 @@ export default function AddToolForm() {
         <div className="flex justify-end pt-4 border-t border-gray-200">
           <button
             type="submit"
-            className="bg-[#F272A8] text-white px-6 py-2.5 rounded-lg font-medium hover:bg-[#e06597] transition-all duration-200 shadow-md flex items-center gap-2 text-xs"
+            disabled={isSaving}
+            className={`bg-[#F272A8] text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md flex items-center gap-2 text-xs ${
+              isSaving 
+                ? "opacity-50 cursor-not-allowed" 
+                : "hover:bg-[#e06597] hover:shadow-lg"
+            }`}
           >
-            Save Product
+            {isSaving ? "Saving..." : "Save Product"}
           </button>
         </div>
 
