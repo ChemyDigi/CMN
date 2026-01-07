@@ -51,6 +51,9 @@ export default function AddToolForm() {
   const [newBrandName, setNewBrandName] = useState<string>("");
   const [showBrandModal, setShowBrandModal] = useState<boolean>(false);
 
+  // Add this state to track saving status
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+
   const mainInputRef = useRef<HTMLInputElement | null>(null);
   const subInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -176,6 +179,11 @@ export default function AddToolForm() {
   // Submit handler
   const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    
+    // Prevent multiple submissions
+    if (isSaving) return;
+    
+    setIsSaving(true);
 
     try {
       toast.loading("Uploading images...", { id: "upload" });
@@ -225,6 +233,9 @@ export default function AddToolForm() {
       console.error("Error adding product:", err);
       toast.dismiss("upload");
       toast.error("Failed to add product. Check console.");
+    } finally {
+      // Always set isSaving to false when done (success or error)
+      setIsSaving(false);
     }
   };
 
@@ -254,7 +265,12 @@ export default function AddToolForm() {
           <button
             type="button"
             onClick={() => setShowBrandModal(!showBrandModal)}
-            className="w-full sm:w-auto text-xs px-3 py-2 sm:py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            disabled={isSaving}
+            className={`w-full sm:w-auto text-xs px-3 py-2 sm:py-1.5 rounded-lg transition-colors ${
+              isSaving
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-blue-500 text-white hover:bg-blue-600"
+            }`}
           >
             {showBrandModal ? "Hide" : "Manage Brands"}
           </button>
@@ -529,79 +545,83 @@ export default function AddToolForm() {
 
         {/* Sub Images */}
         <div className="bg-gray-50 p-3 sm:p-4 rounded-xl border border-gray-200 text-xs sm:text-sm">
-  <label className="block mb-2 font-medium text-gray-700 text-xs sm:text-sm">
-    Additional Images (up to 3)
-  </label>
+          <label className="block mb-2 font-medium text-gray-700 text-xs sm:text-sm">
+            Additional Images (up to 3)
+          </label>
 
-  <div
-    onClick={() => {
-      if (subImages.length >= 3) {
-        toast.error("You can only add up to 3 additional images");
-        return;
-      }
-      subInputRef.current?.click();
-    }}
-    className="border-2 border-dashed border-gray-300 rounded-xl p-3 sm:p-4 md:p-6 text-center cursor-pointer bg-white hover:border-[#F272A8]/40 hover:bg-gray-50/50 transition-all duration-200"
-  >
-    {subPreviews.length === 0 ? (
-      <div className="space-y-2">
-        <div className="inline-flex p-3 sm:p-4 rounded-full bg-[#F272A8]/10">
-          <FaUpload className="text-xl sm:text-2xl text-[#F272A8]" />
-        </div>
+          <div
+            onClick={() => {
+              if (subImages.length >= 3) {
+                toast.error("You can only add up to 3 additional images");
+                return;
+              }
+              subInputRef.current?.click();
+            }}
+            className="border-2 border-dashed border-gray-300 rounded-xl p-3 sm:p-4 md:p-6 text-center cursor-pointer bg-white hover:border-[#F272A8]/40 hover:bg-gray-50/50 transition-all duration-200"
+          >
+            {subPreviews.length === 0 ? (
+              <div className="space-y-2">
+                <div className="inline-flex p-3 sm:p-4 rounded-full bg-[#F272A8]/10">
+                  <FaUpload className="text-xl sm:text-2xl text-[#F272A8]" />
+                </div>
 
-        <p className="text-gray-500 text-xs sm:text-sm">
-          Click to browse or drag and drop multiple images
-        </p>
+                <p className="text-gray-500 text-xs sm:text-sm">
+                  Click to browse or drag and drop multiple images
+                </p>
 
-        <p className="text-[10px] sm:text-xs text-gray-400">
-          Up to 3 images • JPG, PNG, WEBP
-        </p>
-      </div>
-    ) : (
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3">
-        {subPreviews.map((src, idx) => (
-          <div key={idx} className="relative">
-            <img
-              src={src}
-              alt={`sub-${idx}`}
-              className="h-20 sm:h-24 md:h-28 w-full object-cover rounded-lg"
+                <p className="text-[10px] sm:text-xs text-gray-400">
+                  Up to 3 images • JPG, PNG, WEBP
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3">
+                {subPreviews.map((src, idx) => (
+                  <div key={idx} className="relative">
+                    <img
+                      src={src}
+                      alt={`sub-${idx}`}
+                      className="h-20 sm:h-24 md:h-28 w-full object-cover rounded-lg"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation(); // ✅ prevents opening file picker
+                        removeSubImageAt(idx);
+                      }}
+                      className="absolute -top-2 -right-2 bg-[#F272A8] text-white rounded-full w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center shadow"
+                      aria-label="Remove image"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <input
+              ref={subInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) => e.target.files && handleSubSelect(e.target.files)}
+              className="hidden"
             />
-
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation(); // ✅ prevents opening file picker
-                removeSubImageAt(idx);
-              }}
-              className="absolute -top-2 -right-2 bg-[#F272A8] text-white rounded-full w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center shadow"
-              aria-label="Remove image"
-            >
-              ×
-            </button>
           </div>
-        ))}
-      </div>
-    )}
-
-    <input
-      ref={subInputRef}
-      type="file"
-      accept="image/*"
-      multiple
-      onChange={(e) => e.target.files && handleSubSelect(e.target.files)}
-      className="hidden"
-    />
-  </div>
-</div>
-
+        </div>
 
         {/* Submit */}
         <div className="flex justify-end pt-4 border-t border-gray-200">
           <button
             type="submit"
-            className="bg-[#F272A8] text-white px-6 py-2.5 rounded-lg font-medium hover:bg-[#e06597] transition-all duration-200 shadow-md flex items-center gap-2 text-xs"
+            disabled={isSaving}
+            className={`bg-[#F272A8] text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md flex items-center gap-2 text-xs ${
+              isSaving 
+                ? "opacity-50 cursor-not-allowed" 
+                : "hover:bg-[#e06597] hover:shadow-lg"
+            }`}
           >
-            Save Product
+            {isSaving ? "Saving..." : "Save Product"}
           </button>
         </div>
       </form>
