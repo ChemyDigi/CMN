@@ -15,6 +15,8 @@ import {
   FaBars,
   FaTimes,
 } from "react-icons/fa";
+import { signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 // Allowed dropdown keys
 type SectionKey = "products" | "brands" | "categories";
@@ -47,10 +49,13 @@ export function AdminDesktopSidebar({ collapsed, setCollapsed }: AdminSidebarPro
   };
 
   const handleLogout = async () => {
-    await fetch("/api/admin/logout", {
-      method: "POST",
-    });
-    window.location.href = "/admin/login";
+    try {
+      await signOut(auth); // 1. Clear Firebase client session
+      await fetch("/api/admin/logout", { method: "POST" }); // 2. Clear server cookie
+      window.location.href = "/admin"; // 3. Redirect
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
   };
 
   return (
@@ -141,10 +146,13 @@ export function AdminMobileSidebar({ isOpen, setIsOpen }: AdminMobileSidebarProp
   };
 
   const handleLogout = async () => {
-    await fetch("/api/admin/logout", {
-      method: "POST",
-    });
-    window.location.href = "/admin/login";
+    try {
+      await signOut(auth);
+      await fetch("/api/admin/logout", { method: "POST" });
+      window.location.href = "/admin";
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
   };
 
   const closeSidebar = () => setIsOpen(false);
