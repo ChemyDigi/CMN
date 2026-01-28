@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+
 const geistSans = Geist({
   subsets: ["latin"],
 });
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <head>
         <link
           href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
@@ -41,11 +42,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body
-        className={`${geistSans.className} ${geistMono.className} ${poppins.className} antialiased overflow-x-hidden`}
+        className={`${geistSans.className} ${geistMono.className} ${poppins.className} antialiased h-full`}
       >
         {children}
-
-        {/* THIS IS REQUIRED FOR TOAST NOTIFICATIONS */}
         <Toaster
           position="top-right"
           toastOptions={{
@@ -72,7 +71,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             },
           }}
         />
-
       </body>
     </html>
   );
