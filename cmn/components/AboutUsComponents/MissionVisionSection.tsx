@@ -113,7 +113,7 @@ export default function MissionVisionSection() {
             // Changed to UsersRound (represents customers/people)
             { icon: UsersRound, number: "500+", title: "Customers" },
             // Changed to Trophy (represents completed projects/achievements)
-            { icon: Trophy, number: "500,000+", title: "Tools Sold" },
+            { icon: Trophy, number: "500000+", title: "Tools Sold" },
           ].map((item, index) => {
             const Icon = item.icon;
             return (

@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
         setError("Login failed. Please try again.");
     }
   } finally {
-    setLoading(false); // ✅ THIS FIXES THE STUCK LOADING
+    setLoading(false); 
   }
 }
 
