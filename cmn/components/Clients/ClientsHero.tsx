@@ -1,8 +1,8 @@
 "use client";
-import Image from "next/image";
 import { motion } from "framer-motion";
-import heroImageDesktop from "../../public/images/hero/clients.png";
-import heroImageMobile from "../../public/images/hero/clients-mobile.png";
+import Image from "next/image";
+import heroImageMobile from "../../public/images/hero/clients-mobile.webp";
+import heroImageDesktop from "../../public/images/hero/clients.webp";
 
 export default function HeroSection() {
   return (

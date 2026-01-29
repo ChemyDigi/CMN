@@ -15,13 +15,7 @@ import axios from "axios";
 
 type ExtraField = { id: string; name: string; value: string };
 
-const categoryOptions = [
-  "Hand Tools",
-  "Power Tools",
-  "Garden",
-  "Safety",
-  "Electrical",
-];
+// Remove the static categoryOptions array since we'll use dynamic categories
 
 const uploadToCloudinary = async (file: File): Promise<string> => {
   const formData = new FormData();
@@ -60,15 +54,27 @@ export default function AddToolForm() {
     id: string;
     name: string;
   } | null>(null);
-
   const [showBrandDeleteModal, setShowBrandDeleteModal] = useState(false);
   const [deletingBrand, setDeletingBrand] = useState(false);
 
+  // Category management states (new)
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
+  const [newCategoryName, setNewCategoryName] = useState<string>("");
+  const [showCategoryModal, setShowCategoryModal] = useState<boolean>(false);
+  const [categoryToDelete, setCategoryToDelete] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
+  const [showCategoryDeleteModal, setShowCategoryDeleteModal] = useState(false);
+  const [deletingCategory, setDeletingCategory] = useState(false);
+
+  // Add this state to track saving status
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+
   const mainInputRef = useRef<HTMLInputElement | null>(null);
   const subInputRef = useRef<HTMLInputElement | null>(null);
-  // Brand delete modal states
 
-  // Fetch brands from Firestore
+  // Fetch brands and categories from Firestore
   const fetchBrands = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "brands_tools"));
@@ -83,8 +89,23 @@ export default function AddToolForm() {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "categories_tools"));
+      const categoryList = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        name: doc.data().name,
+      }));
+      setCategories(categoryList);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      toast.error("Failed to load categories");
+    }
+  };
+
   useEffect(() => {
     fetchBrands();
+    fetchCategories();
   }, []);
 
   // Add new brand
@@ -120,10 +141,49 @@ export default function AddToolForm() {
     }
   };
 
+  // Add new category
+  const handleAddCategory = async () => {
+    if (!newCategoryName.trim()) {
+      toast.error("Category name cannot be empty");
+      return;
+    }
+
+    // Check if category already exists
+    if (
+      categories.some((c) => c.name.toLowerCase() === newCategoryName.toLowerCase())
+    ) {
+      toast.error("Category already exists");
+      return;
+    }
+
+    try {
+      const docRef = await addDoc(collection(db, "categories_tools"), {
+        name: newCategoryName.trim(),
+        createdAt: new Date(),
+      });
+
+      setCategories((prev) => [
+        ...prev,
+        { id: docRef.id, name: newCategoryName.trim() },
+      ]);
+      setNewCategoryName("");
+      toast.success("Category added successfully!");
+    } catch (error) {
+      console.error("Error adding category:", error);
+      toast.error("Failed to add category");
+    }
+  };
+
   // Open brand delete modal
   const openBrandDeleteModal = (brandId: string, brandName: string) => {
     setBrandToDelete({ id: brandId, name: brandName });
     setShowBrandDeleteModal(true);
+  };
+
+  // Open category delete modal
+  const openCategoryDeleteModal = (categoryId: string, categoryName: string) => {
+    setCategoryToDelete({ id: categoryId, name: categoryName });
+    setShowCategoryDeleteModal(true);
   };
 
   // Confirm brand delete
@@ -142,6 +202,31 @@ export default function AddToolForm() {
       toast.error("Failed to delete brand");
     } finally {
       setDeletingBrand(false);
+    }
+  };
+
+  // Confirm category delete
+  const confirmCategoryDelete = async () => {
+    if (!categoryToDelete) return;
+
+    try {
+      setDeletingCategory(true);
+      await deleteDoc(doc(db, "categories_tools", categoryToDelete.id));
+
+      setCategories((prev) => prev.filter((c) => c.id !== categoryToDelete.id));
+      
+      // If the deleted category was selected in the form, clear it
+      if (category === categoryToDelete.name) {
+        setCategory("");
+      }
+      
+      toast.success("Category deleted successfully!");
+      setShowCategoryDeleteModal(false);
+      setCategoryToDelete(null);
+    } catch (error) {
+      toast.error("Failed to delete category");
+    } finally {
+      setDeletingCategory(false);
     }
   };
 
@@ -168,7 +253,7 @@ export default function AddToolForm() {
   // Handle sub images
   const handleSubSelect = async (files: FileList | File[]) => {
     const arr = Array.from(files);
-    const remaining = Math.max(0, 3 - subImages.length); // Changed from 5 to 3
+    const remaining = Math.max(0, 3 - subImages.length);
     const toAdd = arr.slice(0, remaining);
 
     // Show toast if user tries to add more than allowed
@@ -201,6 +286,11 @@ export default function AddToolForm() {
   // Submit handler
   const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    
+    // Prevent multiple submissions
+    if (isSaving) return;
+    
+    setIsSaving(true);
 
     try {
       toast.loading("Uploading images...", { id: "upload" });
@@ -250,6 +340,9 @@ export default function AddToolForm() {
       console.error("Error adding product:", err);
       toast.dismiss("upload");
       toast.error("Failed to add product. Check console.");
+    } finally {
+      // Always set isSaving to false when done (success or error)
+      setIsSaving(false);
     }
   };
 
@@ -271,6 +364,80 @@ export default function AddToolForm() {
         </p>
       </div>
 
+      {/* Category Management Section */}
+      <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 mb-6">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-sm font-semibold text-gray-800">
+            Category Management
+          </h2>
+          <button
+            type="button"
+            onClick={() => setShowCategoryModal(!showCategoryModal)}
+            disabled={isSaving}
+            className={`text-xs px-3 py-1.5 rounded-lg transition-colors ${
+              isSaving
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-purple-500 text-white hover:bg-purple-600"
+            }`}
+          >
+            {showCategoryModal ? "Hide" : "Manage Categories"}
+          </button>
+        </div>
+
+        {showCategoryModal && (
+          <div className="space-y-3">
+            {/* Add New Category */}
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                placeholder="Enter new category name"
+                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-purple-500"
+                onKeyDown={(e) => e.key === "Enter" && handleAddCategory()}
+              />
+              <button
+                type="button"
+                onClick={handleAddCategory}
+                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-xs font-medium"
+              >
+                Add Category
+              </button>
+            </div>
+
+            {/* Category List */}
+            <div className="bg-white rounded-lg p-3 max-h-48 overflow-y-auto">
+              <p className="text-xs text-gray-500 mb-2">
+                Current Categories ({categories.length})
+              </p>
+              <div className="space-y-1">
+                {categories.length === 0 ? (
+                  <p className="text-xs text-gray-400">No categories added yet</p>
+                ) : (
+                  categories.map((cat) => (
+                    <div
+                      key={cat.id}
+                      className="flex items-center justify-between p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                    >
+                      <span className="text-xs font-medium">{cat.name}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          openCategoryDeleteModal(cat.id, cat.name)
+                        }
+                        className="text-red-500 hover:text-red-700 p-1"
+                      >
+                        <FaTrash size={10} />
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Brand Management Section */}
       <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
         <div className="flex items-center justify-between mb-3">
@@ -280,7 +447,12 @@ export default function AddToolForm() {
           <button
             type="button"
             onClick={() => setShowBrandModal(!showBrandModal)}
-            className="text-xs px-3 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            disabled={isSaving}
+            className={`text-xs px-3 py-1.5 rounded-lg transition-colors ${
+              isSaving
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-blue-500 text-white hover:bg-blue-600"
+            }`}
           >
             {showBrandModal ? "Hide" : "Manage Brands"}
           </button>
@@ -369,9 +541,9 @@ export default function AddToolForm() {
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#F272A8]/30 appearance-none"
             >
               <option value="">Select category</option>
-              {categoryOptions.map((c) => (
-                <option key={c} value={c}>
-                  {c}
+              {categories.map((c) => (
+                <option key={c.id} value={c.name}>
+                  {c.name}
                 </option>
               ))}
             </select>
@@ -544,8 +716,7 @@ export default function AddToolForm() {
         <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
           <label className="block mb-2 font-medium text-gray-700">
             Additional Images (up to 3)
-          </label>{" "}
-          {/* Changed from 5 to 3 */}
+          </label>
           <div
             onClick={() => {
               if (subImages.length >= 3) {
@@ -567,8 +738,6 @@ export default function AddToolForm() {
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-2">
-                {" "}
-                {/* Changed from md:grid-cols-5 to md:grid-cols-3 */}
                 {subPreviews.map((src, idx) => (
                   <div key={idx} className="relative group/image">
                     <img
@@ -604,9 +773,14 @@ export default function AddToolForm() {
         <div className="flex justify-end pt-4 border-t border-gray-200">
           <button
             type="submit"
-            className="bg-[#F272A8] text-white px-6 py-2.5 rounded-lg font-medium hover:bg-[#e06597] transition-all duration-200 shadow-md flex items-center gap-2 text-xs"
+            disabled={isSaving}
+            className={`bg-[#F272A8] text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md flex items-center gap-2 text-xs ${
+              isSaving 
+                ? "opacity-50 cursor-not-allowed" 
+                : "hover:bg-[#e06597] hover:shadow-lg"
+            }`}
           >
-            Save Product
+            {isSaving ? "Saving..." : "Save Product"}
           </button>
         </div>
 
@@ -643,6 +817,45 @@ export default function AddToolForm() {
                   className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 text-sm"
                 >
                   {deletingBrand ? "Deleting..." : "Delete"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* CATEGORY DELETE CONFIRM MODAL */}
+        {showCategoryDeleteModal && categoryToDelete && (
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl animate-fadeIn">
+              <h2 className="text-xl font-bold text-red-600 mb-2">
+                Delete Category
+              </h2>
+
+              <p className="text-gray-600 mb-5 text-sm">
+                Are you sure you want to delete
+                <span className="font-semibold text-gray-900">
+                  {" "}
+                  “{categoryToDelete.name}”
+                </span>
+                ?
+                <br />
+                This action cannot be undone.
+              </p>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowCategoryDeleteModal(false)}
+                  className="px-4 py-2 rounded-lg border text-sm"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={confirmCategoryDelete}
+                  disabled={deletingCategory}
+                  className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 text-sm"
+                >
+                  {deletingCategory ? "Deleting..." : "Delete"}
                 </button>
               </div>
             </div>

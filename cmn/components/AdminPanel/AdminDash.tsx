@@ -364,15 +364,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleViewProduct(product);
-                    }}
-                    className="ml-2 p-1.5 text-gray-500 hover:text-[#F272A8] transition-colors flex-shrink-0"
-                  >
-                    <FaEye className="text-sm" />
-                  </button>
+                   
                 </div>
               ))}
             </div>

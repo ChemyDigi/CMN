@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
@@ -29,17 +29,18 @@ interface Product {
 
 const ProductSection: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Collapsible state for Brands sidebar
+  // Collapsible state for sidebar
   const [isBrandsOpen, setIsBrandsOpen] = useState(true);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
 
-  // Fetch from Firestore → "tools" collection
+  // Fetch products from "tools" collection
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -60,30 +61,35 @@ const ProductSection: React.FC = () => {
     fetchProducts();
   }, []);
 
-  // Build dynamic list of brands from DB
-  const brandList = Array.from(new Set(products.map((p) => p.brand).filter(Boolean))).sort();
-  
-  // Predefined categories
-  const predefinedCategories = [
-    "Hand Tools",
-    "Measuring Tools",
-    "Automotive Solutions",
-    "Filtrations System",
-    "Accessaries"
-  ];
+  // Fetch categories from "categories_tools" collection
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const q = query(collection(db, "categories_tools"));
+        const querySnapshot = await getDocs(q);
 
-  // Build list of categories: Predefined + any new ones from DB
-  const categoryList = Array.from(new Set([
-    ...predefinedCategories,
-    ...products.map((p) => p.category).filter((c): c is string => !!c)
-  ]));
+        const categoryList = querySnapshot.docs
+          .map((doc) => doc.data().name as string)
+          .filter(Boolean); // Remove empty names
+
+        setCategories(categoryList.sort()); // optional sort
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Build dynamic list of brands
+  const brandList = Array.from(
+    new Set(products.map((p) => p.brand).filter(Boolean))
+  ).sort();
 
   // Handle Checkbox Change
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) =>
-      prev.includes(brand)
-        ? prev.filter((b) => b !== brand)
-        : [...prev, brand]
+      prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
     );
   };
 
@@ -101,13 +107,13 @@ const ProductSection: React.FC = () => {
     setSearchQuery("");
   };
 
-  // Filtering
+  // Filtering products
   const filteredProducts = products.filter((product) => {
     const matchesBrand =
       selectedBrands.length === 0 || selectedBrands.includes(product.brand);
 
     const matchesCategory =
-      selectedCategories.length === 0 || 
+      selectedCategories.length === 0 ||
       (product.category && selectedCategories.includes(product.category));
 
     const matchesSearch = product.productName
@@ -120,14 +126,12 @@ const ProductSection: React.FC = () => {
   return (
     <section className="w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 bg-white min-h-screen">
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-        
         {/* Sidebar Filter */}
         <aside className="w-full lg:w-1/4 flex-shrink-0">
           <div className="border border-gray-200 rounded-lg p-5 sticky top-24 bg-white shadow-sm space-y-6">
-            
-            {/* Brands Header (Collapsible Trigger) */}
+            {/* Brands */}
             <div>
-              <button 
+              <button
                 onClick={() => setIsBrandsOpen(!isBrandsOpen)}
                 className="flex items-center justify-between w-full group"
               >
@@ -138,11 +142,9 @@ const ProductSection: React.FC = () => {
                   <ChevronDown className="w-5 h-5 text-gray-500 group-hover:text-black transition-colors" />
                 )}
               </button>
-  
-              {/* Collapsible Content */}
+
               {isBrandsOpen && (
                 <div className="mt-4 animate-in slide-in-from-top-2 duration-200">
-                  {/* Brand Checkboxes */}
                   <div className="space-y-3">
                     {brandList.map((brand) => (
                       <label
@@ -167,9 +169,9 @@ const ProductSection: React.FC = () => {
               )}
             </div>
 
+            {/* Categories */}
             <div className="border-t border-gray-100 pt-6">
-               {/* Categories Header (Collapsible Trigger) */}
-               <button 
+              <button
                 onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
                 className="flex items-center justify-between w-full group"
               >
@@ -181,12 +183,10 @@ const ProductSection: React.FC = () => {
                 )}
               </button>
 
-              {/* Collapsible Content */}
               {isCategoriesOpen && (
                 <div className="mt-4 animate-in slide-in-from-top-2 duration-200">
-                  {/* Category Checkboxes */}
                   <div className="space-y-3">
-                    {categoryList.map((category) => (
+                    {categories.map((category) => (
                       <label
                         key={category}
                         className="flex items-center gap-3 cursor-pointer group"
@@ -208,7 +208,7 @@ const ProductSection: React.FC = () => {
                 </div>
               )}
             </div>
-            
+
             <div className="pt-2">
               <button
                 onClick={clearAllFilters}
@@ -217,17 +217,15 @@ const ProductSection: React.FC = () => {
                 Clear All
               </button>
             </div>
-
           </div>
         </aside>
 
         {/* Main Content */}
         <div className="w-full lg:w-3/4">
-
           {/* Search Box */}
           <div className="mb-6 flex justify-end">
-             <div className="relative w-full max-w-xs">
-                <input
+            <div className="relative w-full max-w-xs">
+              <input
                 type="text"
                 placeholder="Search Products"
                 className="w-full pl-4 pr-10 py-2.5 border border-gray-500 rounded-lg text-xs sm:text-sm text-gray-800 placeholder-gray-700 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all bg-gray-50"
@@ -247,7 +245,7 @@ const ProductSection: React.FC = () => {
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
               </svg>
-             </div>
+            </div>
           </div>
 
           {/* Loading & Grid */}
@@ -257,8 +255,10 @@ const ProductSection: React.FC = () => {
             </div>
           ) : filteredProducts.length === 0 ? (
             <div className="text-center py-20 bg-gray-50 rounded-lg border border-dashed border-gray-200">
-              <p className="text-gray-500 font-medium">No products found matching your criteria.</p>
-              <button 
+              <p className="text-gray-500 font-medium">
+                No products found matching your criteria.
+              </p>
+              <button
                 onClick={clearAllFilters}
                 className="mt-2 text-sm text-blue-600 hover:underline"
               >
@@ -290,14 +290,14 @@ const ProductSection: React.FC = () => {
                     <h3 className="text-sm font-semibold text-gray-900 mb-3 line-clamp-2 min-h-[2.5rem]">
                       {product.productName}
                     </h3>
-                    
+
                     <div className="mt-auto">
-                        <button
+                      <button
                         onClick={() => router.push(`/products/tools/${product.id}`)}
                         className="w-full py-2 px-4 bg-white border border-gray-900 text-gray-900 text-sm font-medium rounded-lg hover:bg-black hover:text-white transition-colors duration-200"
-                        >
+                      >
                         View Details
-                        </button>
+                      </button>
                     </div>
                   </div>
                 </div>

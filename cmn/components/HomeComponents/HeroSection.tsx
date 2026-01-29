@@ -1,10 +1,10 @@
 "use client";
-import Image from "next/image";
 import { motion } from "framer-motion";
-import heroImageDesktop from "../../public/images/hero/homeHero.png";
-import heroImageMobile from "../../public/images/hero/homeHero-mobile.png"; // Add your mobile image here
+import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import heroImageMobile from "../../public/images/hero/homeHero-mobile.webp"; // Add your mobile image here
+import heroImageDesktop from "../../public/images/hero/homeHero.webp";
 
 export default function HeroSection() {
   const [isMobile, setIsMobile] = useState(false);
